@@ -14,18 +14,26 @@ package problemas;
  * @version 1 
  */
 public class Knapsack implements Problemas{
-	double capacity;
+	int capacity;
 	int numElements;
 	double[] weight;
 	double[] values;
+	double [][] knaspackMatrix;
 
 //
-	public Knapsack(double maxWeight, int elements){
+	public Knapsack(int maxWeight, int elements){
 		capacity=maxWeight;
 		numElements = elements;
+		weight = new double[numElements];
+		values = new double[numElements];
+		knaspackMatrix = new double [numElements+1][capacity + 1];
 	}//Constructor()
-
-	public void initializeObjects(double[] weights, double[] values	){
+	
+	
+	/*
+	 * Initialize objects with selected values
+	 */
+	public void initializeWeights(double[] weights, double[] values	){
 		this.weight = weights;
 		this.values = values;
 	}
@@ -33,119 +41,48 @@ public class Knapsack implements Problemas{
 	/*
 	 * Initialize objects with random values
 	 */
-	public void initializeObjects(){
+	public void initializeWeights(){
 		for (int i = 0; i < numElements ; i++){
 			weight[i] = Math.random()*30;
 			values[i] = Math.random()*30;
 		}
 	
 	}
-	
-	/**
-	 * Método que calcula el peso total de los elementos en la mochila
-	 * @return
-	 */
-	public int solutionWeight() {
-		
-		double[] proporcionPeso= solution();
-		double[] pesosSolucion = new double[proporcionPeso.length];
-		int pesoSolucion=0;
-		
-		for(int i=0; i<proporcionPeso.length; i++){
-			pesosSolucion[i]=weight[i]*proporcionPeso[i];
-		}
-		for(int i=0; i<pesosSolucion.length;i++){
-			if(i>0)
-			pesosSolucion[i]=pesosSolucion[i-1]+pesosSolucion[i];
-			pesoSolucion=(int) pesosSolucion[i];
-		}
 
-		return pesoSolucion;
-	}//solutionWeight()
+	public void fillKnaspackMatrix(){
+		//Rellenamos la 1ª fila de ceros
+		   for(int i = 0; i <= capacity; i++)
+		            knaspackMatrix[0][i] = 0; 
 
-	
-	/**
-	 * Método que calcula el valor total de los elementos en la mochila
-	 * @return
-	 */
-	public int solutionValue() {
-		double[] proporcionValor= solution();
-		double[] valoresSolucion = new double[proporcionValor.length];
-		int valorSolucion=0;
-		
-		for(int i=0; i<proporcionValor.length; i++){
-			valoresSolucion[i]=values[i]*proporcionValor[i];
-		}
-		for(int i=0; i<valoresSolucion.length;i++){
-			if(i>0)
-			valoresSolucion[i]=valoresSolucion[i-1]+valoresSolucion[i];
-			valorSolucion=(int) valoresSolucion[i];
-		}
+		   //Rellenamos la 1ª columna de ceros
+		   for(int i = 0; i <= weight.length; i++)  
+		           knaspackMatrix[i][0] = 0;   
 
-		return valorSolucion;
-	}//solutionValue()
-
-	/**
-	 * Método que calcula la proporción de cada objeto en la mochila
-	 * 
-	 * @return
-	 */
-	public double[] solution() {
-		double[] solucion = new double[values.length];
-		double pesoSolucion=0;
-		int i=0;
-		int[] posicion=mejorAjuste();
-		
-		for(int j=0; j<values.length; j++){
-			solucion[j]=0;
-		}
-		while(i<values.length){
-			if(pesoSolucion + weight[posicion[i]]<=capacity){
-				solucion[posicion[i]]=1;
-				pesoSolucion=pesoSolucion+weight[posicion[i]];
-			}else{
-				solucion[posicion[i]]=(capacity-pesoSolucion)/weight[posicion[i]];
-				pesoSolucion=capacity;
-			}
-			i++;
-		}
-		return solucion;
-	}//solution()
-	
-	/**
-	 * Método privado, que crea un array con el orden (de máximo a mínimo)
-	 *  de los elementos segun la proporcion entre valor y peso 
-	 * @return
-	 */
-	private int[] mejorAjuste(){
-		double[] valorPeso = new double[values.length];
-		double maximo=0;
-		int solucion=0;
-		int[] posicion= new int[values.length];
-		for(int i=0; i<values.length; i++){
-			valorPeso[i]=values[i]/weight[i];
-		}
-		for(int j=0; j<values.length; j++){
-			for(int i=0; i<values.length; i++){
-				if(valorPeso[i]> maximo ){
-					maximo = valorPeso[i];
-					solucion=i;
+		        for(int j = 1; j <= weight.length ; j++)  {
+					for(int c = 1; c <= capacity; c++){  
+						if(c <  weight[j-1] ){   
+							knaspackMatrix[j][c] = knaspackMatrix[j-1][c]; 
+						}else{   
+							if(knaspackMatrix[j-1][c] > knaspackMatrix[j-1][(int) (c-weight[j-1])]+ values[j-1]){
+								knaspackMatrix[j][c] = knaspackMatrix[j-1][c];
+							}else{
+								knaspackMatrix[j][c] = knaspackMatrix[j-1][(int) (c-weight[j-1])]+values[j-1];
+							}
+						}
+					}
 				}
-			}
-			posicion[j]= solucion ;
-			valorPeso[solucion]=0;
-			maximo=0;
-		}
-		return posicion;
-	}//mejorAjuste()
+		     }
 
-
-	@Override
-	public String getResult() {
+	public double[][] getMatrix(){
+		return knaspackMatrix;
+	}
+	
+	public double getMaxProfit() {
 		// TODO Auto-generated method stub
-		return null;
+		return knaspackMatrix[capacity+1][numElements+1];
 	}
 
+	
 
 	@Override
 	public void export(String format) {
@@ -153,5 +90,26 @@ public class Knapsack implements Problemas{
 		
 	}
 	
+	public static void main(String[]args){
+		Knapsack mochila = new Knapsack(7,4);
+		double[] pesos = {5.0,1.0,4.0,3.0};
+		double[] beneficio = {8.0,2.0,3.0,2.0};
+		mochila.initializeWeights(pesos, beneficio);
+		mochila.fillKnaspackMatrix();
+		double[][] matriz = mochila.getMatrix();
+		for (double[] fila : matriz) {
+			System.out.println();
+			for (double el : fila){
+				System.out.print(el+ " ");
+			}
+		}
+	}
 
+
+	@Override
+	public String getResult() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }//Clase Knapsack
+
