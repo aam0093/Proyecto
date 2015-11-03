@@ -10,70 +10,82 @@ import java.util.*;
  *
  */
 public class TSP { 
-	private int[][] dist;
-	private List<Integer> path;
+	private static int[][] dist;
+	private static List<Integer> path = new ArrayList<Integer>();
 	private int nodes;
 	private int maxDist;
-	public void numNodes(int n){
+	private int start ;	
+	public TSP(int n){
 		nodes = n;
+		dist = new int[nodes][nodes];
 	}
 	public void startNode(int n){
-		int start = n;
+		int start = 0;
 	}
+	
 	public void initialize(int maxDist ){
-		// this.maxDist = maxDist != null ? maxDist : 0;
-		//Comprobar si son posibles argumentos opcionales.
 		for (int i =0 ; i< dist.length; i++){
 			for (int j=0; j< dist.length; j++){
 				if ( i == j){
 					dist[i][j] = -1; 
 				}else{ 
-					dist[i][j] = (maxDist != null) ? Math.random() * maxDist : Math.random(); 
-					//if maxDist is null, asign random number without max.
+					dist[i][j] = (int) (Math.random() * maxDist); 
 				}
 			}
 		}
 	}
-	public int getDistance (int n,List<Integer> S){
-		int distancia = 0, masCorto, nat;
-		if (S.isEmpty()){
-			return dist[n][1];
-		}else{
-			masCorto = Integer.MAX_VALUE; 
-			for(int j : S ){
-				S.remove(j); distancia = dist[n][j] + g(j,S); 
-				if (distancia < masCorto){
-					masCorto = distancia; 
-				}
-			}
+	public int getDistance (int n,int sta){
+		int distancia = 0;
+		distancia = dist[sta][n];
 		return distancia;
 		}
+	
+	public List<Integer>getPath(){
+		return path;
 	}
 	
+	public int[][] getDist(){
+		return dist;
+	}
 			
-	public int resolve() {
+	public void resolve() {
 		List<Integer> s = new ArrayList<Integer>();
-		int distance = Integer.MAX_VALUE; 
-		numNodes(4);
-		initialize(15); 
+		int aux=-5;
+		int next = start;
 		//	int startN = 1;
-		for (int i =1 ; i < nodes; i++){
+		while(s.size() < nodes){
+			int distance = Integer.MAX_VALUE; 
 			//	if (i != startNode){
-			if (g(i,s) < distance){
-				distance = g(i,s); //}
+			for (int i = 0; i < nodes;i++){
+				if (next != i && !path.contains(i+1)){
+					if (getDistance(i,next) < distance){
+						distance = getDistance(i,next); //}
+						aux = i; 
+					}
+				}
 			}
+			s.add(aux);
+			path.add(aux+1);
+			next = aux;
 		}
+		
 	}
 	
+	public static void main(String[]args){
+		TSP viajante = new TSP(4);
+		viajante.startNode(0);
+		viajante.initialize(10);
+		for (int [] fila : dist  ){
+			System.out.println("");
+			for (int el : fila){
+				System.out.print(el + " ");
+			}
+			
+		}
+		System.out.println("");
+		viajante.resolve();
+		System.out.println("Camino minimo : " + viajante.getPath());
+		
 	
-/* get the lowest distance between two different points 
- * 
- */
-	private int g(int i, List<Integer> s) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
-	
-	
-
-	}
+}
