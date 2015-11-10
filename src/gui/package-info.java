@@ -5,4 +5,4 @@
  * @author asier_000
  *
  */
-package Interfaz;
+package gui;
