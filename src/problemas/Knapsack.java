@@ -135,4 +135,6 @@ public class Knapsack implements Problema {
 	public int getNumElements() {
 		return numElements;
 	}
+
+
 }// Clase Knapsack
