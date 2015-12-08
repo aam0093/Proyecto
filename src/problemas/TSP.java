@@ -9,16 +9,18 @@ import java.util.*;
  * @author Asier Alonso Morante
  *
  */
-public class TSP { 
+public class TSP implements Problema{ 
 	private static int[][] dist;
 	private static List<Integer> path = new ArrayList<Integer>();
 	private int nodes;
 	private int maxDist;
 	private int start ;	
+	
 	public TSP(int n){
 		nodes = n;
 		dist = new int[nodes][nodes];
 	}
+	
 	public void startNode(int n){
 		int start = 0;
 	}
@@ -87,5 +89,16 @@ public class TSP {
 		System.out.println("Camino minimo : " + viajante.getPath());
 		
 	
+	}
+
+	public String execute() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getTipo() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
