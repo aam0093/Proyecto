@@ -9,7 +9,25 @@
  */
 package problemas;
 
+import java.util.Random;
+import pregunta.Semilla;
+
+/**
+ * Clase que define la logica con la que se generaran los problemas del tipo
+ * Mochila o Knapsack
+ * 
+ * @author: Asier Alonso Morante
+ * @version: 20/01/2016/A
+ */
+
 public class Knapsack implements Problema {
+
+	/** Indica el valor de la semilla del Problema */
+	long semilla = 0;
+
+	/** Indica el tipo de pregunta al que se exportará el problema. */
+	int tipoPregunta = 0;
+
 	/** Indica la Capacidad que tendrá la Mochila */
 	int capacidad;
 
@@ -20,31 +38,59 @@ public class Knapsack implements Problema {
 	 * Array con pesos de cada elemento, posicion 0 peso del elemento 1; pos
 	 * 1,elemento 2..
 	 */
-	double[] weight;
+	int[] weight;
 
 	/**
 	 * Array con valor de cada elemento, posicion 0 peso del elemento 1; pos
 	 * 1,elemento 2..
 	 */
-	double[] values;
+	int[] values;
 
 	/** Matriz de la mochila */
-	double[][] matriz;
+	int[][] matriz;
 
 	/**
-     * Crea el problema con la capacidad y numero de elementos introducidos
-     * 
-     * @param capacidad entero que indica la capacidad deseada
-     * @param elementos entero que indica el numero de elementos del problema.
-     * @throws Exception 
-     */
+	 * Crea el problema con la capacidad y numero de elementos introducidos
+	 * 
+	 * @param capacidad
+	 *            entero que indica la capacidad deseada
+	 * @param elementos
+	 *            entero que indica el numero de elementos del problema.
+	 * @throws Exception
+	 */
 	public Knapsack(int capacidad, int elementos) {
 		this.capacidad = capacidad;
 		numElements = elementos;
-		weight = new double[numElements];
-		values = new double[numElements];
-		matriz = new double[numElements + 1][capacidad + 1];
+		Semilla seed = new Semilla(capacidad, elementos, "mochila");
+		semilla = seed.getSeed();
+		System.out.println("Semilla creada auto: " + seed);
+		weight = new int[numElements];
+		values = new int[numElements];
+		matriz = new int[numElements + 1][capacidad + 1];
 	}// Constructor()
+
+	/**
+	 * Contructor que recibe una semilla que se utilizará a la hora de recuperar
+	 * un problema
+	 * 
+	 * @param capacidad
+	 *            entero que indica la capacidad del problema.
+	 * @param elementos
+	 *            entero que indica el numero de elementos del problema.
+	 * @param seed
+	 *            variable tipo long que indica el valor de la semilla del
+	 *            problema que se quiere recuperar.
+	 * @throws Exception
+	 */
+	public Knapsack(int capacidad, int elementos, long seed) {
+		this.capacidad = capacidad;
+		numElements = elementos;
+		semilla = seed;
+		System.out.println("Semilla recibida: " + capacidad);
+		weight = new int[numElements];
+		values = new int[numElements];
+		matriz = new int[numElements + 1][capacidad + 1];
+	}
 
 	/**
 	 * Crea el problema con las longitudes introducidas como parametros
@@ -56,7 +102,7 @@ public class Knapsack implements Problema {
 	 *            problema
 	 * @throws Exception
 	 */
-	public void initializeWeights(double[] pesos, double[] valores) {
+	public void initializeWeights(int[] pesos, int[] valores) {
 		this.weight = pesos;
 		this.values = valores;
 	}
@@ -67,9 +113,10 @@ public class Knapsack implements Problema {
 	 * @throws Exception
 	 */
 	public void initializeWeights() {
+		Random rnd = new Random(semilla);
 		for (int i = 0; i < numElements; i++) {
-			weight[i] = Math.round((Math.random() * 30) + 1000) / 1000;
-			values[i] = Math.round((Math.random() * 30) + 1000) / 1000;
+			weight[i] = (int) Math.round(rnd.nextDouble() * 30 + 1);
+			values[i] = (int) Math.round(rnd.nextDouble() * 30 + 1);
 		}
 	}
 
@@ -102,8 +149,17 @@ public class Knapsack implements Problema {
 		}
 	}
 
+	/**
+	 * Devuelve el valor de la semilla del problema
+	 * 
+	 * @throws Exception
+	 */
+	public long getSemilla() {
+		return semilla;
+	}
+
 	/** Obtiene la matriz del problema */
-	public double[][] getMatrix() {
+	public int[][] getMatrix() {
 		return matriz;
 	}
 
@@ -136,5 +192,47 @@ public class Knapsack implements Problema {
 		return numElements;
 	}
 
+	/** Obtiene los pesos de los elementos del problema */
+	public int[] getWeights() {
+		return weight;
+	}
+
+	/** Obtiene los valores de los elementos del problema */
+	public int[] getValues() {
+		return values;
+	}
+
+	/**
+	 * Método que recibe una semilla y crea un problema con los datos que se
+	 * generaran a partir de esa semilla
+	 * 
+	 * @param semilla
+	 *            de tipo String
+	 */
+	@Override
+	public Problema recuperarProblema(String semilla) {
+		Knapsack mochila;
+		int cantidad = Integer.parseInt(semilla.substring(3, 6));
+		int numElem = Integer.parseInt(semilla.substring(6, 9));
+		mochila = new Knapsack(cantidad, numElem, Long.valueOf(semilla).longValue());
+		return mochila;
+	}
+
+	/** Obtiene el valor final de la Mochila */
+	public int getResultValue() {
+		return matriz[capacidad][numElements];
+	}
+
+	/** Obtiene un entero con el tipo de Pregunta del problema */
+	@Override
+	public int getTipoPregunta() {
+		return tipoPregunta;
+	}
+
+	/** Establece cual será el tipo de pregunta del problema */
+	@Override
+	public void setTipoPregunta(int tipo) {
+		tipoPregunta = tipo;
+	}
 
 }// Clase Knapsack
