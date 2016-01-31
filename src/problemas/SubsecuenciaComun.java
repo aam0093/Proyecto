@@ -44,25 +44,40 @@ public class SubsecuenciaComun implements Problema {
 	 * @throws Exception
 	 */
 	public SubsecuenciaComun(int longitud1, int longitud2) {
-		Random rd = new Random();
+		Semilla seed = new Semilla(longitud1, longitud2, "lcs");
+		semilla = seed.getSeed();
+		Random rd = new Random(semilla);
 		int i = 0;
 		int j = 0;
 		while (i < longitud1) {
-			char c = (char) (Math.random() * (102 - 97 + 1) + 97);
+			char c = (char) (rd.nextDouble() * (102 - 97 + 1) + 97);
 			cadena1 += c;
 			i++;
 		}
 		while (j < longitud2) {
-			char c = (char) (Math.random() * (102 - 97 + 1) + 97);
+			char c = (char) (rd.nextDouble() * (102 - 97 + 1) + 97);
 			cadena2 += c;
 			j++;
 		}
-		Semilla seed = new Semilla(cadena1, cadena2, "lcs");
-		semilla = seed.getSeed();
+
 	}
 
-	public boolean isValid(String c) {
-		return c.isEmpty() ? true : false;
+	public SubsecuenciaComun(int longcad1, int longcad2, long semilla) {
+		Random rd = new Random(semilla);
+		int i = 0;
+		int j = 0;
+		while (i < longcad1) {
+			char c = (char) (rd.nextDouble() * (102 - 97 + 1) + 97);
+			cadena1 += c;
+			i++;
+		}
+		while (j < longcad2) {
+			char c = (char) (rd.nextDouble()  * (102 - 97 + 1) + 97);
+			cadena2 += c;
+			j++;
+		}
+		Semilla seed = new Semilla(cadena1.length(), cadena2.length(), "lcs");
+		semilla = seed.getSeed();
 	}
 
 	/** Obtiene la cadena 1 */
@@ -169,7 +184,11 @@ public class SubsecuenciaComun implements Problema {
 
 	@Override
 	public Problema recuperarProblema(String semilla) {
-		return null;
+		SubsecuenciaComun subcadena;
+		int longcad1 = Integer.parseInt(semilla.substring(2, 5));
+		int longcad2 = Integer.parseInt(semilla.substring(5, 8));
+		subcadena = new SubsecuenciaComun(longcad1, longcad2, Long.valueOf(semilla).longValue());
+		return subcadena;
 	}
 
 	public long getSemilla() {
