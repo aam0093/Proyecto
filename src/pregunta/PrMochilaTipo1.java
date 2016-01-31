@@ -55,12 +55,23 @@ public class PrMochilaTipo1 extends PreguntaBuilder {
 		
 		res = res + "<p> Cúal es el valor máximo que podemos obtener sin exceder la capacidad de la mochila: {1:NUMERICAL:=" +
 				mochila.getResultValue() + "}</p>";
+		res = res + "<p> Qué elementos de la mochila se han cogido?  <br> + Elementos:";
+				for (int el : mochila.getResultItems() ){
+					res = res + el + " -- ";
+				}
+		res = res + "<p>";
 		pregunta.setContenido(valores + pesos + res);
 
 	}
 
 	public void buildFeedback() {
 		pregunta.setFeedback("Feedback de la pregunta 1 de tipo Mochila");
+	}
+
+	@Override
+	public void buildTitulo() {
+		String tipo = mochila.getTipo();
+		pregunta.setTitulo(tipo + mochila.getSemilla());
 	}
 	
 	

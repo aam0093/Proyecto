@@ -29,26 +29,32 @@ public class Semilla {
 
 	public Semilla(Object var1, Object var2, String tipo){
 		if (tipo == "mochila"){
+		
 			String formatvar1 = "000".substring(Integer.toString((int) var1).length()) + var1;
 			String formatvar2 = "000".substring(Integer.toString((int) var2).length()) + var2;
-			String auxiliar = Long.toString(System.currentTimeMillis()).substring(0, 7);
+			//Cogemos las 7 ultimas cifras del tiempo actual y se añaden a la semilla
+			String auxiliar = Long.toString(System.currentTimeMillis());
+			auxiliar = auxiliar.substring(auxiliar.length()-7, auxiliar.length());
 			seedDelRandom = MOCHILA.toString() + formatvar1 + formatvar2 + auxiliar;
 		}
 		if (tipo == "lcs"){
-			int cad1 = ((String) var1).length();
-			int cad2 = ((String) var2).length();
-			String formatvar1 = "000".substring(Integer.toString(cad1).length()) + cad1;
-			String formatvar2 = "000".substring(Integer.toString(cad2).length()) + cad2;
-			String auxiliar = Long.toString(System.currentTimeMillis()).substring(0, 7);
-			seedDelRandom = SUBSECUENCIA.toString() + formatvar1 + formatvar2 + auxiliar;
-		}
-		if (tipo == "TSP")
-			seedDelRandom = VIAJANTE.toString() + Integer.toString((int) var1) + Integer.toString((int) var2);
-		if (tipo == "matrices"){
 			String formatvar1 = "000".substring(Integer.toString((int) var1).length()) + var1;
 			String formatvar2 = "000".substring(Integer.toString((int) var2).length()) + var2;
-			String auxiliar = Long.toString(System.currentTimeMillis()).substring(0, 7);
+			String auxiliar = Long.toString(System.currentTimeMillis());
+			auxiliar = auxiliar.substring(auxiliar.length()-7, auxiliar.length());
 			seedDelRandom = SUBSECUENCIA.toString() + formatvar1 + formatvar2 + auxiliar;
+		}
+		if (tipo == "TSP"){
+			String formatvar1 = "000".substring(Integer.toString((int) var1).length()) + var1;
+			String auxiliar = Long.toString(System.currentTimeMillis());
+			auxiliar = auxiliar.substring(auxiliar.length()-10, auxiliar.length());
+			seedDelRandom = VIAJANTE.toString() + formatvar1 + auxiliar;
+		}
+		if (tipo == "matrices"){
+			String formatvar1 = "000".substring(Integer.toString((int) var1).length()) + var1;
+			String auxiliar = Long.toString(System.currentTimeMillis());
+			auxiliar = auxiliar.substring(auxiliar.length()-10, auxiliar.length());
+			seedDelRandom = MULTIPLICACION_MATRICES.toString() + formatvar1 + auxiliar;
 		}
 	}
 	

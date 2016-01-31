@@ -47,4 +47,10 @@ public class PrLCSTipo2 extends PreguntaBuilder {
 		pregunta.setFeedback("Feedback de la pregunta 1 de tipo Mochila");
 	}
 	
+	@Override
+	public void buildTitulo() {
+		String tipo = subsecuencia.getTipo();
+		pregunta.setTitulo(tipo + subsecuencia.getSemilla());
+	}
+	
 }

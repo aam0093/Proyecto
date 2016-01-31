@@ -27,7 +27,7 @@ public class PrLCSTipo3 extends PreguntaBuilder {
 
 		for (int[] f : matriz) {
 			for (int c : f) {
-				res = res + "<td>{1:NUMERICAL:=" + c + "} + </td>";
+				res = res + "<td>{1:NUMERICAL:=" + c + "}</td>";
 			}
 			res = res + "</tr>";
 		}
@@ -42,6 +42,12 @@ public class PrLCSTipo3 extends PreguntaBuilder {
 
 	public void buildFeedback() {
 		pregunta.setFeedback("Feedback de la pregunta 1 de tipo Mochila");
+	}
+
+	@Override
+	public void buildTitulo() {
+		String tipo = subsecuencia.getTipo();
+		pregunta.setTitulo(tipo + subsecuencia.getSemilla());
 	}
 	
 }

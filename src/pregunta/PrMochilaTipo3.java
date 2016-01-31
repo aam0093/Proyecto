@@ -35,10 +35,27 @@ public class PrMochilaTipo3 extends PreguntaBuilder {
 			pesos = pesos + "<td>" + i + "</td>";
 		}
 		pesos = pesos + "</tr></table></p>";
-
-		for (int[] f : matriz) {
-			for (int c : f) {
-				res = res + "<td>" + c + "</td>";
+		
+		char caracter = 65;
+		int indice = 1;
+		for (int i = 0; i < matriz.length; i++){
+			for (int j = 0; j < matriz[0].length; j++){
+				if(i == 0 && j ==0){
+					res = res + "<th>" + "" + "</th>";
+					continue;
+				}	
+				if (i == 0 ){
+					res = res + "<th>" + caracter + "</th>";
+					caracter++;
+					continue;
+				}
+				if(j==0){		
+					res = res + "<th>" + indice + "</th>";
+					indice++;
+					continue;
+				}else{
+					res = res + "<td> {1:NUMERICAL:=" + matriz[i][j] + "}</td>";					
+				}
 			}
 			res = res + "</tr>";
 		}
@@ -54,6 +71,11 @@ public class PrMochilaTipo3 extends PreguntaBuilder {
 		pregunta.setFeedback("Feedback de la pregunta 1 de tipo Mochila");
 	}
 	
+	@Override
+	public void buildTitulo() {
+		String tipo = mochila.getTipo();
+		pregunta.setTitulo(tipo + mochila.getSemilla());
+	}
 	
 
 }

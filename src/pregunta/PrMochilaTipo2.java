@@ -52,7 +52,12 @@ public class PrMochilaTipo2 extends PreguntaBuilder {
 	public void buildFeedback() {
 		pregunta.setFeedback("Feedback de la pregunta 2 de tipo Mochila");
 	}
-	
+
+	@Override
+	public void buildTitulo() {
+		String tipo = mochila.getTipo();
+		pregunta.setTitulo(tipo + mochila.getSemilla());
+	}
 	
 
 }

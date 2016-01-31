@@ -11,7 +11,7 @@ public abstract class PreguntaBuilder {
     public void crearNuevaPregunta() { 
     	pregunta = new Pregunta(); 
     }
- 
+    public abstract void buildTitulo();
     public abstract void buildEnunciado();
     public abstract void buildContenido();
     public abstract void buildFeedback();
