@@ -8,12 +8,14 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import exportar.Exportar;
 import exportar.ExportarFactory;
 import pregunta.*;
 import problemas.Knapsack;
+import problemas.MultiplicaMatrices;
 import problemas.Problema;
 import problemas.Problema.TIPO;
 import problemas.SubsecuenciaComun;
@@ -45,13 +47,16 @@ import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import java.awt.Component;
+import javax.swing.SwingConstants;
 
 public class ExportarFrame extends JFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField txtFNombre;
 	private JTextField textFGuarda;
 	private JTextField txtFSemilla;
 
@@ -73,6 +78,7 @@ public class ExportarFrame extends JFrame {
 	}
 
 	public ExportarFrame(Problema proble, int i) {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		// Parametros asociados a la ventana
 		this.setBounds(100, 100, 500, 400);
@@ -101,74 +107,52 @@ public class ExportarFrame extends JFrame {
 		// ***Añadir Panel Central
 		JPanel panelCentral = new JPanel();
 		GridBagLayout gbl_panelCentral = new GridBagLayout();
-		gbl_panelCentral.columnWidths = new int[] { 100, 100, 90, 0, 100, 0 };
+		gbl_panelCentral.columnWidths = new int[] { 100, 89, 110, 0, 100, 0 };
 		gbl_panelCentral.rowHeights = new int[] { 58, 19, 51, 49, 0, 43, 0, 38, 58, 0 };
 		gbl_panelCentral.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gbl_panelCentral.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panelCentral.setLayout(gbl_panelCentral);
-
-		JLabel lblNombre = new JLabel("Nombre: ");
-		GridBagConstraints gbc_lblNombre = new GridBagConstraints();
-		gbc_lblNombre.fill = GridBagConstraints.BOTH;
-		gbc_lblNombre.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNombre.gridx = 1;
-		gbc_lblNombre.gridy = 2;
-		panelCentral.add(lblNombre, gbc_lblNombre);
-
-		txtFNombre = new JTextField();
-		GridBagConstraints gbc_txtFNombre = new GridBagConstraints();
-		gbc_txtFNombre.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtFNombre.insets = new Insets(0, 0, 5, 5);
-		gbc_txtFNombre.gridx = 2;
-		gbc_txtFNombre.gridy = 2;
-		panelCentral.add(txtFNombre, gbc_txtFNombre);
-		txtFNombre.setColumns(10);
-
-		JLabel lblGuardarEn = new JLabel("Guardar en: ");
-		GridBagConstraints gbc_lblGuardarEn = new GridBagConstraints();
-		gbc_lblGuardarEn.fill = GridBagConstraints.BOTH;
-		gbc_lblGuardarEn.insets = new Insets(0, 0, 5, 5);
-		gbc_lblGuardarEn.gridx = 1;
-		gbc_lblGuardarEn.gridy = 4;
-		panelCentral.add(lblGuardarEn, gbc_lblGuardarEn);
-
-		textFGuarda = new JTextField();
-		GridBagConstraints gbc_textFGuarda = new GridBagConstraints();
-		gbc_textFGuarda.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textFGuarda.insets = new Insets(0, 0, 5, 5);
-		gbc_textFGuarda.gridx = 2;
-		gbc_textFGuarda.gridy = 4;
-		panelCentral.add(textFGuarda, gbc_textFGuarda);
-		textFGuarda.setColumns(10);
-
-		JButton btnBrowse = new JButton("Browse..");
-		GridBagConstraints gbc_btnBrowse = new GridBagConstraints();
-		gbc_btnBrowse.fill = GridBagConstraints.BOTH;
-		gbc_btnBrowse.insets = new Insets(0, 0, 5, 0);
-		gbc_btnBrowse.gridx = 3;
-		gbc_btnBrowse.gridy = 4;
-		panelCentral.add(btnBrowse, gbc_btnBrowse);
-		btnBrowse.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// Creamos selector de apertura
-				FileNameExtensionFilter xmlfilter = new FileNameExtensionFilter("xml files (*.xml)", "xml");
-				FileNameExtensionFilter htmlfilter = new FileNameExtensionFilter("html files (*.html)", "html");
-				FileNameExtensionFilter jsonfilter = new FileNameExtensionFilter("json files (*.json)", "json");
-				JFileChooser chooser = new JFileChooser();
-				chooser.setCurrentDirectory(new java.io.File("."));
-				chooser.setDialogTitle("Seleccionar Directorio");
-				chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-				if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-					System.out.println("Directorio: " + chooser.getCurrentDirectory());
-					textFGuarda.setText(chooser.getSelectedFile().toString());
-				} else {
-					System.out.println("No seleccion ");
-				}
-			}
-		});
-		btnBrowse.setBackground(Color.WHITE);
+		
+				JLabel lblGuardarEn = new JLabel("Guardar en: ");
+				GridBagConstraints gbc_lblGuardarEn = new GridBagConstraints();
+				gbc_lblGuardarEn.fill = GridBagConstraints.BOTH;
+				gbc_lblGuardarEn.insets = new Insets(0, 0, 5, 5);
+				gbc_lblGuardarEn.gridx = 1;
+				gbc_lblGuardarEn.gridy = 3;
+				panelCentral.add(lblGuardarEn, gbc_lblGuardarEn);
+		
+				textFGuarda = new JTextField();
+				GridBagConstraints gbc_textFGuarda = new GridBagConstraints();
+				gbc_textFGuarda.fill = GridBagConstraints.HORIZONTAL;
+				gbc_textFGuarda.insets = new Insets(0, 0, 5, 5);
+				gbc_textFGuarda.gridx = 2;
+				gbc_textFGuarda.gridy = 3;
+				panelCentral.add(textFGuarda, gbc_textFGuarda);
+				textFGuarda.setColumns(25);
+		
+				JButton btnBrowse = new JButton("Browse..");
+				GridBagConstraints gbc_btnBrowse = new GridBagConstraints();
+				gbc_btnBrowse.fill = GridBagConstraints.HORIZONTAL;
+				gbc_btnBrowse.insets = new Insets(0, 0, 5, 5);
+				gbc_btnBrowse.gridx = 3;
+				gbc_btnBrowse.gridy = 3;
+				panelCentral.add(btnBrowse, gbc_btnBrowse);
+				btnBrowse.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						// Creamos selector de apertura
+						JFileChooser chooser = new JFileChooser();
+						chooser.setCurrentDirectory(new java.io.File("."));
+						chooser.setDialogTitle("Seleccionar Directorio");
+						chooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+						if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+								textFGuarda.setText(chooser.getSelectedFile().toString());
+						} else {
+							System.out.println("No seleccion ");
+						} 
+					}
+				});
+				btnBrowse.setBackground(Color.WHITE);
 
 		final JRadioButton rdbtnHtml = new JRadioButton("HTML");
 		rdbtnHtml.setSelected(true);
@@ -190,11 +174,11 @@ public class ExportarFrame extends JFrame {
 		JRadioButton rdbtnJson = new JRadioButton("Json");
 		GridBagConstraints gbc_rdbtnJson = new GridBagConstraints();
 		gbc_rdbtnJson.fill = GridBagConstraints.BOTH;
-		gbc_rdbtnJson.insets = new Insets(0, 0, 5, 0);
+		gbc_rdbtnJson.insets = new Insets(0, 0, 5, 5);
 		gbc_rdbtnJson.gridx = 3;
 		gbc_rdbtnJson.gridy = 6;
 		panelCentral.add(rdbtnJson, gbc_rdbtnJson);
-		
+
 		final ButtonGroup formatos = new ButtonGroup();
 		formatos.add(rdbtnHtml);
 		formatos.add(rdbtnMoodle);
@@ -212,7 +196,7 @@ public class ExportarFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ArrayList<Problema> problemas = (ArrayList<Problema>) Problema.problemasGenerados;
-				String ruta = textFGuarda.getText() + "\\" + txtFNombre.getText();
+				String ruta = textFGuarda.getText();
 				String tipo;
 				if (rdbtnMoodle.isSelected()) {
 					tipo = "XML";
@@ -239,6 +223,7 @@ public class ExportarFrame extends JFrame {
 					JOptionPane.showMessageDialog(new JFrame(), "Fichero Guardado", "Info",
 							JOptionPane.OK_CANCEL_OPTION);
 				}
+				dispose();
 			}
 
 		});
@@ -255,18 +240,87 @@ public class ExportarFrame extends JFrame {
 		panelExportar.add(panelTitulo, BorderLayout.NORTH);
 		panelExportar.add(panelCentral, BorderLayout.CENTER);
 		panelExportar.add(panelBotones, BorderLayout.SOUTH);
-		
-		// PANEL RECUPERAR
-		JPanel panelRecuperar = new JPanel();
-		pestañas.addTab("Recuperar", panelRecuperar);
-		getContentPane().add(pestañas);
-		panelRecuperar.setLayout(null);
 
+		// ****PANEL RECUPERAR ****** //
+
+		JPanel panelRecuperar = new JPanel();
+		panelRecuperar.setLayout(new BorderLayout());
+
+		JPanel panelParametros = new JPanel();
+
+		panelRecuperar.add(panelParametros, BorderLayout.WEST);
+
+		JPanel panelVista = new JPanel();
+		panelVista = new JPanel();
+		panelVista.setBorder(new EmptyBorder(5, 5, 5, 5));// adds margin to
+		final JTextPane textPane = new JTextPane();
+		textPane.setEditable(false);
+		textPane.setContentType("text/html");
+		textPane.setEditorKit(utiles.Utiles.getEstilo());
+
+		// textPane.setBounds(260, 23, 209, 237);
+
+		JScrollPane scrollLista = new JScrollPane(textPane);
+		scrollLista.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollLista.setBounds(243, 75, 331, 227);
+		panelVista.setLayout(new BorderLayout());
+		panelVista.add(scrollLista, BorderLayout.CENTER);
+
+		panelRecuperar.add(panelVista, BorderLayout.CENTER);
+
+		GridBagLayout gbl_panelParametros = new GridBagLayout();
+		gbl_panelParametros.columnWidths = new int[] { 30, 0, 0, 0 };
+		gbl_panelParametros.rowHeights = new int[] { 14, 0, 0 };
+		gbl_panelParametros.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0 };
+		gbl_panelParametros.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0 };
+		panelParametros.setLayout(gbl_panelParametros);
 		JLabel lblNewLabel = new JLabel("Semilla: ");
-		lblNewLabel.setBounds(39, 50, 55, 14);
-		panelRecuperar.add(lblNewLabel);
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 1;
+		panelParametros.add(lblNewLabel, gbc_lblNewLabel);
+
+		JButton btnVer = new JButton("Recuperar");
+		btnVer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (txtFSemilla.getText().isEmpty()) {
+					JOptionPane.showMessageDialog(new JFrame(), "Introduce un valor para la semilla", "Dialog",
+							JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					Problema p = recuperarProblema(txtFSemilla.getText().toString());
+					System.out.println("Problema;: " + p.getTipo());
+					if (p.getTipo().equals(Problema.TIPO.MOCHILA.toString())) {
+						Knapsack mochila = (Knapsack) p;
+						mochila.execute();
+						utiles.Utiles.añadirMochilaPanel(textPane, mochila, rutaRecuperado);
+					} else {
+						if (p.getTipo().equals(Problema.TIPO.SUBSECUENCIA.toString())) {
+							SubsecuenciaComun subsecuencia = (SubsecuenciaComun) p;
+							subsecuencia.execute();
+							utiles.Utiles.añadirSubsecuenciaPanel(textPane, subsecuencia, rutaRecuperado);
+						}
+						if (p.getTipo().equals(Problema.TIPO.VIAJANTE.toString())) {
+							TSP viajante = (TSP) p;
+							viajante.execute();
+							utiles.Utiles.añadirViajantePanel(textPane, viajante, rutaRecuperado);
+						}
+						if (p.getTipo().equals(Problema.TIPO.MATRICES.toString())) {
+							MultiplicaMatrices matrices = (MultiplicaMatrices) p;
+							matrices.execute();
+							utiles.Utiles.añadirMatricesPanel(textPane, matrices, rutaRecuperado);
+						}
+					}
+					utiles.Utiles.cargarTextPane(textPane, rutaRecuperado);
+				}
+			}
+		});
 
 		txtFSemilla = new JTextField();
+		txtFSemilla.setAlignmentY(Component.TOP_ALIGNMENT);
+		txtFSemilla.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		txtFSemilla.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
@@ -276,48 +330,29 @@ public class ExportarFrame extends JFrame {
 				}
 			}
 		});
-		txtFSemilla.setBounds(39, 75, 187, 23);
-		panelRecuperar.add(txtFSemilla);
 		txtFSemilla.setColumns(10);
+		GridBagConstraints gbc_txtFSemilla = new GridBagConstraints();
+		gbc_txtFSemilla.anchor = GridBagConstraints.NORTHEAST;
+		gbc_txtFSemilla.insets = new Insets(0, 0, 5, 5);
+		gbc_txtFSemilla.gridx = 1;
+		gbc_txtFSemilla.gridy = 1;
+		panelParametros.add(txtFSemilla, gbc_txtFSemilla);
+		GridBagConstraints gbc_btnVer = new GridBagConstraints();
+		gbc_btnVer.insets = new Insets(0, 0, 0, 5);
+		gbc_btnVer.anchor = GridBagConstraints.WEST;
+		gbc_btnVer.gridx = 1;
+		gbc_btnVer.gridy = 3;
+		panelParametros.add(btnVer, gbc_btnVer);
 
-		final JTextPane textPane = new JTextPane();
-		textPane.setBounds(260, 23, 209, 237);
-		panelRecuperar.add(textPane);
-
-		JScrollPane scrollLista = new JScrollPane(textPane);
-		scrollLista.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollLista.setBounds(260, 23, 209, 237);
-		panelRecuperar.add(scrollLista);
-
-		JButton btnVer = new JButton("Recuperar");
-		btnVer.setBounds(87, 139, 100, 37);
-		btnVer.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (txtFSemilla.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(new JFrame(), "Introduce un valor para la semilla", "Dialog",
-							JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					Problema p = recuperarProblema(txtFSemilla.getText().toString());
-					if (p.getTipo().equals(Problema.TIPO.MOCHILA.toString())) {
-						Knapsack mochila = (Knapsack) p;
-						mochila.execute();
-						utiles.Utiles.añadirMochilaPanel(textPane, mochila, rutaRecuperado);
-					}
-					utiles.Utiles.cargarTextPane(textPane, rutaRecuperado);
-				}
-			}
-		});
-
-		panelRecuperar.add(btnVer);
+		JPanel panelBotonRecuperar = new JPanel();
 
 		JButton btnNewButton_1 = new JButton("Limpiar");
 		btnNewButton_1.setBounds(260, 286, 89, 23);
-		panelRecuperar.add(btnNewButton_1);
+		panelBotonRecuperar.add(btnNewButton_1);
 
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(526, 286, 75, 23);
-		panelRecuperar.add(btnCancelar);
+		panelBotonRecuperar.add(btnCancelar);
 
 		btnCancelar.addMouseListener(new MouseAdapter() {
 			@Override
@@ -328,28 +363,44 @@ public class ExportarFrame extends JFrame {
 		});
 
 		btnCancelar.setBounds(380, 286, 89, 23);
-		panelRecuperar.add(btnCancelar);
+		panelBotonRecuperar.add(btnCancelar);
 
+		panelRecuperar.add(panelBotonRecuperar, BorderLayout.SOUTH);
+
+		pestañas.addTab("Recuperar", panelRecuperar);
+		getContentPane().add(pestañas);
 	}
 
 	public Problema recuperarProblema(String seed) {
 		String tipo = seed.substring(0, 2);
+
 		Problema problema = null;
 		if (tipo.equals("10")) {
+
 			int cantidad = Integer.parseInt(seed.substring(2, 5));
 			int num_elem = Integer.parseInt(seed.substring(5, 8));
 
+			System.out.println("Cantidad: " + cantidad + " - - " + "NumElemetos: " + num_elem);
 			problema = new Knapsack(cantidad, num_elem, Long.valueOf(seed).longValue());
 			return problema;
 		}
-		if (tipo == "20") {
-			problema = new SubsecuenciaComun(0, 0);
-			return problema.recuperarProblema(seed);
+		if (tipo.equals("20")) {
+			int longcad1 = Integer.parseInt(seed.substring(2, 5));
+			int longcad2 = Integer.parseInt(seed.substring(5, 8));
+			problema = new SubsecuenciaComun(longcad1, longcad2, Long.valueOf(seed).longValue());
+			return problema;
 		}
-		if (tipo == "30") {
+		if (tipo.equals("30")) {
 			problema = new TSP(0);
 			return problema.recuperarProblema(seed);
 		}
+		if (tipo.equals("40")) {
+			System.out.println("entra matrices");
+			int numMat = Integer.parseInt(seed.substring(2, 5));
+			problema = new MultiplicaMatrices(numMat, Long.parseLong(seed));
+			return problema;
+		}
+			
 		return null;
 	}
 
@@ -357,7 +408,6 @@ public class ExportarFrame extends JFrame {
 
 		PreguntaDirector creadorPregunta = new PreguntaDirector();
 		PreguntaBuilder pr = null;
-		System.out.println("Son iguales: " + p.getTipo());
 		switch (p.getTipo()) {
 		case "MOCHILA":
 			if (p.getTipoPregunta() == 1) {
@@ -369,8 +419,8 @@ public class ExportarFrame extends JFrame {
 					pr = new PrMochilaTipo3((Knapsack) p);
 				}
 			}
+			break;
 		case "SUBSECUENCIA":
-
 			if (p.getTipoPregunta() == 1) {
 				pr = new PrLCSTipo1((SubsecuenciaComun) p);
 			} else {
@@ -381,7 +431,17 @@ public class ExportarFrame extends JFrame {
 				}
 			}
 			break;
+	case "MATRICES":
+		if (p.getTipoPregunta() == 1) {
+			pr = new PrMatricesTipo1((MultiplicaMatrices) p);
+		} else {
+			if (p.getTipoPregunta() == 2) {
+				pr = new PrMatricesTipo2((MultiplicaMatrices) p);
+			} else {
+				pr = new PrMatricesTipo3((MultiplicaMatrices) p);
+			}
 		}
+	}
 
 		creadorPregunta.setPreguntaBuilder(pr);
 		creadorPregunta.construirPregunta();

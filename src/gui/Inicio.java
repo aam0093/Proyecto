@@ -38,11 +38,16 @@ public class Inicio extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private static String sistemaOperativo = null;
 	String ruta = utiles.Utiles.getRuta();
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		if (sistemaOperativo == null) {
+			utiles.Utiles.setSistemaOperativo(System.getProperty("os.name"));
+		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -63,12 +68,11 @@ public class Inicio extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 685, 535);
 		contentPane = new JPanel();
-		contentPane.setToolTipText("Viajante");
+		contentPane.setToolTipText("");
 		contentPane.setBackground(UIManager.getColor("InternalFrame.activeTitleGradient"));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new GridLayout(2,4));
-		
+
 		JButton btnNewButton = new JButton("");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -82,10 +86,11 @@ public class Inicio extends JFrame {
 				mochila.setVisible(true);
 			}
 		});
+		contentPane.setLayout(new GridLayout(2, 3, 20, 20));
 		btnNewButton.setIcon(new ImageIcon(Inicio.class.getResource("/images/mochila-002 (1).jpg")));
 		btnNewButton.setBounds(44, 77, 175, 175);
 		contentPane.add(btnNewButton);
-		
+
 		JButton btn_LCS = new JButton("");
 		btn_LCS.setToolTipText("Subsecuencia Comun Mas Larga");
 		btn_LCS.addMouseListener(new MouseAdapter() {
@@ -98,9 +103,9 @@ public class Inicio extends JFrame {
 		btn_LCS.setIcon(new ImageIcon(Inicio.class.getResource("/images/subsecuencia.jpg")));
 		btn_LCS.setBounds(44, 289, 175, 175);
 		contentPane.add(btn_LCS);
-		
+
 		JButton btn_viajero = new JButton("");
-		btn_viajero.setToolTipText("Viajero");
+		btn_viajero.setToolTipText("Viajante");
 		btn_viajero.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -108,45 +113,52 @@ public class Inicio extends JFrame {
 				viajeroFrame.setVisible(true);
 			}
 		});
-		
+
 		JButton btn_RecuperarProblema = new JButton("Recuperar Problema");
 		btn_RecuperarProblema.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				Knapsack proble = new Knapsack(3, 4);
-				ExportarFrame recuperarFrame = new ExportarFrame(proble,1);
+				ExportarFrame recuperarFrame = new ExportarFrame(proble, 1);
 				recuperarFrame.setVisible(true);
 			}
 		});
 		btn_RecuperarProblema.setBounds(445, 77, 175, 175);
 		contentPane.add(btn_RecuperarProblema);
+
 		btn_viajero.setIcon(new ImageIcon(Inicio.class.getResource("/images/viajero.jpg")));
 		btn_viajero.setBounds(250, 77, 175, 175);
 		contentPane.add(btn_viajero);
-		
-		JButton btnNewButton_2 = new JButton("New button");
-		btnNewButton_2.setIcon(new ImageIcon(Inicio.class.getResource("/images/Icono-216.png")));
-		btnNewButton_2.setToolTipText("Matrices Encadenadas");
-		btnNewButton_2.setBounds(250, 289, 175, 175);
-		contentPane.add(btnNewButton_2);
-		
+
+		JButton btnMatrices = new JButton("");
+		btnMatrices.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				MultiplicaMatricesFrame proble = new MultiplicaMatricesFrame();
+				proble.setVisible(true);
+			}
+		});
+		btnMatrices.setIcon(new ImageIcon(Inicio.class.getResource("/images/Icono-216.png")));
+		btnMatrices.setToolTipText("Matrices Encadenadas");
+		btnMatrices.setBounds(250, 289, 175, 175);
+		contentPane.add(btnMatrices);
+
 		JButton btn_Salir = new JButton("");
 		btn_Salir.setToolTipText("Bot\u00F3n Salir");
 		btn_Salir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				utiles.Utiles.borrarPanel(ruta);			
+				utiles.Utiles.borrarPanel(ruta);
 				dispose();
 			}
-			
+
 		});
 		btn_Salir.setIcon(new ImageIcon(Inicio.class.getResource("/images/salida.gif")));
 		btn_Salir.setBounds(445, 289, 175, 175);
 		contentPane.add(btn_Salir);
-		
-		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{contentPane, btnNewButton, btn_LCS, btn_RecuperarProblema, btn_viajero, btnNewButton_2, btn_Salir}));
-		
 
+		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { contentPane, btnNewButton, btn_LCS,
+				btn_RecuperarProblema, btn_viajero, btnMatrices, btn_Salir }));
 
 	}
 }

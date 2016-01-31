@@ -14,8 +14,17 @@ import problemas.Knapsack;
 import problemas.Problema;
 import problemas.SubsecuenciaComun;
 
+/**
+ * Esta clase define la interfaz con la que se generaran los problemas de tipo LCS
+ * @author: Asier Alonso Morante
+ * @version: 20/01/2016/A
+ */
 public class LCS extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// butimport javax.swing.border.*;tons
 	private JPanel panelTitulo;
 	private JPanel panelAjustes;
@@ -27,11 +36,12 @@ public class LCS extends JFrame {
 	// constructor
 	public LCS() {
 		setTitle("Subsecuencia Comun Mas Larga");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		// content pane
 		Container cp = getContentPane();
 		cp.setPreferredSize(new Dimension(600, 400));
+		cp.setBounds(new Rectangle(120, 120));
 		// add a panel for the size
 		panelTitulo = new JPanel();
 		panelTitulo.setBorder(new EmptyBorder(5, 5, 5, 5));// adds margin to
@@ -54,8 +64,7 @@ public class LCS extends JFrame {
 		panelVista.setBorder(new EmptyBorder(5, 90, 5, 15));// adds margin to
 															// panel
 		final JTextPane textPaneResult = new JTextPane();
-		textPaneResult.setEditable(true);
-		textPaneResult.setEnabled(false);
+		textPaneResult.setEditable(false);
 		// textPaneResult.setBounds(287, 89, 248, 199);
 		textPaneResult.setContentType("text/html");
 		textPaneResult.setEditorKit(utiles.Utiles.getEstilo());
@@ -64,7 +73,14 @@ public class LCS extends JFrame {
 		scrollLista.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollLista.setBounds(243, 75, 331, 227);
 		panelVista.setLayout(new BorderLayout());
+		
+		JLabel lblNewLabel_1 = new JLabel("Vista Preeliminar");
+		panelVista.add(lblNewLabel_1, BorderLayout.NORTH);
 		panelVista.add(scrollLista, BorderLayout.CENTER);
+
+		if (!Problema.problemasGenerados.isEmpty()) {
+			utiles.Utiles.cargarTextPane(textPaneResult, ruta);
+		}
 
 		// add bottom panel for output
 		panelBotones = new JPanel();
@@ -90,6 +106,7 @@ public class LCS extends JFrame {
 		panelAjustes.add(lblNumProblemas, gbc_lblNumProblemas);
 		lblNumProblemas.setPreferredSize(new Dimension(70, 10));
 		final JSpinner spNumProb = new JSpinner();
+		spNumProb.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		spNumProb.setSize(new Dimension(5, 5));
 		GridBagConstraints gbc_spNumProb = new GridBagConstraints();
 		gbc_spNumProb.insets = new Insets(0, 0, 5, 0);
@@ -105,6 +122,7 @@ public class LCS extends JFrame {
 		panelAjustes.add(lblLongCad1, gbc_lblLongCad1);
 
 		final JSpinner longCad1 = new JSpinner();
+		longCad1.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		longCad1.setMaximumSize(new Dimension(40, 20));
 		GridBagConstraints gbc_longCad1 = new GridBagConstraints();
 		gbc_longCad1.insets = new Insets(0, 0, 5, 0);
@@ -120,6 +138,7 @@ public class LCS extends JFrame {
 		panelAjustes.add(lblLongCad2, gbc_lblLongCad2);
 
 		final JSpinner longCad2 = new JSpinner();
+		longCad2.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		longCad2.setMaximumSize(new Dimension(40, 20));
 		GridBagConstraints gbc_longCad2 = new GridBagConstraints();
 		gbc_longCad2.insets = new Insets(0, 0, 5, 0);
@@ -161,12 +180,32 @@ public class LCS extends JFrame {
 		});
 		btnLimpiar.setBounds(189, 326, 89, 23);
 		panelBotones.add(btnLimpiar);
+
+		final JButton btnExportar = new JButton("Exportar");
+		btnExportar.setEnabled(false);
+		btnExportar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (btnExportar.isEnabled()) {
+					ExportarFrame recuperarFrame = new ExportarFrame(new Knapsack(1, 2), 1);
+					recuperarFrame.setVisible(true);
+					dispose();
+				}
+			}
+		});
+		if (!Problema.problemasGenerados.isEmpty()) {
+			btnExportar.setEnabled(true);
+		} else {
+			btnExportar.setEnabled(false);
+		}
+
 		JButton btn_Generar = new JButton("Generar");
 		btn_Generar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
 					utiles.Utiles.cargarTextPane(textPaneResult, "");
+					utiles.Utiles.cargarTextPane(textPaneResult, ruta);
 					textPaneResult.update(textPaneResult.getGraphics());
 
 					int cad1 = (int) longCad1.getValue();
@@ -180,9 +219,13 @@ public class LCS extends JFrame {
 						utiles.Utiles.añadirSubsecuenciaPanel(textPaneResult, subsecuencia, ruta);
 
 					}
+					File file = new File(ruta);
+					textPaneResult.replaceSelection(file.toString());
 					utiles.Utiles.cargarTextPane(textPaneResult, ruta);
 					textPaneResult.update(textPaneResult.getGraphics());
-
+					if (!btnExportar.isEnabled()) {
+						btnExportar.setEnabled(true);
+					}
 				} catch (NumberFormatException e) {
 					System.out.println(e.toString());
 					JOptionPane.showMessageDialog(new JFrame(), "Faltan datos por introducir", "Error",
@@ -201,17 +244,9 @@ public class LCS extends JFrame {
 				dispose();
 			}
 		});
-		panelBotones.add(btnCancelar);
 
-		JButton btnExportar = new JButton("Exportar");
-		btnExportar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				ExportarFrame recuperarFrame = new ExportarFrame(new Knapsack(1, 2), 1);
-				recuperarFrame.setVisible(true);
-			}
-		});
 		panelBotones.add(btnExportar);
+		panelBotones.add(btnCancelar);
 		pack();
 	}
 
