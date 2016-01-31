@@ -11,21 +11,11 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Element;
-
 import com.hp.gagawa.java.elements.Body;
 import com.hp.gagawa.java.elements.Div;
 import com.hp.gagawa.java.elements.Head;
 import com.hp.gagawa.java.elements.Html;
 import com.hp.gagawa.java.elements.P;
-import com.hp.gagawa.java.elements.Table;
-import com.hp.gagawa.java.elements.Td;
-import com.hp.gagawa.java.elements.Text;
-import com.hp.gagawa.java.elements.Tr;
 
 import pregunta.Pregunta;
 import problemas.*;
