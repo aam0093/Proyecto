@@ -3,10 +3,10 @@ package pregunta;
 import problemas.*;
 
 /** "ConcreteBuilder" */
-public class PrMochilaTipo3 extends PreguntaBuilder {
+public class PrMochila extends PreguntaBuilder {
 	Knapsack mochila;
 
-	public PrMochilaTipo3(Knapsack p) {
+	public PrMochila(Knapsack p) {
 		mochila = p;
 	}
 
@@ -16,8 +16,8 @@ public class PrMochilaTipo3 extends PreguntaBuilder {
 
 	public void buildEnunciado() {
 		String encabezado = "";
-		encabezado = "<p>Sea una mochila de Capacidad " + mochila.getCapacity() + " y con " + mochila.getNumElements()
-				+ " elementos.</p>";
+		encabezado = "Sea una mochila de Capacidad " + mochila.getCapacity() + " y con " + mochila.getNumElements()
+				+ " elementos.";
 		pregunta.setEnunciado(encabezado);
 	}
 
@@ -25,6 +25,9 @@ public class PrMochilaTipo3 extends PreguntaBuilder {
 		String valores = "<p> Valores: <table> <tr>";
 		String pesos = "<p> Pesos: <table> <tr>";
 		String res = "<table><tr>";
+		double pct = mochila.getPorcentaje();
+		pct = pct /100;
+		
 		int[][] matriz = mochila.getMatrix();
 		for (int i : mochila.getValues()) {
 			valores = valores + "<td>" + i + "</td>";
@@ -35,42 +38,29 @@ public class PrMochilaTipo3 extends PreguntaBuilder {
 			pesos = pesos + "<td>" + i + "</td>";
 		}
 		pesos = pesos + "</tr></table></p>";
-		
-		char caracter = 65;
-		int indice = 1;
-		for (int i = 0; i < matriz.length; i++){
-			for (int j = 0; j < matriz[0].length; j++){
-				if(i == 0 && j ==0){
-					res = res + "<th>" + "" + "</th>";
-					continue;
-				}	
-				if (i == 0 ){
-					res = res + "<th>" + caracter + "</th>";
-					caracter++;
-					continue;
-				}
-				if(j==0){		
-					res = res + "<th>" + indice + "</th>";
-					indice++;
-					continue;
-				}else{
-					res = res + "<td> {1:NUMERICAL:=" + matriz[i][j] + "}</td>";					
+
+		for (int[] f : matriz) {
+			for (int c : f) {
+				System.out.println("PORCENTAJE : " + pct + " < " + Math.random());
+				if (Math.random() >= pct) {
+					res = res + "<td>{1:NUMERICAL:=" + c + "} </td>";
+				} else {
+					res = res + "<td>" + c + "</td>";
 				}
 			}
 			res = res + "</tr>";
 		}
 		res = res + "</table>";
-		
-		res = res + "<p> Cúal es el valor máximo que podemos obtener sin exceder la capacidad de la mochila: {1:NUMERICAL:=" +
-				mochila.getResultValue() + "}</p>";
+
+		System.out.println("contenido: " + valores + pesos + res);
 		pregunta.setContenido(valores + pesos + res);
 
 	}
 
 	public void buildFeedback() {
-		pregunta.setFeedback("Feedback de la pregunta 1 de tipo Mochila");
+		pregunta.setFeedback("Feedback de la pregunta 2 de tipo Mochila");
 	}
-	
+
 	@Override
 	public void buildTitulo() {
 		String tipo = mochila.getTipo();

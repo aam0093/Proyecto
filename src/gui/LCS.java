@@ -37,11 +37,11 @@ public class LCS extends JFrame {
 	public LCS() {
 		setTitle("Subsecuencia Comun Mas Larga");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+		setBounds(120,120,700,500);
+		
 		// content pane
 		Container cp = getContentPane();
-		cp.setPreferredSize(new Dimension(600, 400));
-		cp.setBounds(new Rectangle(120, 120));
+
 		// add a panel for the size
 		panelTitulo = new JPanel();
 		panelTitulo.setBorder(new EmptyBorder(5, 5, 5, 5));// adds margin to
@@ -91,10 +91,10 @@ public class LCS extends JFrame {
 		cp.setLayout(new BorderLayout());
 		cp.add(panelTitulo, BorderLayout.NORTH);
 		GridBagLayout gbl_panelAjustes = new GridBagLayout();
-		gbl_panelAjustes.columnWidths = new int[] { 95, 45, 0 };
-		gbl_panelAjustes.rowHeights = new int[] { 30, 50, 30, 50, 30, 50, 30, 50, 20 };
-		gbl_panelAjustes.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
-		gbl_panelAjustes.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_panelAjustes.columnWidths = new int[] {115, 85};
+		gbl_panelAjustes.rowHeights = new int[] {30, 50, 30, 50};
+		gbl_panelAjustes.columnWeights = new double[] { 0.0, 0.0 };
+		gbl_panelAjustes.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 		panelAjustes.setLayout(gbl_panelAjustes);
 		JLabel lblNumProblemas = new JLabel("Numero de Problemas:");
 		lblNumProblemas.setAlignmentY(Component.BOTTOM_ALIGNMENT);
@@ -145,21 +145,22 @@ public class LCS extends JFrame {
 		gbc_longCad2.gridx = 1;
 		gbc_longCad2.gridy = 5;
 		panelAjustes.add(longCad2, gbc_longCad2);
-		JLabel lblTipoProblema = new JLabel("Tipo de Problema: ");
-		GridBagConstraints gbc_lblTipoProblema = new GridBagConstraints();
-		gbc_lblTipoProblema.fill = GridBagConstraints.BOTH;
-		gbc_lblTipoProblema.insets = new Insets(0, 0, 0, 5);
-		gbc_lblTipoProblema.gridx = 0;
-		gbc_lblTipoProblema.gridy = 7;
-		panelAjustes.add(lblTipoProblema, gbc_lblTipoProblema);
-
-		final JSpinner spTipProblem = new JSpinner(m_numberSpinnerModel);
-		spTipProblem.setPreferredSize(new Dimension(10, 20));
-		GridBagConstraints gbc_spTipProblem = new GridBagConstraints();
-		gbc_spTipProblem.gridx = 1;
-		gbc_spTipProblem.gridy = 7;
-		panelAjustes.add(spTipProblem, gbc_spTipProblem);
 		cp.add(panelAjustes, BorderLayout.WEST);
+		
+		JLabel lblPctRepuestas = new JLabel("PCT. Repuestas");
+		GridBagConstraints gbc_lblPctRepuestas = new GridBagConstraints();
+		gbc_lblPctRepuestas.anchor = GridBagConstraints.WEST;
+		gbc_lblPctRepuestas.insets = new Insets(0, 0, 0, 5);
+		gbc_lblPctRepuestas.gridx = 0;
+		gbc_lblPctRepuestas.gridy = 7;
+		panelAjustes.add(lblPctRepuestas, gbc_lblPctRepuestas);
+		
+		final JSlider sl_PctRespuestas = new JSlider();
+		GridBagConstraints gbc_sl_PctRespuestas = new GridBagConstraints();
+		gbc_sl_PctRespuestas.fill = GridBagConstraints.HORIZONTAL;
+		gbc_sl_PctRespuestas.gridx = 1;
+		gbc_sl_PctRespuestas.gridy = 7;
+		panelAjustes.add(sl_PctRespuestas, gbc_sl_PctRespuestas);
 		cp.add(panelVista, BorderLayout.CENTER);
 		cp.add(panelBotones, BorderLayout.SOUTH);
 
@@ -214,7 +215,7 @@ public class LCS extends JFrame {
 					for (int i = 0; i < numProblemas; i++) {
 						subsecuencia = new SubsecuenciaComun(cad1, cad2);
 						subsecuencia.execute();
-						subsecuencia.setTipoPregunta((int) spTipProblem.getValue());
+						subsecuencia.setPorcentaje((int) sl_PctRespuestas.getValue());
 						Problema.problemasGenerados.add(subsecuencia);
 						utiles.Utiles.añadirSubsecuenciaPanel(textPaneResult, subsecuencia, ruta);
 

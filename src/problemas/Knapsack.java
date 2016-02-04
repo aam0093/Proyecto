@@ -39,10 +39,10 @@ public class Knapsack implements Problema {
 	 * 1,elemento 2..
 	 */
 	int[] weight;
-	
+
 	/** Valor máximo para cualquier peso de los valores de la mochila */
 	int maxWeight = 0;
-	
+
 	/** Valor máximo para cualquier valor de los elementos de la mochila */
 	int maxValue = 0;
 
@@ -57,6 +57,9 @@ public class Knapsack implements Problema {
 
 	int[][] matriz_aux;
 	
+	/** Matriz de la mochila */
+	int porcentaje = 0;
+
 	/**
 	 * Crea el problema con la capacidad y numero de elementos introducidos
 	 * 
@@ -74,10 +77,10 @@ public class Knapsack implements Problema {
 		weight = new int[numElements];
 		values = new int[numElements];
 		matriz = new int[numElements + 1][capacidad + 1];
-		matriz_aux =  new int[numElements + 1][capacidad + 1];
-		for (int i = 0; i < matriz_aux.length;i++){
-			for (int j = 0; j < matriz[0].length; j++){
-				matriz_aux [i][j] = 0;
+		matriz_aux = new int[numElements + 1][capacidad + 1];
+		for (int i = 0; i < matriz_aux.length; i++) {
+			for (int j = 0; j < matriz[0].length; j++) {
+				matriz_aux[i][j] = 0;
 			}
 		}
 	}// Constructor()
@@ -103,10 +106,10 @@ public class Knapsack implements Problema {
 		weight = new int[numElements];
 		values = new int[numElements];
 		matriz = new int[numElements + 1][capacidad + 1];
-		matriz_aux =  new int[numElements + 1][capacidad + 1];
-		for (int i = 0; i < matriz_aux.length;i++){
-			for (int j = 0; j < matriz[0].length; j++){
-				matriz_aux [i][j] = 0;
+		matriz_aux = new int[numElements + 1][capacidad + 1];
+		for (int i = 0; i < matriz_aux.length; i++) {
+			for (int j = 0; j < matriz[0].length; j++) {
+				matriz_aux[i][j] = 0;
 			}
 		}
 	}
@@ -196,13 +199,12 @@ public class Knapsack implements Problema {
 	/** Ejecuta el problema */
 	@Override
 	public String execute() {
-		if (maxValue != 0 && maxWeight != 0){
+		if (maxValue != 0 && maxWeight != 0) {
 			initializeWeights(maxValue, maxWeight);
-		}else{
+		} else {
 			initializeWeights();
 		}
-		
-	
+
 		llenarMatriz();
 		return "";
 	}
@@ -217,12 +219,12 @@ public class Knapsack implements Problema {
 	public int getCapacity() {
 		return capacidad;
 	}
-	
-	public void setMaxValue(int v){
+
+	public void setMaxValue(int v) {
 		maxValue = v;
 	}
-	
-	public void setMaxWeigth(int w){
+
+	public void setMaxWeigth(int w) {
 		maxWeight = w;
 	}
 
@@ -253,7 +255,7 @@ public class Knapsack implements Problema {
 		Knapsack mochila;
 		int cantidad = Integer.parseInt(semilla.substring(3, 6));
 		int numElem = Integer.parseInt(semilla.substring(6, 9));
-		mochila = new Knapsack(cantidad, numElem, Long.valueOf(semilla).longValue());
+		mochila = new Knapsack(cantidad, numElem,  Long.valueOf(semilla).longValue());
 		return mochila;
 	}
 
@@ -261,38 +263,36 @@ public class Knapsack implements Problema {
 	public int getResultValue() {
 		return matriz[numElements][capacidad];
 	}
-	
+
 	/** Obtiene los elementos seleccionados para llenar la mochila */
 	public int[] getResultItems() {
 		int elemento = numElements;
 		int tamano = capacidad;
-		int [] elem_elegidos = new int [numElements];
+		int[] elem_elegidos = new int[numElements];
 		int pos = 0;
-		 while (elemento>0){
-		        if (matriz_aux[elemento][tamano]==1){
-		            elem_elegidos[pos] = elemento - 1;
-		            pos++;		        	
-		            elemento--;
-		            tamano -= weight[elemento];
-		        }
-		        else{
-		            elemento--;
-		        }
-		    }
+		while (elemento > 0) {
+			if (matriz_aux[elemento][tamano] == 1) {
+				elem_elegidos[pos] = elemento - 1;
+				pos++;
+				elemento--;
+				tamano -= weight[elemento];
+			} else {
+				elemento--;
+			}
+		}
 
 		return elem_elegidos;
 	}
 
-	/** Obtiene un entero con el tipo de Pregunta del problema */
-	@Override
-	public int getTipoPregunta() {
-		return tipoPregunta;
-	}
 
-	/** Establece cual será el tipo de pregunta del problema */
-	@Override
-	public void setTipoPregunta(int tipo) {
-		tipoPregunta = tipo;
+
+	
+	public void setPorcentaje (int pct){
+		porcentaje = pct;
+	}
+	
+	public int getPorcentaje (){
+		return porcentaje;
 	}
 
 }// Clase Knapsack

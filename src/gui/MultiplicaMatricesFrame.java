@@ -29,6 +29,7 @@ import javax.swing.border.EmptyBorder;
 
 import problemas.MultiplicaMatrices;
 import problemas.Problema;
+import javax.swing.JSlider;
 
 /**
  * Esta clase define la interfaz con la que se generaran los problemas de Multiplicacion Encadenada de Matrices
@@ -53,11 +54,11 @@ public class MultiplicaMatricesFrame extends JFrame {
 	public MultiplicaMatricesFrame() {
 		setTitle("Problema Multiplicar Matrices");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		setBounds(120,120,700,500);
+		
 		// content pane
 		Container cp = getContentPane();
-		cp.setPreferredSize(new Dimension(600, 400));
-		cp.setBounds(new Rectangle(120, 120));
+
 		// add a panel for the size
 		panelTitulo = new JPanel();
 		panelTitulo.setBorder(new EmptyBorder(5, 5, 5, 5));// adds margin to
@@ -90,7 +91,7 @@ public class MultiplicaMatricesFrame extends JFrame {
 		panelAjustes.add(lblNumProblemas, gbc_lblNumProblemas);
 
 		final JSpinner spNumProb = new JSpinner();
-		spNumProb.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+		spNumProb.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		spNumProb.setSize(new Dimension(5, 5));
 		GridBagConstraints gbc_spNumProb = new GridBagConstraints();
 		gbc_spNumProb.insets = new Insets(0, 0, 5, 0);
@@ -115,22 +116,21 @@ public class MultiplicaMatricesFrame extends JFrame {
 		gbc_longCad1.gridy = 3;
 		panelAjustes.add(numNodos, gbc_longCad1);
 
-		JLabel lblTipoProblema = new JLabel("Tipo de Problema: ");
-		GridBagConstraints gbc_lblTipoProblema = new GridBagConstraints();
-		gbc_lblTipoProblema.fill = GridBagConstraints.BOTH;
-		gbc_lblTipoProblema.insets = new Insets(0, 0, 5, 5);
-		gbc_lblTipoProblema.gridx = 0;
-		gbc_lblTipoProblema.gridy = 5;
-		panelAjustes.add(lblTipoProblema, gbc_lblTipoProblema);
+		JLabel lblPCT_Respuestas = new JLabel("PCT. Respuestas: ");
+		GridBagConstraints gbc_lblPCT_Respuestas = new GridBagConstraints();
+		gbc_lblPCT_Respuestas.fill = GridBagConstraints.BOTH;
+		gbc_lblPCT_Respuestas.insets = new Insets(0, 0, 0, 5);
+		gbc_lblPCT_Respuestas.gridx = 0;
+		gbc_lblPCT_Respuestas.gridy = 5;
+		panelAjustes.add(lblPCT_Respuestas, gbc_lblPCT_Respuestas);
 
-		final JSpinner spTipProblem = new JSpinner(m_numberSpinnerModel);
-		spTipProblem.setPreferredSize(new Dimension(40, 20));
-		GridBagConstraints gbc_spTipProblem = new GridBagConstraints();
-		gbc_spTipProblem.insets = new Insets(0, 0, 5, 0);
-		gbc_spTipProblem.gridx = 1;
-		gbc_spTipProblem.gridy = 5;
-		panelAjustes.add(spTipProblem, gbc_spTipProblem);
+		final JSlider slider = new JSlider();
+		GridBagConstraints gbc_slider = new GridBagConstraints();
+		gbc_slider.gridx = 1;
+		gbc_slider.gridy = 5;
+		panelAjustes.add(slider, gbc_slider);
 
+		
 		// ** Añadir panel Vista **
 		panelVista = new JPanel();
 		panelVista.setBorder(new EmptyBorder(5, 5, 5, 5));// adds margin to
@@ -204,13 +204,13 @@ public class MultiplicaMatricesFrame extends JFrame {
 					for (int i = 0; i < numProblemas; i++) {
 						matrices = new MultiplicaMatrices(cad1);
 						matrices.execute();
-						matrices.setTipoPregunta((int) spTipProblem.getValue());
+						matrices.setPorcentaje((int) slider.getValue());
 						Problema.problemasGenerados.add(matrices);
 						utiles.Utiles.añadirMatricesPanel(textPaneResult, matrices, ruta);
 
 					}
 					utiles.Utiles.cargarTextPane(textPaneResult, ruta);
-					textPaneResult.update(textPaneResult.getGraphics());
+					
 					if (!btnExportar.isEnabled()) {
 						btnExportar.setEnabled(true);
 					}

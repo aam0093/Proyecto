@@ -3,6 +3,7 @@ package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -30,6 +31,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
+import javax.swing.JPasswordField;
 
 public class Inicio extends JFrame {
 
@@ -66,11 +68,12 @@ public class Inicio extends JFrame {
 	public Inicio() {
 		setTitle("ProgDin Quiz");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 685, 535);
+		setBounds(100, 100, 700, 500);
 		contentPane = new JPanel();
 		contentPane.setToolTipText("");
 		contentPane.setBackground(UIManager.getColor("InternalFrame.activeTitleGradient"));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
 		setContentPane(contentPane);
 
 		JButton btnNewButton = new JButton("");
@@ -82,11 +85,11 @@ public class Inicio extends JFrame {
 		btnNewButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				KnaspackFrame mochila = new KnaspackFrame();
+				KnapsackFrame mochila = new KnapsackFrame();
 				mochila.setVisible(true);
 			}
 		});
-		contentPane.setLayout(new GridLayout(2, 3, 20, 20));
+		contentPane.setLayout(new GridLayout(0, 4, 20, 20));
 		btnNewButton.setIcon(new ImageIcon(Inicio.class.getResource("/images/mochila-002 (1).jpg")));
 		btnNewButton.setBounds(44, 77, 175, 175);
 		contentPane.add(btnNewButton);
@@ -105,11 +108,11 @@ public class Inicio extends JFrame {
 		contentPane.add(btn_LCS);
 
 		JButton btn_viajero = new JButton("");
-		btn_viajero.setToolTipText("Viajante");
+		btn_viajero.setToolTipText("Floyd");
 		btn_viajero.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				TspFrame viajeroFrame = new TspFrame();
+				FloydFrame viajeroFrame = new FloydFrame();
 				viajeroFrame.setVisible(true);
 			}
 		});
@@ -125,6 +128,21 @@ public class Inicio extends JFrame {
 		});
 		btn_RecuperarProblema.setBounds(445, 77, 175, 175);
 		contentPane.add(btn_RecuperarProblema);
+		
+		JButton btnAcercaDe = new JButton("");
+		btnAcercaDe.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				String acercaDe = " Alumno: Asier Alonso Morante \n\n e-mail: aam0093@alu.ubu.es\n ProgDinQuiz "
+						+ "TFG 2016 \n Universidad de Burgos ";
+						
+				JOptionPane.showMessageDialog(new JFrame(), acercaDe , "Acerca De",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		btnAcercaDe.setToolTipText("Acerca de ");
+		btnAcercaDe.setIcon(new ImageIcon(Inicio.class.getResource("/images/escudo_COLOR_2L_ABAJO.png")));
+		contentPane.add(btnAcercaDe);
 
 		btn_viajero.setIcon(new ImageIcon(Inicio.class.getResource("/images/viajero.jpg")));
 		btn_viajero.setBounds(250, 77, 175, 175);

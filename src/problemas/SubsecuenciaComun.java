@@ -33,6 +33,7 @@ public class SubsecuenciaComun implements Problema {
 
 	long semilla = 0;
 	int tipodePregunta;
+	int porcentaje = 0;
 
 	/**
 	 * Crea el problema con las longitudes introducidas como parametros
@@ -195,14 +196,11 @@ public class SubsecuenciaComun implements Problema {
 		return semilla;
 	}
 
-	@Override
-	public int getTipoPregunta() {
-		return tipodePregunta;
+	public void setPorcentaje (int pct){
+		porcentaje = pct;
 	}
-
-	@Override
-	public void setTipoPregunta(int tipoPregunta) {
-		this.tipodePregunta = tipoPregunta;
+	
+	public int getPorcentaje (){
+		return porcentaje;
 	}
-
 }

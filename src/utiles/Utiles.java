@@ -10,21 +10,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTextPane;
+import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
 import com.hp.gagawa.java.elements.Div;
+import com.hp.gagawa.java.elements.H2;
+import com.hp.gagawa.java.elements.H3;
 import com.hp.gagawa.java.elements.P;
 import com.hp.gagawa.java.elements.Table;
 import com.hp.gagawa.java.elements.Td;
 import com.hp.gagawa.java.elements.Text;
 import com.hp.gagawa.java.elements.Tr;
 
+import problemas.Floyd;
 import problemas.Knapsack;
 import problemas.MultiplicaMatrices;
 import problemas.Problema;
 import problemas.SubsecuenciaComun;
-import problemas.TSP;
 
 public class Utiles {
 
@@ -47,6 +50,9 @@ public class Utiles {
 
 		// body = new Body();
 		div = new Div();
+		H3 titulo = new H3();
+		int num = Problema.problemasGenerados.size();
+		titulo.appendText("Problema numero: " + num+1);
 		P parrafo = new P();
 		parrafo.appendText("Dada una mochila de capacidad " + capacidad + " y " + numElementos
 				+ " elementos con las siguientes propiedades: <br> ");
@@ -69,6 +75,7 @@ public class Utiles {
 			}
 			tabla.appendChild(tr);
 		}
+		div.appendChild(titulo);
 		div.appendChild(parrafo);
 		div.appendChild(tabla);
 		P semilla = new P();
@@ -93,6 +100,9 @@ public class Utiles {
 
 		// body = new Body();
 		div = new Div();
+		H3 titulo = new H3();
+		int num = Problema.problemasGenerados.size();
+		titulo.appendText("Problema numero: " + num+1);
 		P parrafo = new P();
 		parrafo.appendText("Dadas dos cadenas " + cadena1 + " y " + cadena2 + ": <br> ");
 		parrafo.appendText("<br> Que produce la siguiente matriz:");
@@ -106,6 +116,7 @@ public class Utiles {
 			}
 			tabla.appendChild(tr);
 		}
+		div.appendChild(titulo);
 		div.appendChild(parrafo);
 		div.appendChild(tabla);
 		P resultado = new P();
@@ -125,44 +136,61 @@ public class Utiles {
 		}
 	}
 
-	public static void añadirViajantePanel(JTextPane textPaneResult, TSP viaj, String ruta) {
-		TSP viajante = viaj;
-		int numNodos = viajante.getNumNodos();
-		int[][] matriz = viajante.getDist();
+	public static void añadirFloydPanel(JTextPane textPaneResult, Floyd fl, String ruta) {
+		Floyd floyd = fl;
+		int numVertices = floyd.getNumVertices();
+		int[][] distancias = floyd.getDistancias();
+		int[][] matriz_resultado = floyd.getResultado();
 		Div div;
 
 		// body = new Body();
 		div = new Div();
+		H3 titulo = new H3();
+		int num = Problema.problemasGenerados.size();
+		titulo.appendText("Problema numero: " + num);
 		P parrafo = new P();
-		parrafo.appendText("Teniendo un viajero que quiere visitar" + numNodos
-				+ " lugares distintos con las siguientes distancias <br> ");
-		Table distancias = new Table();
-		for (int[] fila : matriz) {
+		parrafo.appendText("Si tenemos un grafo de " + numVertices + " vértices. Y con una matriz"
+				+ " de costes como la siguiente:");
+		
+		Table dist = new Table();
+		for (int[] fila : distancias) {
 			Tr tr = new Tr();
 			for (int col : fila) {
 				Td td = new Td();
-				td.appendChild(new Text(col));
+				if (col == Integer.MAX_VALUE)
+					td.appendChild(new Text("inf"));
+				else
+					td.appendChild(new Text(col));
 				tr.appendChild(td);
 			}
-			distancias.appendChild(tr);
+			dist.appendChild(tr);
 		}
-		parrafo.appendText("<br>Produce la siguiente matriz:");
-		Table tabla = new Table();
-		for (int[] fila : matriz) {
-			Tr tr = new Tr();
-			for (int col : fila) {
-				Td td = new Td();
-				td.appendChild(new Text(col));
-				tr.appendChild(td);
-			}
-			tabla.appendChild(tr);
-		}
+		div.appendChild(titulo);
 		div.appendChild(parrafo);
-		div.appendChild(tabla);
+		div.appendChild(dist);
+		
+		P parrafo2 = new P();
+		parrafo2.appendText("<br>Rellena la siguiente matriz con las distancias mínimas desde un punto "
+				+ "a otro: <br>");
+		
+		Table tablaRes = new Table();
+		for (int[] fila : matriz_resultado) {
+			Tr tr2 = new Tr();
+			for (int c : fila) {
+				Td td2 = new Td();
+				td2.appendChild(new Text(c));
+				tr2.appendChild(td2);
+			}
+			tablaRes.appendChild(tr2);
+		}
+		div.appendChild(parrafo2);
+		div.appendChild(tablaRes);
+		
 		P semilla = new P();
 		// semilla.appendText("La semilla de este problema es: " +
 		// viajante.getSemilla());
 		div.appendChild(semilla);
+		
 		try {
 			File doc = new File(ruta);
 			PrintWriter out = new PrintWriter(new FileOutputStream(doc, true));
@@ -173,14 +201,13 @@ public class Utiles {
 		}
 
 	}
-
-	public static void cargarTextPane(JTextPane panel, String ruta) {
+ public static void cargarTextPane(JTextPane panel, String ruta) {
 		File file = new File(ruta);
-		System.out.println("Despues de limpiar: " + file.length());
 		try {
+			Document doc = panel.getDocument();
+			doc.putProperty(Document.StreamDescriptionProperty, null);
 			panel.setPage(file.toURI().toURL());
 			System.out.println("Refresca");
-			panel.repaint();
 		} catch (MalformedURLException e1) {
 			System.out.println("Vacio");
 		} catch (IOException e1) {
@@ -208,12 +235,10 @@ public class Utiles {
 		return editor;
 	}
 
-	public static void borrarPanel(String ruta) {
-		System.out.println("Entra a limpiar");
+	public static File borrarPanel(String ruta) {
 		File tempFich = new File(ruta);
-		System.out.println("Recupera fichero: " + tempFich.length());
 		tempFich.delete();
-		System.out.println("Borra fichero: " + tempFich.length());
+		return tempFich;
 	}
 
 	public static void setSistemaOperativo(String sistema) {
@@ -236,6 +261,9 @@ public class Utiles {
 
 		// body = new Body();
 		div = new Div();
+		H3 titulo = new H3();
+		int num = Problema.problemasGenerados.size();
+		titulo.appendText("Problema numero: " + num+1);
 		P parrafo = new P();
 		parrafo.appendText("Teniendo " + numMatrices + " matrices encadenadas con los siguientes tamaños <br> ");
 		Table dim = new Table();
@@ -263,6 +291,7 @@ public class Utiles {
 			}
 			tabla.appendChild(tr);
 		}
+		div.appendChild(titulo);
 		div.appendChild(parrafo);
 		div.appendChild(dim);
 		div.appendChild(parrafo2);

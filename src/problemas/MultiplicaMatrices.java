@@ -35,6 +35,8 @@ public class MultiplicaMatrices implements Problema {
 	/** Indica el valor de la semilla del Problema */
 	public long semilla = 0;
 
+	int porcentaje = 0;
+
 	/**
 	 * Crea el problema el numero de matrices recibidas.
 	 * 
@@ -49,11 +51,8 @@ public class MultiplicaMatrices implements Problema {
 		Semilla seed = new Semilla(numMat, 0, "matrices");
 		semilla = seed.getSeed();
 		initMatrices();
-		for (int i : dimensiones)
-			System.out.println("dimensiones: " + i);
-
 	}
-	
+
 	public MultiplicaMatrices(int numMat, long sem) {
 		numMatrices = numMat;
 		dimensiones = new int[numMat + 1];
@@ -74,10 +73,6 @@ public class MultiplicaMatrices implements Problema {
 		for (int i = 0; i < dimensiones.length; i++) {
 			dimensiones[i] = rnd.nextInt((100 - 1) + 1) + 1;
 		}
-		/*
-		 * dimensiones[0] = 30; dimensiones[1] = 1; dimensiones[2] = 40;
-		 * dimensiones[3] = 10; dimensiones[4] = 25;
-		 */
 	}
 
 	/**
@@ -86,7 +81,6 @@ public class MultiplicaMatrices implements Problema {
 	@Override
 	public String execute() {
 		initMatrices();
-		System.out.println("Ejecuta");
 		for (int i = 1; i < numMatrices; i++) {
 			for (int j = 0; j <= numMatrices; j++) {
 				if (i == j) {
@@ -100,7 +94,6 @@ public class MultiplicaMatrices implements Problema {
 				}
 			}
 		}
-
 		return "OK";
 	}
 
@@ -114,7 +107,6 @@ public class MultiplicaMatrices implements Problema {
 	 *            el indice de la ultima matriz que se va a multiplicar
 	 */
 	public int llenarMatriz(int i, int j) {
-
 		if (i == j)
 			return 0;
 		matrizResultado[i][j] = Integer.MAX_VALUE;
@@ -145,7 +137,7 @@ public class MultiplicaMatrices implements Problema {
 
 	/** Devuelve el valor con el menor numero de operaciones */
 	public int getResultado() {
-		return matrizResultado[numMatrices-1][numMatrices];
+		return matrizResultado[numMatrices - 1][numMatrices];
 	}
 
 	/** Devuelve el tipo de problema */
@@ -168,24 +160,23 @@ public class MultiplicaMatrices implements Problema {
 		return matrices;
 	}
 
-	/** Devuelve el tipo de Pregunta del problema */
-	@Override
-	public int getTipoPregunta() {
-		return tipoPregunta;
+
+	public long getSemilla() {
+		return semilla;
 	}
 
-	/**
-	 * Establece el tipo de problema
-	 * 
-	 * @param tipoPregunta
-	 *            entero que indica el tipo de Pregunta
-	 */
-	@Override
-	public void setTipoPregunta(int tipoPregunta) {
-		this.tipoPregunta = tipoPregunta;
+	public void setPorcentaje(int pct) {
+		porcentaje = pct;
+	}
+
+	public int getPorcentaje() {
+		return porcentaje;
 	}
 	
-	public long getSemilla(){
-		return semilla;
+	public static void main(String[]args){
+		MultiplicaMatrices matrices = new MultiplicaMatrices(5);
+		matrices.execute();
+		int[][] matriz = matrices.getMatriz();
+		System.out.println(matriz.length);
 	}
 }

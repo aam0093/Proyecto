@@ -3,6 +3,7 @@ package gui;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 
@@ -18,15 +19,18 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 
+import problemas.Floyd;
 import problemas.Problema;
-import problemas.TSP;
+import javax.swing.JSlider;
 
 /**
- * Esta clase define la interfaz con la que se generaran los problemas de tipo TSP
+ * Esta clase define la interfaz con la que se generaran los problemas de tipo
+ * TSP
+ * 
  * @author: Asier Alonso Morante
  * @version: 20/01/2016/A
  */
-public class TspFrame extends JFrame {
+public class FloydFrame extends JFrame {
 
 	/**
 	 * 
@@ -37,18 +41,18 @@ public class TspFrame extends JFrame {
 	private JPanel panelAjustes;
 	private JPanel panelVista;
 	private JPanel panelBotones;
-	TSP viajero;
+	Floyd floyd;
 	String ruta = utiles.Utiles.getRuta();
 
 	// constructor
-	public TspFrame() {
-		setTitle("Problema del Viajero");
+	public FloydFrame() {
+		setTitle("Algoritmo de Floyd");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		// content pane
 		Container cp = getContentPane();
-		cp.setPreferredSize(new Dimension(600, 400));
-		cp.setBounds(new Rectangle(120, 120));
+		cp.setPreferredSize(new Dimension(700, 500));
+		cp.setBounds(new Rectangle(100,100));
 		// add a panel for the size
 		panelTitulo = new JPanel();
 		panelTitulo.setBorder(new EmptyBorder(5, 5, 5, 5));// adds margin to
@@ -56,7 +60,7 @@ public class TspFrame extends JFrame {
 		FlowLayout fl_panelTitulo = new FlowLayout();
 		fl_panelTitulo.setAlignment(FlowLayout.LEFT);
 		panelTitulo.setLayout(fl_panelTitulo);
-		JLabel lblNewLabel = new JLabel("Problema del Viajero");
+		JLabel lblNewLabel = new JLabel("Algoritmo de Floyd");
 		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 20));
 		panelTitulo.add(lblNewLabel);
 
@@ -64,7 +68,6 @@ public class TspFrame extends JFrame {
 		panelAjustes = new JPanel();
 		panelAjustes.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		SpinnerNumberModel m_numberSpinnerModel = new SpinnerNumberModel(1, 1, 3, 1);
 
 		GridBagLayout gbl_panelAjustes = new GridBagLayout();
 		gbl_panelAjustes.columnWidths = new int[] { 115, 85 };
@@ -81,7 +84,7 @@ public class TspFrame extends JFrame {
 		panelAjustes.add(lblNumProblemas, gbc_lblNumProblemas);
 
 		final JSpinner spNumProb = new JSpinner();
-		spNumProb.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+		spNumProb.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		spNumProb.setSize(new Dimension(5, 5));
 		GridBagConstraints gbc_spNumProb = new GridBagConstraints();
 		gbc_spNumProb.insets = new Insets(0, 0, 5, 0);
@@ -89,7 +92,7 @@ public class TspFrame extends JFrame {
 		gbc_spNumProb.gridy = 1;
 		panelAjustes.add(spNumProb, gbc_spNumProb);
 
-		JLabel lblNumNodos = new JLabel("Numero de Nodos:");
+		JLabel lblNumNodos = new JLabel("Numero de Vertices: ");
 		GridBagConstraints gbc_lblLongCad1 = new GridBagConstraints();
 		gbc_lblLongCad1.fill = GridBagConstraints.BOTH;
 		gbc_lblLongCad1.insets = new Insets(0, 0, 5, 5);
@@ -109,18 +112,16 @@ public class TspFrame extends JFrame {
 		JLabel lblTipoProblema = new JLabel("Tipo de Problema: ");
 		GridBagConstraints gbc_lblTipoProblema = new GridBagConstraints();
 		gbc_lblTipoProblema.fill = GridBagConstraints.BOTH;
-		gbc_lblTipoProblema.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTipoProblema.insets = new Insets(0, 0, 0, 5);
 		gbc_lblTipoProblema.gridx = 0;
 		gbc_lblTipoProblema.gridy = 5;
 		panelAjustes.add(lblTipoProblema, gbc_lblTipoProblema);
-
-		final JSpinner spTipProblem = new JSpinner(m_numberSpinnerModel);
-		spTipProblem.setPreferredSize(new Dimension(40, 20));
-		GridBagConstraints gbc_spTipProblem = new GridBagConstraints();
-		gbc_spTipProblem.insets = new Insets(0, 0, 5, 0);
-		gbc_spTipProblem.gridx = 1;
-		gbc_spTipProblem.gridy = 5;
-		panelAjustes.add(spTipProblem, gbc_spTipProblem);
+		
+		final JSlider slider = new JSlider();
+		GridBagConstraints gbc_slider = new GridBagConstraints();
+		gbc_slider.gridx = 1;
+		gbc_slider.gridy = 5;
+		panelAjustes.add(slider, gbc_slider);
 
 		// ** Añadir panel Vista **
 		panelVista = new JPanel();
@@ -168,7 +169,7 @@ public class TspFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (btnExportar.isEnabled()) {
-					ExportarFrame recuperarFrame = new ExportarFrame(new TSP(1), 1);
+					ExportarFrame recuperarFrame = new ExportarFrame(new Floyd(1), 1);
 					recuperarFrame.setVisible(true);
 					dispose();
 				}
@@ -191,11 +192,11 @@ public class TspFrame extends JFrame {
 					int cad1 = (int) numNodos.getValue();
 					int numProblemas = (int) spNumProb.getValue();
 					for (int i = 0; i < numProblemas; i++) {
-						viajero = new TSP(cad1);
-						viajero.execute();
-						viajero.setTipoPregunta((int) spTipProblem.getValue());
-						Problema.problemasGenerados.add(viajero);
-						utiles.Utiles.añadirViajantePanel(textPaneResult, viajero, ruta);
+						floyd = new Floyd(cad1);
+						floyd.execute();
+						floyd.setPorcentaje((int) slider.getValue());
+						Problema.problemasGenerados.add(floyd);
+						utiles.Utiles.añadirFloydPanel(textPaneResult, floyd, ruta);
 
 					}
 					utiles.Utiles.cargarTextPane(textPaneResult, ruta);
@@ -231,6 +232,20 @@ public class TspFrame extends JFrame {
 		cp.add(panelVista, BorderLayout.CENTER);
 		cp.add(panelBotones, BorderLayout.SOUTH);
 		pack();
+		
+		
+		addWindowListener(new java.awt.event.WindowAdapter() {
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		    	if (JOptionPane.showConfirmDialog(null, "¿Desea Salir?", "Salir",
+				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					utiles.Utiles.borrarPanel(ruta);
+					utiles.Utiles.borrarPanel(utiles.Utiles.getRutaRecuperado());
+					dispose();
+				} 			
+		    }
+		});
+	
 	}
 
 }

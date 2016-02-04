@@ -3,10 +3,10 @@ package pregunta;
 
 import problemas.SubsecuenciaComun;
 
-public class PrLCSTipo2 extends PreguntaBuilder {
+public class PrLCS extends PreguntaBuilder {
 	SubsecuenciaComun subsecuencia;
 
-	public PrLCSTipo2(SubsecuenciaComun p) {
+	public PrLCS(SubsecuenciaComun p) {
 		subsecuencia = p;
 	}
 
@@ -23,14 +23,13 @@ public class PrLCSTipo2 extends PreguntaBuilder {
 	}
 
 	public void buildContenido() {
-		String valores = "<p> Valores: <table> <tr>";
-		String pesos = "<p> Pesos: <table> <tr>";
 		String res = "<table><tr>";
 		int[][] matriz = subsecuencia.getMatriz();
-
+		double pct = subsecuencia.getPorcentaje();
+		pct = pct /100;
 		for (int[] f : matriz) {
 			for (int c : f) {
-				if(Math.random()>= 0.75){
+				if(Math.random()>= pct){
 					res = res + "<td>{1:NUMERICAL:=" + c + "} </td>";
 				}else{
 					res = res + "<td>" + c + "</td>";
