@@ -35,13 +35,14 @@ public class LCS extends JFrame {
 
 	// constructor
 	public LCS() {
-		setTitle("Subsecuencia Comun Mas Larga");
+		setTitle("Subsecuencia Común Más Larga");
+		setSize(625,468);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(120,120,700,500);
+		setBounds(120,120,900,500);
 		
 		// content pane
 		Container cp = getContentPane();
-
+		cp.setPreferredSize(new Dimension(700,450));
 		// add a panel for the size
 		panelTitulo = new JPanel();
 		panelTitulo.setBorder(new EmptyBorder(5, 5, 5, 5));// adds margin to
@@ -49,19 +50,20 @@ public class LCS extends JFrame {
 		FlowLayout fl_panelTitulo = new FlowLayout();
 		fl_panelTitulo.setAlignment(FlowLayout.LEFT);
 		panelTitulo.setLayout(fl_panelTitulo);
+		
 		JLabel lblNewLabel = new JLabel("Subsecuencia Comun Mas Larga");
+		lblNewLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 20));
 		panelTitulo.add(lblNewLabel);
 
 		// añadir panel con parametros
 		panelAjustes = new JPanel();
-		panelAjustes.setBorder(new EmptyBorder(5, 15, 5, 5));
+		panelAjustes.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		SpinnerNumberModel m_numberSpinnerModel = new SpinnerNumberModel(1, 1, 3, 1);
 
 		// add view panel
 		panelVista = new JPanel();
-		panelVista.setBorder(new EmptyBorder(5, 90, 5, 15));// adds margin to
+		panelVista.setBorder(new EmptyBorder(5, 5, 5, 5));// adds margin to
 															// panel
 		final JTextPane textPaneResult = new JTextPane();
 		textPaneResult.setEditable(false);
@@ -74,7 +76,7 @@ public class LCS extends JFrame {
 		scrollLista.setBounds(243, 75, 331, 227);
 		panelVista.setLayout(new BorderLayout());
 		
-		JLabel lblNewLabel_1 = new JLabel("Vista Preeliminar");
+		JLabel lblNewLabel_1 = new JLabel("Vista Preliminar");
 		panelVista.add(lblNewLabel_1, BorderLayout.NORTH);
 		panelVista.add(scrollLista, BorderLayout.CENTER);
 
@@ -91,12 +93,12 @@ public class LCS extends JFrame {
 		cp.setLayout(new BorderLayout());
 		cp.add(panelTitulo, BorderLayout.NORTH);
 		GridBagLayout gbl_panelAjustes = new GridBagLayout();
-		gbl_panelAjustes.columnWidths = new int[] {115, 85};
-		gbl_panelAjustes.rowHeights = new int[] {30, 50, 30, 50};
+		gbl_panelAjustes.columnWidths = new int[] {157, 173};
+		gbl_panelAjustes.rowHeights = new int[] {15, 30, 15, 30, 15, 30, 15, 30};
 		gbl_panelAjustes.columnWeights = new double[] { 0.0, 0.0 };
 		gbl_panelAjustes.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 		panelAjustes.setLayout(gbl_panelAjustes);
-		JLabel lblNumProblemas = new JLabel("Numero de Problemas:");
+		JLabel lblNumProblemas = new JLabel("N\u00FAmero de Problemas:");
 		lblNumProblemas.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		GridBagConstraints gbc_lblNumProblemas = new GridBagConstraints();
 		gbc_lblNumProblemas.fill = GridBagConstraints.BOTH;
@@ -122,7 +124,7 @@ public class LCS extends JFrame {
 		panelAjustes.add(lblLongCad1, gbc_lblLongCad1);
 
 		final JSpinner longCad1 = new JSpinner();
-		longCad1.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+		longCad1.setModel(new SpinnerNumberModel(new Integer(5), new Integer(1), null, new Integer(1)));
 		longCad1.setMaximumSize(new Dimension(40, 20));
 		GridBagConstraints gbc_longCad1 = new GridBagConstraints();
 		gbc_longCad1.insets = new Insets(0, 0, 5, 0);
@@ -138,7 +140,7 @@ public class LCS extends JFrame {
 		panelAjustes.add(lblLongCad2, gbc_lblLongCad2);
 
 		final JSpinner longCad2 = new JSpinner();
-		longCad2.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+		longCad2.setModel(new SpinnerNumberModel(new Integer(5), new Integer(1), null, new Integer(1)));
 		longCad2.setMaximumSize(new Dimension(40, 20));
 		GridBagConstraints gbc_longCad2 = new GridBagConstraints();
 		gbc_longCad2.insets = new Insets(0, 0, 5, 0);
@@ -147,7 +149,8 @@ public class LCS extends JFrame {
 		panelAjustes.add(longCad2, gbc_longCad2);
 		cp.add(panelAjustes, BorderLayout.WEST);
 		
-		JLabel lblPctRepuestas = new JLabel("PCT. Repuestas");
+		JLabel lblPctRepuestas = new JLabel("Porcentaje de Respuestas");
+		lblPctRepuestas.setToolTipText("N\u00FAmero de inc\u00F3gnitas a resolver en la pregunta, 100 = matriz vac\u00EDa y 0 = matriz llena");
 		GridBagConstraints gbc_lblPctRepuestas = new GridBagConstraints();
 		gbc_lblPctRepuestas.anchor = GridBagConstraints.WEST;
 		gbc_lblPctRepuestas.insets = new Insets(0, 0, 0, 5);
@@ -160,6 +163,13 @@ public class LCS extends JFrame {
 		gbc_sl_PctRespuestas.fill = GridBagConstraints.HORIZONTAL;
 		gbc_sl_PctRespuestas.gridx = 1;
 		gbc_sl_PctRespuestas.gridy = 7;
+		sl_PctRespuestas.setPaintTicks(true);
+		sl_PctRespuestas.setPaintLabels(true);
+		sl_PctRespuestas.setSnapToTicks(true);
+		sl_PctRespuestas.setPaintLabels(true);
+		sl_PctRespuestas.setMinorTickSpacing(1);
+		sl_PctRespuestas.setMajorTickSpacing(25);
+		sl_PctRespuestas.setPaintTicks(true);
 		panelAjustes.add(sl_PctRespuestas, gbc_sl_PctRespuestas);
 		cp.add(panelVista, BorderLayout.CENTER);
 		cp.add(panelBotones, BorderLayout.SOUTH);
@@ -169,14 +179,7 @@ public class LCS extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				utiles.Utiles.borrarPanel(ruta);
-				// textPaneResult.update(textPaneResult.getGraphics());
-				File file = new File(ruta);
-				try {
-					textPaneResult.setPage(file.toURI().toURL());
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				textPaneResult.repaint();
+				textPaneResult.setText("");
 			}
 		});
 		btnLimpiar.setBounds(189, 326, 89, 23);
@@ -190,7 +193,7 @@ public class LCS extends JFrame {
 				if (btnExportar.isEnabled()) {
 					ExportarFrame recuperarFrame = new ExportarFrame(new Knapsack(1, 2), 1);
 					recuperarFrame.setVisible(true);
-					dispose();
+			
 				}
 			}
 		});
@@ -205,7 +208,6 @@ public class LCS extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					utiles.Utiles.cargarTextPane(textPaneResult, "");
 					utiles.Utiles.cargarTextPane(textPaneResult, ruta);
 					textPaneResult.update(textPaneResult.getGraphics());
 

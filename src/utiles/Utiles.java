@@ -21,6 +21,7 @@ import com.hp.gagawa.java.elements.P;
 import com.hp.gagawa.java.elements.Table;
 import com.hp.gagawa.java.elements.Td;
 import com.hp.gagawa.java.elements.Text;
+import com.hp.gagawa.java.elements.Th;
 import com.hp.gagawa.java.elements.Tr;
 
 import problemas.Floyd;
@@ -46,41 +47,114 @@ public class Utiles {
 		int numElementos = mochila.getNumElements();
 		int capacidad = mochila.getCapacity();
 		int[][] matriz = mochila.getMatrix();
-		Div div;
+		Div div, divContMochila, divSolMochila;
 
 		// body = new Body();
 		div = new Div();
-		H3 titulo = new H3();
+		H3 tituloMochila = new H3();
+		// tituloMochila.setCSSClass("title");
 		int num = Problema.problemasGenerados.size();
-		titulo.appendText("Problema numero: " + num+1);
-		P parrafo = new P();
-		parrafo.appendText("Dada una mochila de capacidad " + capacidad + " y " + numElementos
-				+ " elementos con las siguientes propiedades: <br> ");
-		parrafo.appendText("Pesos: ");
+		tituloMochila.appendText("*** Problema " + num + ". Tipo: Mochila ***");
+		div.appendChild(tituloMochila);
+
+		divContMochila = new Div();
+		P enunMochila = new P();
+		enunMochila.setCSSClass("boldText");
+		enunMochila.appendText("- Dada una mochila de capacidad " + capacidad + " y " + numElementos
+				+ " elementos con las siguientes propiedades:");
+
+		Table tablaEnunMochila = new Table();
+		// Pesos
+		Tr trPesos = new Tr();
+		Td tdPesos = new Td();
+		tdPesos.setCSSClass("variable");
+		tdPesos.setCSSClass("boldText");
+		tdPesos.appendChild(new Text("Pesos:"));
+		// trPesos.appendChild(td);
+		// Td tdPesos = new Td();
+		String pesos = "";
 		for (int el : mochila.getWeights()) {
-			parrafo.appendText(el + " ");
+			pesos = pesos + el + " ";
 		}
-		parrafo.appendText("<br>");
-		parrafo.appendText("Valores: ");
+		tdPesos.appendChild(new Text(pesos));
+		trPesos.appendChild(tdPesos);
+
+		// Valores
+		Tr trVal = new Tr();
+		Td tdVal = new Td();
+		tdVal.setCSSClass("variable");
+		tdVal.setCSSClass("boldText");
+		tdVal.appendChild(new Text("Valores:"));
+		trVal.appendChild(tdVal);
+
+		Td tdVal2 = new Td();
+		String valores = "";
 		for (int el : mochila.getValues()) {
-			parrafo.appendText(el + " ");
+			valores = valores + el + " ";
 		}
+		tdVal2.appendChild(new Text(valores));
+		trVal.appendChild(tdVal2);
+
+		// Semilla
+		Tr trSem = new Tr();
+		Td tdSem = new Td();
+		tdSem.setCSSClass("variable");
+		tdSem.setCSSClass("boldText");
+		tdSem.appendChild(new Text("Semilla:"));
+		trSem.appendChild(tdSem);
+		Td tdSem2 = new Td();
+		String semilla = "" + mochila.getSemilla();
+		tdSem2.appendChild(new Text(semilla));
+		trSem.appendChild(tdSem2);
+
+		tablaEnunMochila.appendChild(trPesos);
+		tablaEnunMochila.appendChild(trVal);
+		tablaEnunMochila.appendChild(trSem);
+
+		divContMochila.appendChild(enunMochila);
+		divContMochila.appendChild(tablaEnunMochila);
+		div.appendChild(divContMochila);
+
+		// Solucion
+		divSolMochila = new Div();
+		P parrafo1 = new P();
+		parrafo1.setCSSClass("restitle");
+		parrafo1.appendText("Resultado: ");
 		Table tabla = new Table();
-		for (int[] fila : matriz) {
-			Tr tr = new Tr();
-			for (int col : fila) {
-				Td td = new Td();
-				td.appendChild(new Text(col));
-				tr.appendChild(td);
-			}
-			tabla.appendChild(tr);
+		tabla.setCSSClass("res");
+		Tr trRes = new Tr();
+		Th th = new Th();
+		th.setCSSClass("black");
+		th.appendChild(new Text(""));
+		trRes.appendChild(th);
+		int header = 1;
+		for (int h : matriz[0]) {
+			Th th1 = new Th();
+			th1.appendChild(new Text((char) (header)));
+			header++;
+			trRes.appendChild(th1);
 		}
-		div.appendChild(titulo);
-		div.appendChild(parrafo);
-		div.appendChild(tabla);
-		P semilla = new P();
-		semilla.appendText("La semilla de este problema es: " + mochila.getSemilla());
-		div.appendChild(semilla);
+		tabla.appendChild(trRes);
+
+		int header2 = 1;
+		for (int[] fila : matriz) {
+			Tr trRes4 = new Tr();
+			Td td2 = new Td();
+			td2.appendChild(new Text((char) (header2)));
+			header2++;
+			trRes4.appendChild(td2);
+			for (int col : fila) {
+				td2 = new Td();
+				td2.appendChild(new Text(col));
+				trRes4.appendChild(td2);
+			}
+			tabla.appendChild(trRes4);
+		}
+
+		divSolMochila.appendChild(parrafo1);
+		divSolMochila.appendChild(tabla);
+		div.appendChild(divSolMochila);
+
 		try {
 			File doc = new File(ruta);
 			PrintWriter out = new PrintWriter(new FileOutputStream(doc, true));
@@ -96,36 +170,112 @@ public class Utiles {
 		String cadena1 = subsecuencia.getCadena1();
 		String cadena2 = subsecuencia.getCadena2();
 		int[][] matriz = subsecuencia.getMatriz();
-		Div div;
+		Div div, div1, divSolSub;
 
 		// body = new Body();
 		div = new Div();
 		H3 titulo = new H3();
+		// titulo.setCSSClass("title");
 		int num = Problema.problemasGenerados.size();
-		titulo.appendText("Problema numero: " + num+1);
-		P parrafo = new P();
-		parrafo.appendText("Dadas dos cadenas " + cadena1 + " y " + cadena2 + ": <br> ");
-		parrafo.appendText("<br> Que produce la siguiente matriz:");
-		Table tabla = new Table();
-		for (int[] fila : matriz) {
-			Tr tr = new Tr();
-			for (int col : fila) {
-				Td td = new Td();
-				td.appendChild(new Text(col));
-				tr.appendChild(td);
-			}
-			tabla.appendChild(tr);
-		}
+		titulo.appendText("*** Problema " + num + ". Tipo: Subsecuencia común ***");
 		div.appendChild(titulo);
-		div.appendChild(parrafo);
-		div.appendChild(tabla);
-		P resultado = new P();
-		resultado.appendText("La subsecuencia común mas larga es: " + subsecuencia.getResult());
-		div.appendChild(resultado);		
-		
-		P semilla = new P();
-		semilla.appendText("La semilla de este problema es: " + subsecuencia.getSemilla());
-		div.appendChild(semilla);
+
+		div1 = new Div();
+		P parrafo = new P();
+		parrafo.setCSSClass("boldText");
+		parrafo.appendText("Dadas dos cadenas y una semilla:");
+
+		Table tablaSub = new Table();
+		// Cadena1
+		Tr trCad1 = new Tr();
+		Td td = new Td();
+		td.setCSSClass("variable");
+		td.setCSSClass("boldText");
+		td.appendChild(new Text("Cadena 1: "));
+		trCad1.appendChild(td);
+		String cad1 = "" + cadena1;
+		Td td1 = new Td();
+		td1.appendChild(new Text(cad1));
+		trCad1.appendChild(td1);
+
+		// Valores
+		Tr trCad2 = new Tr();
+		Td td3 = new Td();
+		td3.setCSSClass("variable");
+		td3.setCSSClass("boldText");
+		td3.appendChild(new Text("Cadena 2:"));
+		trCad2.appendChild(td3);
+		Td td4 = new Td();
+		String cad2 = "" + cadena2;
+		td4.appendChild(new Text(cad2));
+		trCad2.appendChild(td4);
+
+		// Semilla
+		Tr trSem = new Tr();
+		Td td5 = new Td();
+		td5.setCSSClass("variable");
+		td5.setCSSClass("boldText");
+		td5.appendChild(new Text("Semilla:"));
+		trSem.appendChild(td5);
+		Td td6 = new Td();
+		String semilla = "" + subsecuencia.getSemilla();
+		td6.appendChild(new Text(semilla));
+		trSem.appendChild(td6);
+
+		tablaSub.appendChild(trCad1);
+		tablaSub.appendChild(trCad2);
+		tablaSub.appendChild(trSem);
+
+		div1.appendChild(parrafo);
+		div1.appendChild(tablaSub);
+		div.appendChild(div1);
+
+		// Solucion
+		divSolSub = new Div();
+		P parrafo1 = new P();
+		parrafo1.setCSSClass("restitle");
+		parrafo1.appendText("Resultado: ");
+
+		Table tablaSub2 = new Table();
+		tablaSub2.setCSSClass("res");
+		Tr tr3 = new Tr();
+		Th th = new Th();
+		th.setCSSClass("black");
+		th.appendChild(new Text(""));
+		tr3.appendChild(th);
+		int i = 0;
+		for (int h : matriz[0]) {
+
+			Th th1 = new Th();
+			th1.appendChild(new Text(i));
+			tr3.appendChild(th1);
+			i++;
+		}
+		tablaSub2.appendChild(tr3);
+
+		int j = 0;
+		for (int[] fila : matriz) {
+			Tr tr4 = new Tr();
+			Td td2 = new Td();
+			td2.appendChild(new Text(j));
+			j++;
+			tr4.appendChild(td2);
+			for (int col : fila) {
+				td2 = new Td();
+				td2.appendChild(new Text(col));
+				tr4.appendChild(td2);
+			}
+			tablaSub2.appendChild(tr4);
+		}
+
+		P parrafoRes = new P();
+		parrafoRes.appendText("El resultado es: " + subsecuencia.getResult());
+
+		divSolSub.appendChild(parrafo1);
+		divSolSub.appendChild(tablaSub2);
+		divSolSub.appendChild(parrafoRes);
+		div.appendChild(divSolSub);
+
 		try {
 			File doc = new File(ruta);
 			PrintWriter out = new PrintWriter(new FileOutputStream(doc, true));
@@ -141,56 +291,138 @@ public class Utiles {
 		int numVertices = floyd.getNumVertices();
 		int[][] distancias = floyd.getDistancias();
 		int[][] matriz_resultado = floyd.getResultado();
-		Div div;
+		Div div, div1, div2;
 
 		// body = new Body();
 		div = new Div();
 		H3 titulo = new H3();
+//		titulo.setCSSClass("title");
 		int num = Problema.problemasGenerados.size();
-		titulo.appendText("Problema numero: " + num);
+		titulo.appendText("*** Problema " + num + ". Tipo: Floyd ***");
+		div.appendChild(titulo);
+
+		div1 = new Div();
 		P parrafo = new P();
-		parrafo.appendText("Si tenemos un grafo de " + numVertices + " vértices. Y con una matriz"
+		parrafo.setCSSClass("boldText");
+		parrafo.appendText("- Si tenemos un grafo de " + numVertices + " vértices. Y con una matriz"
 				+ " de costes como la siguiente:");
-		
-		Table dist = new Table();
+
+		Table tabla1 = new Table();
+
+		// Semilla
+		Tr tr2 = new Tr();
+		Td td5 = new Td();
+		td5.setCSSClass("variable");
+		td5.setCSSClass("boldText");
+		td5.appendChild(new Text("Semilla:"));
+		tr2.appendChild(td5);
+		Td td6 = new Td();
+		String semilla = "" + floyd.getSemilla();
+		td6.appendChild(new Text(semilla));
+		tr2.appendChild(td6);
+
+		tabla1.appendChild(tr2);
+
+		// Costes
+		P parrafo2 = new P();
+		parrafo2.setCSSClass("boldText");
+		parrafo2.appendText("Costes: ");
+
+		Table tabla2 = new Table();
+		tabla2.setCSSClass("res");
+		Tr tr3 = new Tr();
+		Th th = new Th();
+		th.setCSSClass("black");
+		th.appendChild(new Text(""));
+		tr3.appendChild(th);
+		int header = 1;
+		for (int h : distancias[0]) {
+			Th th1 = new Th();
+			th1.appendChild(new Text(header));
+			header++;
+			tr3.appendChild(th1);
+		}
+		tabla2.appendChild(tr3);
+
+		int header2 = 1;
 		for (int[] fila : distancias) {
 			Tr tr = new Tr();
+			Td td = new Td();
+			td.appendChild(new Text(header2));
+			header2++;
+			tr.appendChild(td);
 			for (int col : fila) {
-				Td td = new Td();
+				td = new Td();
 				if (col == Integer.MAX_VALUE)
 					td.appendChild(new Text("inf"));
 				else
 					td.appendChild(new Text(col));
 				tr.appendChild(td);
 			}
-			dist.appendChild(tr);
+			tabla2.appendChild(tr);
 		}
-		div.appendChild(titulo);
-		div.appendChild(parrafo);
-		div.appendChild(dist);
-		
-		P parrafo2 = new P();
-		parrafo2.appendText("<br>Rellena la siguiente matriz con las distancias mínimas desde un punto "
-				+ "a otro: <br>");
-		
+
+		div1.appendChild(parrafo);
+		div1.appendChild(tabla1);
+		div1.appendChild(parrafo2);
+		div1.appendChild(tabla2);
+		div.appendChild(div1);
+
+		// Solucion
+		div2 = new Div();
+		P parrafo1 = new P();
+		parrafo1.setCSSClass("restitle");
+		parrafo1.appendText("Resultado: ");
+
 		Table tablaRes = new Table();
-		for (int[] fila : matriz_resultado) {
-			Tr tr2 = new Tr();
-			for (int c : fila) {
-				Td td2 = new Td();
-				td2.appendChild(new Text(c));
-				tr2.appendChild(td2);
-			}
-			tablaRes.appendChild(tr2);
+		tablaRes.setCSSClass("res");
+		Tr tr4 = new Tr();
+		Th th4 = new Th();
+		th4.setCSSClass("black");
+		th4.appendChild(new Text(""));
+		tr4.appendChild(th);
+		int header3 = 1;
+		for (int h : matriz_resultado[0]) {
+			Th th1 = new Th();
+			th1.appendChild(new Text(header3));
+			header3++;
+			
+			tr4.appendChild(th1);
 		}
-		div.appendChild(parrafo2);
-		div.appendChild(tablaRes);
-		
-		P semilla = new P();
-		// semilla.appendText("La semilla de este problema es: " +
-		// viajante.getSemilla());
-		div.appendChild(semilla);
-		
+		tablaRes.appendChild(tr4);
+
+		int header4 = 1;
+		for (int[] fila : matriz_resultado) {
+			Tr tr = new Tr();
+			Td td = new Td();
+			td.appendChild(new Text(header4));
+			header4++;
+			tr.appendChild(td);
+			for (int col : fila) {
+				
+				td = new Td();
+				if (col == Integer.MAX_VALUE)
+					td.appendChild(new Text("-"));
+				else
+					td.appendChild(new Text(col));
+				tr.appendChild(td);
+			}
+			tablaRes.appendChild(tr);
+		}
+
+		div2.appendChild(parrafo1);
+		div2.appendChild(tablaRes);
+		div.appendChild(div2);
+
+		try {
+			File doc = new File(ruta);
+			PrintWriter out = new PrintWriter(new FileOutputStream(doc, true));
+			out.println(div.write());
+			out.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
 		try {
 			File doc = new File(ruta);
 			PrintWriter out = new PrintWriter(new FileOutputStream(doc, true));
@@ -201,23 +433,32 @@ public class Utiles {
 		}
 
 	}
- public static void cargarTextPane(JTextPane panel, String ruta) {
+
+	public static void cargarTextPane(JTextPane panel, String ruta) {
 		File file = new File(ruta);
 		try {
 			Document doc = panel.getDocument();
 			doc.putProperty(Document.StreamDescriptionProperty, null);
 			panel.setPage(file.toURI().toURL());
-			System.out.println("Refresca");
 		} catch (MalformedURLException e1) {
-			System.out.println("Vacio");
 		} catch (IOException e1) {
 			System.out.println("No hay nada");
 		}
 	}
 
-	public void setEstilo() {
+	public static void setEstilo() {
 		estilo = new HTMLEditorKit().getStyleSheet();
-		estilo.addRule("div {color: black;}");
+		estilo.addRule("div {color: black; padding: 0px 0px 20px 0px;}");
+		estilo.addRule("div > h3 {text-align: center;}");
+		estilo.addRule("table.res {margin-left: 50px; border: 1px solid black;}");
+		estilo.addRule(
+				"table.res > tbody > tr > td, , table.res > tbody > tr > th {text-align: center; border: 1px solid black; width: 25px; height: 25px;}");
+		estilo.addRule(".black {background-color:black}");
+		estilo.addRule(".variable {width: 80px !important;}");
+		estilo.addRule(".boldText {font-weight: bold;}");
+		estilo.addRule(".title {background-color: grey;color: white;}");
+		estilo.addRule(".restitle {color: dodgerblue;text-decoration: underline;font-weight: bold;}");
+		editor.setStyleSheet(estilo);
 	}
 
 	public static String getRuta() {
@@ -255,50 +496,102 @@ public class Utiles {
 	public static void añadirMatricesPanel(JTextPane textPaneResult, MultiplicaMatrices multiMatrices, String ruta) {
 		MultiplicaMatrices matrices = multiMatrices;
 		int numMatrices = matrices.getNumMatrices();
-		int [] dimensiones = matrices.getDimensiones();
+		int[] dim = matrices.getDimensiones();
 		int[][] matriz = matrices.getMatriz();
-		Div div;
+		Div div, div1, div2;
 
 		// body = new Body();
 		div = new Div();
 		H3 titulo = new H3();
+		// titulo.setCSSClass("title");
 		int num = Problema.problemasGenerados.size();
-		titulo.appendText("Problema numero: " + num+1);
-		P parrafo = new P();
-		parrafo.appendText("Teniendo " + numMatrices + " matrices encadenadas con los siguientes tamaños <br> ");
-		Table dim = new Table();
-		Tr trDim = new Tr();
-		for (int valor : dimensiones) {
-			Td td = new Td();
-			td.appendChild(new Text(valor));
-			trDim.appendChild(td);
-		}
-		dim.appendChild(trDim);
-		
-	
-		P parrafo2 = new P();
-		parrafo2.appendText("<br>Produce la siguiente matriz:");
-		Table tabla = new Table();
-		for (int[] fila : matriz) {
-			Tr tr = new Tr();
-			for (int col : fila) {
-				Td td = new Td();
-				if (col == 2147483647)
-					td.appendChild(new Text("-"));
-				else
-					td.appendChild(new Text(col));
-				tr.appendChild(td);
-			}
-			tabla.appendChild(tr);
-		}
+		titulo.appendText("*** Problema " + num + ". Tipo: Multiplica matrices ***");
 		div.appendChild(titulo);
-		div.appendChild(parrafo);
-		div.appendChild(dim);
-		div.appendChild(parrafo2);
-		div.appendChild(tabla);
-		P semilla = new P();
-		semilla.appendText("La semilla de este problema es: " + matrices.getSemilla());
-		div.appendChild(semilla);
+
+		div1 = new Div();
+		P parrafo = new P();
+		parrafo.setCSSClass("boldText");
+		parrafo.appendText("Teniendo " + numMatrices + " matrices encadenadas con los siguientes tamaños:");
+
+		Table tabla1 = new Table();
+		// Dimensiones
+		Tr tr = new Tr();
+		Td tdDim = new Td();
+		tdDim.setCSSClass("variable");
+		tdDim.setCSSClass("boldText");
+		tdDim.appendChild(new Text("Dimensiones:"));
+		tr.appendChild(tdDim);
+		Td td1 = new Td();
+		String dimensiones = "";
+		for (int i = 1; i < dim.length; i++) {
+			dimensiones = dimensiones + " " + dim[i - 1] + "x" + dim[i];
+		}
+		td1.appendChild(new Text(dimensiones));
+		tr.appendChild(td1);
+
+		// Semilla
+		Tr tr2 = new Tr();
+		Td td5 = new Td();
+		td5.setCSSClass("variable");
+		td5.setCSSClass("boldText");
+		td5.appendChild(new Text("Semilla:"));
+		tr2.appendChild(td5);
+		Td td6 = new Td();
+		String semilla = "" + matrices.getSemilla();
+		td6.appendChild(new Text(semilla));
+		tr2.appendChild(td6);
+
+		tabla1.appendChild(tr);
+		tabla1.appendChild(tr2);
+
+		div1.appendChild(parrafo);
+		div1.appendChild(tabla1);
+		div.appendChild(div1);
+
+		// Solucion
+		div2 = new Div();
+		P parrafo1 = new P();
+		parrafo1.setCSSClass("restitle");
+		parrafo1.appendText("Resultado: ");
+
+		Table tabla = new Table();
+		tabla.setCSSClass("res");
+		Tr tr3 = new Tr();
+		Th th = new Th();
+		th.setCSSClass("black");
+		th.appendChild(new Text(""));
+		tr3.appendChild(th);
+		int header = 1;
+		for (int h : matriz[0]) {
+			Th th1 = new Th();
+			th1.appendChild(new Text(header));
+			header++;
+			tr3.appendChild(th1);
+		}
+		tabla.appendChild(tr3);
+
+		int headerMat1 = 1;
+		for (int[] fila : matriz) {
+			Tr trMat1 = new Tr();
+			Td td2 = new Td();
+			td2.appendChild(new Text(headerMat1));
+			headerMat1++;
+			trMat1.appendChild(td2);
+			for (int col : fila) {
+				td2 = new Td();
+				if (col == 2147483647)
+					td2.appendChild(new Text("-"));
+				else
+					td2.appendChild(new Text(col));
+				trMat1.appendChild(td2);
+			}
+			tabla.appendChild(trMat1);
+		}
+
+		div2.appendChild(parrafo1);
+		div2.appendChild(tabla);
+		div.appendChild(div2);
+
 		try {
 			File doc = new File(ruta);
 			PrintWriter out = new PrintWriter(new FileOutputStream(doc, true));

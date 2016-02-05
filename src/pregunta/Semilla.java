@@ -30,6 +30,7 @@ public class Semilla {
 		if (tipo == "mochila"){
 			String formatvar1 = "000".substring(Integer.toString((int) var1).length()) + var1;
 			String formatvar2 = "000".substring(Integer.toString((int) var2).length()) + var2;
+
 			//String porcentaje = "000".substring(Integer.toString((int) pct).length()) + pct;
 			//Cogemos las 7 ultimas cifras del tiempo actual y se añaden a la semilla
 			String auxiliar = Long.toString(System.currentTimeMillis());

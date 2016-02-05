@@ -72,14 +72,7 @@ public class ExportarXml implements Exportar {
 	@Override
 	public void exportar(Pregunta pregunta, String path) {
 		try {
-			/*
-			 * DocumentBuilderFactory dbFactory =
-			 * DocumentBuilderFactory.newInstance(); DocumentBuilder dBuilder =
-			 * dbFactory.newDocumentBuilder(); doc = dBuilder.newDocument();
-			 * 
-			 * // root element Element quiz = (Element)
-			 * doc.createElement("quiz");
-			 */
+		
 			this.path = path;
 			Element question = (Element) doc.createElement("question");
 
@@ -91,17 +84,20 @@ public class ExportarXml implements Exportar {
 			// name element
 			Element name = doc.createElement("name");
 			Element textName = doc.createElement("text");
-			textName.setTextContent("Mochila" + pregunta.getTitulo() );
+			System.out.println("Titulo: " + pregunta.getTitulo());
+			textName.setTextContent(pregunta.getTitulo() );
 			name.appendChild(textName);
 			question.appendChild(name);
 
+			
 			// questiontext element
 			Element questionText = doc.createElement("questiontext");
 			Attr attr2 = doc.createAttribute("format");
 			attr2.setValue("HTML");
 			questionText.setAttributeNode(attr2);
+			
 			Element textQuestionText = doc.createElement("text");
-			textQuestionText.setTextContent(pregunta.getContenido());
+			textQuestionText.setTextContent(pregunta.getEnunciado() + "<br>" + pregunta.getContenido());
 			System.out.println("Contenido: " + pregunta.getContenido());
 			/*
 			 * String contenido = new String(pregunta.getContenido());

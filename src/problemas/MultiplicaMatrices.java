@@ -50,7 +50,7 @@ public class MultiplicaMatrices implements Problema {
 		dimensiones = new int[numMat + 1];
 		Semilla seed = new Semilla(numMat, 0, "matrices");
 		semilla = seed.getSeed();
-		initMatrices();
+	
 	}
 
 	public MultiplicaMatrices(int numMat, long sem) {

@@ -41,7 +41,6 @@ public class PrMochila extends PreguntaBuilder {
 
 		for (int[] f : matriz) {
 			for (int c : f) {
-				System.out.println("PORCENTAJE : " + pct + " < " + Math.random());
 				if (Math.random() >= pct) {
 					res = res + "<td>{1:NUMERICAL:=" + c + "} </td>";
 				} else {
@@ -51,8 +50,6 @@ public class PrMochila extends PreguntaBuilder {
 			res = res + "</tr>";
 		}
 		res = res + "</table>";
-
-		System.out.println("contenido: " + valores + pesos + res);
 		pregunta.setContenido(valores + pesos + res);
 
 	}
@@ -61,10 +58,10 @@ public class PrMochila extends PreguntaBuilder {
 		pregunta.setFeedback("Feedback de la pregunta 2 de tipo Mochila");
 	}
 
-	@Override
+
 	public void buildTitulo() {
 		String tipo = mochila.getTipo();
-		pregunta.setTitulo(tipo + mochila.getSemilla());
+		pregunta.setTitulo(tipo + " " + mochila.getSemilla());
 	}
 	
 

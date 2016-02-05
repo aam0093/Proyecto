@@ -54,11 +54,11 @@ public class MultiplicaMatricesFrame extends JFrame {
 	public MultiplicaMatricesFrame() {
 		setTitle("Problema Multiplicar Matrices");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(120,120,700,500);
+		setBounds(120,120,900,500);
 		
 		// content pane
 		Container cp = getContentPane();
-
+		cp.setPreferredSize(new Dimension(700,450));
 		// add a panel for the size
 		panelTitulo = new JPanel();
 		panelTitulo.setBorder(new EmptyBorder(5, 5, 5, 5));// adds margin to
@@ -68,6 +68,7 @@ public class MultiplicaMatricesFrame extends JFrame {
 		panelTitulo.setLayout(fl_panelTitulo);
 		JLabel lblNewLabel = new JLabel("Problema Multiplicar Matrices");
 		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 20));
+		lblNewLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		panelTitulo.add(lblNewLabel);
 
 		// añadir panel con parametros
@@ -116,7 +117,8 @@ public class MultiplicaMatricesFrame extends JFrame {
 		gbc_longCad1.gridy = 3;
 		panelAjustes.add(numNodos, gbc_longCad1);
 
-		JLabel lblPCT_Respuestas = new JLabel("PCT. Respuestas: ");
+		JLabel lblPCT_Respuestas = new JLabel("Porcentaje Respuestas: ");
+		lblPCT_Respuestas.setToolTipText("N\u00FAmero de inc\u00F3gnitas a resolver en la pregunta, 100 = matriz vac\u00EDa y 0 = matriz llena");
 		GridBagConstraints gbc_lblPCT_Respuestas = new GridBagConstraints();
 		gbc_lblPCT_Respuestas.fill = GridBagConstraints.BOTH;
 		gbc_lblPCT_Respuestas.insets = new Insets(0, 0, 0, 5);
@@ -128,6 +130,13 @@ public class MultiplicaMatricesFrame extends JFrame {
 		GridBagConstraints gbc_slider = new GridBagConstraints();
 		gbc_slider.gridx = 1;
 		gbc_slider.gridy = 5;
+		slider.setPaintTicks(true);
+		slider.setPaintLabels(true);
+		slider.setSnapToTicks(true);
+		slider.setPaintLabels(true);
+		slider.setMinorTickSpacing(1);
+		slider.setMajorTickSpacing(25);
+		slider.setPaintTicks(true);
 		panelAjustes.add(slider, gbc_slider);
 
 		
@@ -139,8 +148,6 @@ public class MultiplicaMatricesFrame extends JFrame {
 		textPaneResult.setEditable(false);
 		textPaneResult.setContentType("text/html");
 		textPaneResult.setEditorKit(utiles.Utiles.getEstilo());
-
-		utiles.Utiles.cargarTextPane(textPaneResult, "http://www.marca.com/");
 
 		JScrollPane scrollLista = new JScrollPane(textPaneResult);
 		scrollLista.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -161,14 +168,7 @@ public class MultiplicaMatricesFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				utiles.Utiles.borrarPanel(ruta);
-				// textPaneResult.update(textPaneResult.getGraphics());
-				File file = new File(ruta);
-				try {
-					textPaneResult.setPage(file.toURI().toURL());
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				textPaneResult.repaint();
+				textPaneResult.setText("");
 			}
 		});
 		btnLimpiar.setBounds(189, 326, 89, 23);
@@ -179,9 +179,8 @@ public class MultiplicaMatricesFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (btnExportar.isEnabled()) {
-					ExportarFrame recuperarFrame = new ExportarFrame(new MultiplicaMatrices(1), 1);
+					ExportarFrame recuperarFrame = new ExportarFrame(matrices, 1);
 					recuperarFrame.setVisible(true);
-					dispose();
 				}
 			}
 		});
@@ -196,8 +195,8 @@ public class MultiplicaMatricesFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					utiles.Utiles.cargarTextPane(textPaneResult, "");
-					textPaneResult.update(textPaneResult.getGraphics());
+				//	utiles.Utiles.cargarTextPane(textPaneResult, "");
+				//	textPaneResult.update(textPaneResult.getGraphics());
 
 					int cad1 = (int) numNodos.getValue();
 					int numProblemas = (int) spNumProb.getValue();

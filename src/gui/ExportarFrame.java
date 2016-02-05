@@ -288,13 +288,13 @@ public class ExportarFrame extends JFrame {
 		btnVer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (txtFSemilla.getText().isEmpty() || txtFSemilla.getText().length() != 15) {
+				if (txtFSemilla.getText().isEmpty() || txtFSemilla.getText().length() != 14) {
 					JOptionPane.showMessageDialog(new JFrame(), "Introduce un valor valido para la semilla", "Dialog",
 							JOptionPane.INFORMATION_MESSAGE);
 			//		txtFSemilla.setText("");
 				} else {
 					Problema p = recuperarProblema(txtFSemilla.getText().toString());
-					System.out.println("Problema;: " + p.getTipo());
+				
 					if (p.getTipo().equals(Problema.TIPO.MOCHILA.toString())) {
 						Knapsack mochila = (Knapsack) p;
 						mochila.execute();
@@ -317,10 +317,7 @@ public class ExportarFrame extends JFrame {
 						}
 					}
 					utiles.Utiles.cargarTextPane(textPane, rutaRecuperado);
-					if (JOptionPane.showConfirmDialog(null, "Desea Almacenar el Problema Recuperado?",
-							"QUESTION_MESSAGE", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-						Problema.problemasGenerados.add(p);
-					}
+					
 
 				}
 			}
@@ -380,29 +377,28 @@ public class ExportarFrame extends JFrame {
 	}
 
 	public Problema recuperarProblema(String seed) {
-		String tipo = seed.substring(0, 2);
+		String tipo = seed.substring(0, 1);
 
 		Problema problema = null;
-		if (tipo.equals("10")) {
-			int cantidad = Integer.parseInt(seed.substring(2, 5));
-			int num_elem = Integer.parseInt(seed.substring(5, 8));
-			System.out.println("Cantidad: " + cantidad + " - - " + "NumElemetos: " + num_elem);
+		if (tipo.equals("1")) {
+			int cantidad = Integer.parseInt(seed.substring(1, 4));
+			int num_elem = Integer.parseInt(seed.substring(4, 7));
+			
 			problema = new Knapsack(cantidad, num_elem, Long.valueOf(seed).longValue());
 			return problema;
 		}
-		if (tipo.equals("20")) {
-			int longcad1 = Integer.parseInt(seed.substring(2, 5));
-			int longcad2 = Integer.parseInt(seed.substring(5, 8));
+		if (tipo.equals("2")) {
+			int longcad1 = Integer.parseInt(seed.substring(1, 4));
+			int longcad2 = Integer.parseInt(seed.substring(4, 7));
 			problema = new SubsecuenciaComun(longcad1, longcad2, Long.valueOf(seed).longValue());
 			return problema;
 		}
-		if (tipo.equals("30")) {
+		if (tipo.equals("3")) {
 			problema = new Floyd(0);
 			return problema.recuperarProblema(seed);
 		}
-		if (tipo.equals("40")) {
-			System.out.println("entra matrices");
-			int numMat = Integer.parseInt(seed.substring(2, 5));
+		if (tipo.equals("4")) {
+			int numMat = Integer.parseInt(seed.substring(1, 4));
 			problema = new MultiplicaMatrices(numMat, Long.parseLong(seed));
 			return problema;
 		}

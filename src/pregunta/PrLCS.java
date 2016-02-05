@@ -17,13 +17,12 @@ public class PrLCS extends PreguntaBuilder {
 	
 	public void buildEnunciado() {
 		String encabezado = "";
-		encabezado = "Sean dos cadenas " +  subsecuencia.getCadena1() + " y " + subsecuencia.getCadena2() + 
-				"Que producen la siguiente Matriz: ";
+		encabezado = "Sean dos cadenas " +  subsecuencia.getCadena1() + " y " + subsecuencia.getCadena2();
 		pregunta.setEnunciado(encabezado);
 	}
 
 	public void buildContenido() {
-		String res = "<table><tr>";
+		String res = "Resuelve la matriz que forman y obten la subsecuencia común mas larga <br> <table><tr>";
 		int[][] matriz = subsecuencia.getMatriz();
 		double pct = subsecuencia.getPorcentaje();
 		pct = pct /100;
@@ -38,8 +37,9 @@ public class PrLCS extends PreguntaBuilder {
 			res = res + "</tr>";
 		}
 		res = res + "</table>";
+		String resultado = "<p>La subsecuemcia común más larga es: : {1:SHORTANSWER:=" +  subsecuencia.getResult() + "} </p>";
 		String semilla = "<p>La semilla de este problema es: " + subsecuencia.getSemilla();
-		pregunta.setContenido(res + semilla);
+		pregunta.setContenido(res + resultado + semilla);
 	}
 
 	public void buildFeedback() {
@@ -49,7 +49,7 @@ public class PrLCS extends PreguntaBuilder {
 	@Override
 	public void buildTitulo() {
 		String tipo = subsecuencia.getTipo();
-		pregunta.setTitulo(tipo + subsecuencia.getSemilla());
+		pregunta.setTitulo(tipo + " " +  subsecuencia.getSemilla());
 	}
 	
 }

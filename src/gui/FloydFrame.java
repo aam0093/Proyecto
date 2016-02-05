@@ -48,11 +48,11 @@ public class FloydFrame extends JFrame {
 	public FloydFrame() {
 		setTitle("Algoritmo de Floyd");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+		setBounds(120,120,900,500);
+		
 		// content pane
 		Container cp = getContentPane();
-		cp.setPreferredSize(new Dimension(700, 500));
-		cp.setBounds(new Rectangle(100,100));
+		cp.setPreferredSize(new Dimension(700, 450));
 		// add a panel for the size
 		panelTitulo = new JPanel();
 		panelTitulo.setBorder(new EmptyBorder(5, 5, 5, 5));// adds margin to
@@ -62,6 +62,7 @@ public class FloydFrame extends JFrame {
 		panelTitulo.setLayout(fl_panelTitulo);
 		JLabel lblNewLabel = new JLabel("Algoritmo de Floyd");
 		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 20));
+		lblNewLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		panelTitulo.add(lblNewLabel);
 
 		// añadir panel con parametros
@@ -74,7 +75,7 @@ public class FloydFrame extends JFrame {
 		gbl_panelAjustes.rowHeights = new int[] { 20, 50, 20, 50, 20, 50 };
 		panelAjustes.setLayout(gbl_panelAjustes);
 
-		JLabel lblNumProblemas = new JLabel("Numero de Problemas:");
+		JLabel lblNumProblemas = new JLabel("N\u00FAmero de Problemas:");
 		lblNumProblemas.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		GridBagConstraints gbc_lblNumProblemas = new GridBagConstraints();
 		// gbc_lblNumProblemas.fill = GridBagConstraints.BOTH;
@@ -92,7 +93,7 @@ public class FloydFrame extends JFrame {
 		gbc_spNumProb.gridy = 1;
 		panelAjustes.add(spNumProb, gbc_spNumProb);
 
-		JLabel lblNumNodos = new JLabel("Numero de Vertices: ");
+		JLabel lblNumNodos = new JLabel("N\u00FAmero de V\u00E9rtices: ");
 		GridBagConstraints gbc_lblLongCad1 = new GridBagConstraints();
 		gbc_lblLongCad1.fill = GridBagConstraints.BOTH;
 		gbc_lblLongCad1.insets = new Insets(0, 0, 5, 5);
@@ -109,7 +110,8 @@ public class FloydFrame extends JFrame {
 		gbc_longCad1.gridy = 3;
 		panelAjustes.add(numNodos, gbc_longCad1);
 
-		JLabel lblTipoProblema = new JLabel("Tipo de Problema: ");
+		JLabel lblTipoProblema = new JLabel("Porcentaje Respuestas");
+		lblTipoProblema.setToolTipText("N\u00FAmero de inc\u00F3gnitas a resolver en la pregunta, 100 = matriz vac\u00EDa y 0 = matriz llena");
 		GridBagConstraints gbc_lblTipoProblema = new GridBagConstraints();
 		gbc_lblTipoProblema.fill = GridBagConstraints.BOTH;
 		gbc_lblTipoProblema.insets = new Insets(0, 0, 0, 5);
@@ -121,6 +123,13 @@ public class FloydFrame extends JFrame {
 		GridBagConstraints gbc_slider = new GridBagConstraints();
 		gbc_slider.gridx = 1;
 		gbc_slider.gridy = 5;
+		slider.setPaintTicks(true);
+		slider.setPaintLabels(true);
+		slider.setSnapToTicks(true);
+		slider.setPaintLabels(true);
+		slider.setMinorTickSpacing(1);
+		slider.setMajorTickSpacing(25);
+		slider.setPaintTicks(true);
 		panelAjustes.add(slider, gbc_slider);
 
 		// ** Añadir panel Vista **
@@ -131,8 +140,6 @@ public class FloydFrame extends JFrame {
 		textPaneResult.setEditable(false);
 		textPaneResult.setContentType("text/html");
 		textPaneResult.setEditorKit(utiles.Utiles.getEstilo());
-
-		utiles.Utiles.cargarTextPane(textPaneResult, "http://www.marca.com/");
 
 		JScrollPane scrollLista = new JScrollPane(textPaneResult);
 		scrollLista.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -150,14 +157,7 @@ public class FloydFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				utiles.Utiles.borrarPanel(ruta);
-				// textPaneResult.update(textPaneResult.getGraphics());
-				File file = new File(ruta);
-				try {
-					textPaneResult.setPage(file.toURI().toURL());
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				textPaneResult.repaint();
+				textPaneResult.setText("");
 			}
 		});
 		btnLimpiar.setBounds(189, 326, 89, 23);
@@ -171,7 +171,7 @@ public class FloydFrame extends JFrame {
 				if (btnExportar.isEnabled()) {
 					ExportarFrame recuperarFrame = new ExportarFrame(new Floyd(1), 1);
 					recuperarFrame.setVisible(true);
-					dispose();
+					
 				}
 			}
 		});
@@ -186,7 +186,6 @@ public class FloydFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					utiles.Utiles.cargarTextPane(textPaneResult, "");
 					textPaneResult.update(textPaneResult.getGraphics());
 
 					int cad1 = (int) numNodos.getValue();
@@ -230,6 +229,9 @@ public class FloydFrame extends JFrame {
 		cp.add(panelTitulo, BorderLayout.NORTH);
 		cp.add(panelAjustes, BorderLayout.WEST);
 		cp.add(panelVista, BorderLayout.CENTER);
+		
+		JLabel lblVistaPreliminar = new JLabel("Vista Preliminar");
+		panelVista.add(lblVistaPreliminar, BorderLayout.NORTH);
 		cp.add(panelBotones, BorderLayout.SOUTH);
 		pack();
 		

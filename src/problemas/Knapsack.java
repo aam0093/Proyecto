@@ -9,6 +9,7 @@
  */
 package problemas;
 
+import java.util.List;
 import java.util.Random;
 import pregunta.Semilla;
 
@@ -99,10 +100,10 @@ public class Knapsack implements Problema {
 	 * @throws Exception
 	 */
 	public Knapsack(int capacidad, int elementos, long seed) {
-		System.out.println("Constructor con semilla: " + capacidad + " -- -" + elementos);
 		this.capacidad = capacidad;
 		this.numElements = elementos;
 		semilla = seed;
+		System.out.println("Semilla recibida: " + semilla);
 		weight = new int[numElements];
 		values = new int[numElements];
 		matriz = new int[numElements + 1][capacidad + 1];
@@ -283,7 +284,8 @@ public class Knapsack implements Problema {
 
 		return elem_elegidos;
 	}
-
+	
+	
 
 
 	

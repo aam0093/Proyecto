@@ -14,6 +14,7 @@ public class PreguntaDirector {
 	 
 	    public void construirPregunta() {
 	       preguntaBuilder.crearNuevaPregunta();
+	       preguntaBuilder.buildTitulo();
 	       preguntaBuilder.buildEnunciado();
 	       preguntaBuilder.buildContenido();
 	       preguntaBuilder.buildFeedback();

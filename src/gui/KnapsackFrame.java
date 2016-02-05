@@ -62,11 +62,11 @@ public class KnapsackFrame extends JFrame {
 	public KnapsackFrame() {
 		setTitle("Problema de la Mochila");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(120, 120, 700, 500);
+		setBounds(120,120,900,500);
 
 		// content pane
 		Container cp = getContentPane();
-		cp.setPreferredSize(new Dimension(600, 400));
+		cp.setPreferredSize(new Dimension(700, 450));
 		cp.setBounds(new Rectangle(120, 120));
 		cp.setLayout(new BorderLayout());
 
@@ -189,7 +189,7 @@ public class KnapsackFrame extends JFrame {
 		panelAjustes.add(tf_ValorMax, gbc_tf_ValorMax);
 		tf_ValorMax.setColumns(10);
 
-		JLabel lblPctRespuestas = new JLabel("PCT. Respuestas");
+		JLabel lblPctRespuestas = new JLabel("Porcentaje de Respuestas");
 		lblPctRespuestas.setToolTipText(
 				"N\u00FAmero de inc\u00F3gnitas a resolver en la pregunta, 100 = matriz vac\u00EDa y 0 = matriz llena");
 		GridBagConstraints gbc_lblPctRespuestas = new GridBagConstraints();
@@ -257,7 +257,7 @@ public class KnapsackFrame extends JFrame {
 				if (btnExportar.isEnabled()) {
 					ExportarFrame exportar = new ExportarFrame(mochila, 3);
 					exportar.setVisible(true);
-					dispose();
+					
 				}
 
 			}
