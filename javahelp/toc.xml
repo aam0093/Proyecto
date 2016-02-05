@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<toc version="1.0">
+   <tocitem text="Ejemplo JavaHelp" target="aplicacion">
+      <tocitem text="Ventana principal" target="inicio"/>
+      <tocitem text="Inicio" target="inicio"/>
+      <tocitem text="Mochila" target="mochila"/>
+      <tocitem text="Matrices" target="matrices"/>
+      <tocitem text="Subsecuencia Común Más Larga" target="subsecuencia"/>
+      <tocitem text="Exportar" target="exportar"/>
+      <tocitem text="Recuperar" target="recuperar"/>
+
+   </tocitem>
+</toc>

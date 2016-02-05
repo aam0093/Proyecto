@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE index
+PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Index Version 1.0//EN"
+"http://java.sun.com/products/javahelp/index_1_0.dtd">
+<index version="1.0">
+   <indexitem text="Indice" target="aplicacion"/>
+   <indexitem text="Inicio" target="ventana_principal"/>
+   <indexitem text="Problema de la Mochila" target="mochila"/>
+   <indexitem text="Subsecuencia Común Más Larga" target="subsecuencia"/>
+   <indexitem text="Floyd" target="floyd"/>
+   <indexitem text="Matrices" target="matrices"/>        
+   <indexitem text="Recuperar" target="recuperar"/> 
+   <indexitem text="Exportar" target="exportar"/>
+</index>
