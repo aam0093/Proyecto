@@ -43,7 +43,7 @@ public class PrLCS extends PreguntaBuilder {
 	}
 
 	public void buildFeedback() {
-		pregunta.setFeedback("Feedback de la pregunta 1 de tipo Mochila");
+		pregunta.setFeedback("http://lcs-demo.sourceforge.net/");
 	}
 	
 	@Override

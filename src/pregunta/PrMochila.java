@@ -55,7 +55,7 @@ public class PrMochila extends PreguntaBuilder {
 	}
 
 	public void buildFeedback() {
-		pregunta.setFeedback("Feedback de la pregunta 2 de tipo Mochila");
+		pregunta.setFeedback("http://karaffeltut.com/NEWKaraffeltutCom/Knapsack/knapsack.html");
 	}
 
 
