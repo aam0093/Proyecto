@@ -53,7 +53,7 @@ public class Utiles {
 		div = new Div();
 		H3 tituloMochila = new H3();
 		// tituloMochila.setCSSClass("title");
-		int num = Problema.problemasGenerados.size();
+		int num = Problema.PROBGENERADOS.size();
 		tituloMochila.appendText("*** Problema " + num + ". Tipo: Mochila ***");
 		div.appendChild(tituloMochila);
 
@@ -176,7 +176,7 @@ public class Utiles {
 		div = new Div();
 		H3 titulo = new H3();
 		// titulo.setCSSClass("title");
-		int num = Problema.problemasGenerados.size();
+		int num = Problema.PROBGENERADOS.size();
 		titulo.appendText("*** Problema " + num + ". Tipo: Subsecuencia común ***");
 		div.appendChild(titulo);
 
@@ -287,17 +287,19 @@ public class Utiles {
 	}
 
 	public static void añadirFloydPanel(JTextPane textPaneResult, Floyd fl, String ruta) {
+		System.out.println("ENTRA AQUI");
 		Floyd floyd = fl;
 		int numVertices = floyd.getNumVertices();
-		int[][] distancias = floyd.getDistancias();
-		int[][] matriz_resultado = floyd.getResultado();
-		Div div, div1, div2;
+		int[][] distancias = floyd.getGrafoInicial();
+		int[][] matrizResultado = floyd.getResultado();
+		int[][] caminos = floyd.getCaminos();
+		Div div, div1, div2, div3;
 
 		// body = new Body();
 		div = new Div();
 		H3 titulo = new H3();
 //		titulo.setCSSClass("title");
-		int num = Problema.problemasGenerados.size();
+		int num = Problema.PROBGENERADOS.size();
 		titulo.appendText("*** Problema " + num + ". Tipo: Floyd ***");
 		div.appendChild(titulo);
 
@@ -335,7 +337,7 @@ public class Utiles {
 		th.setCSSClass("black");
 		th.appendChild(new Text(""));
 		tr3.appendChild(th);
-		int header = 1;
+		char header = 'A';
 		for (int h : distancias[0]) {
 			Th th1 = new Th();
 			th1.appendChild(new Text(header));
@@ -344,7 +346,7 @@ public class Utiles {
 		}
 		tabla2.appendChild(tr3);
 
-		int header2 = 1;
+		char header2 = 'A';
 		for (int[] fila : distancias) {
 			Tr tr = new Tr();
 			Td td = new Td();
@@ -381,8 +383,8 @@ public class Utiles {
 		th4.setCSSClass("black");
 		th4.appendChild(new Text(""));
 		tr4.appendChild(th);
-		int header3 = 1;
-		for (int h : matriz_resultado[0]) {
+		char header3 = 'A';
+		for (int h : matrizResultado[0]) {
 			Th th1 = new Th();
 			th1.appendChild(new Text(header3));
 			header3++;
@@ -391,8 +393,8 @@ public class Utiles {
 		}
 		tablaRes.appendChild(tr4);
 
-		int header4 = 1;
-		for (int[] fila : matriz_resultado) {
+		char header4 = 'A';
+		for (int[] fila : matrizResultado) {
 			Tr tr = new Tr();
 			Td td = new Td();
 			td.appendChild(new Text(header4));
@@ -401,7 +403,7 @@ public class Utiles {
 			for (int col : fila) {
 				
 				td = new Td();
-				if (col == Integer.MAX_VALUE)
+				if (col == 9999)
 					td.appendChild(new Text("-"));
 				else
 					td.appendChild(new Text(col));
@@ -414,6 +416,50 @@ public class Utiles {
 		div2.appendChild(tablaRes);
 		div.appendChild(div2);
 
+		// caminos
+				div3 = new Div();
+				P parrafo3 = new P();
+				parrafo3.setCSSClass("restitle");
+				parrafo3.appendText("Caminos: ");
+
+				Table tablaCaminos = new Table();
+				tablaCaminos.setCSSClass("res");
+				Tr tr5 = new Tr();
+				Th th5 = new Th();
+				th5.setCSSClass("black");
+				th5.appendChild(new Text(""));
+				tr5.appendChild(th);
+				char header5 = 'A';
+				for (int h : caminos[0]) {
+					Th th1 = new Th();
+					th1.appendChild(new Text(header5));
+					header5++;
+					
+					tr5.appendChild(th1);
+				}
+				tablaCaminos.appendChild(tr5);
+
+				char header6 = 'A';
+				for (int[] fila : caminos) {
+					Tr tr = new Tr();
+					Td td = new Td();
+					td.appendChild(new Text(header6));
+					header6++;
+					tr.appendChild(td);
+					for (int col : fila) {
+						td = new Td();
+						if (col == 9999)
+							td.appendChild(new Text("-"));
+						else
+							td.appendChild(new Text(col));
+						tr.appendChild(td);
+					}
+					tablaCaminos.appendChild(tr);
+				}
+
+				div3.appendChild(parrafo3);
+				div3.appendChild(tablaCaminos);
+				div.appendChild(div3);
 		try {
 			File doc = new File(ruta);
 			PrintWriter out = new PrintWriter(new FileOutputStream(doc, true));
@@ -423,74 +469,15 @@ public class Utiles {
 			e.printStackTrace();
 		}
 
-		try {
-			File doc = new File(ruta);
-			PrintWriter out = new PrintWriter(new FileOutputStream(doc, true));
-			out.println(div.write());
-			out.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			File doc = new File(ruta);
+//			PrintWriter out = new PrintWriter(new FileOutputStream(doc, true));
+//			out.println(div.write());
+//			out.close();
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
 
-	}
-
-	public static void cargarTextPane(JTextPane panel, String ruta) {
-		File file = new File(ruta);
-		try {
-			Document doc = panel.getDocument();
-			doc.putProperty(Document.StreamDescriptionProperty, null);
-			panel.setPage(file.toURI().toURL());
-		} catch (MalformedURLException e1) {
-		} catch (IOException e1) {
-			System.out.println("No hay nada");
-		}
-	}
-
-	public static void setEstilo() {
-		estilo = new HTMLEditorKit().getStyleSheet();
-		estilo.addRule("div {color: black; padding: 0px 0px 20px 0px;}");
-		estilo.addRule("div > h3 {text-align: center;}");
-		estilo.addRule("table.res {margin-left: 50px; border: 1px solid black;}");
-		estilo.addRule(
-				"table.res > tbody > tr > td, , table.res > tbody > tr > th {text-align: center; border: 1px solid black; width: 25px; height: 25px;}");
-		estilo.addRule(".black {background-color:black}");
-		estilo.addRule(".variable {width: 80px !important;}");
-		estilo.addRule(".boldText {font-weight: bold;}");
-		estilo.addRule(".title {background-color: grey;color: white;}");
-		estilo.addRule(".restitle {color: dodgerblue;text-decoration: underline;font-weight: bold;}");
-		editor.setStyleSheet(estilo);
-	}
-
-	public static String getRuta() {
-		return RUTA;
-	}
-
-	public static String getRutaRecuperado() {
-		return RUTARECUPERADO;
-	}
-
-	public static HTMLEditorKit getEstilo() {
-		estilo = editor.getStyleSheet();
-		estilo.addRule("div {color: black;}");
-		estilo.addRule("div {font-weight: bold;");
-		return editor;
-	}
-
-	public static File borrarPanel(String ruta) {
-		File tempFich = new File(ruta);
-		tempFich.delete();
-		return tempFich;
-	}
-
-	public static void setSistemaOperativo(String sistema) {
-		if (sistema.startsWith("Linux")) {
-			RUTA = ".\\DocInterno.html";
-			RUTARECUPERADO = ".\\DocRecuperado.html";
-		}
-		if (sistema.startsWith("Windows")) {
-			RUTA = "./DocInterno.html";
-			RUTARECUPERADO = "./DocRecuperado.html";
-		}
 	}
 
 	public static void añadirMatricesPanel(JTextPane textPaneResult, MultiplicaMatrices multiMatrices, String ruta) {
@@ -504,7 +491,7 @@ public class Utiles {
 		div = new Div();
 		H3 titulo = new H3();
 		// titulo.setCSSClass("title");
-		int num = Problema.problemasGenerados.size();
+		int num = Problema.PROBGENERADOS.size();
 		titulo.appendText("*** Problema " + num + ". Tipo: Multiplica matrices ***");
 		div.appendChild(titulo);
 
@@ -602,5 +589,71 @@ public class Utiles {
 		}
 
 	}
+	
+	public static void cargarTextPane(JTextPane panel, String ruta) {
+		File file = new File(ruta);
+		try {
+			Document doc = panel.getDocument();
+			doc.putProperty(Document.StreamDescriptionProperty, null);
+			panel.setPage(file.toURI().toURL());
+		} catch (MalformedURLException e1) {
+		} catch (IOException e1) {
+			System.out.println("No hay nada");
+		}
+	}
+
+	public static void setEstilo() {
+		estilo = new HTMLEditorKit().getStyleSheet();
+		estilo.addRule("div {color: black; padding: 0px 0px 20px 0px;}");
+		estilo.addRule("div > h3 {text-align: center;}");
+		estilo.addRule("table.res {margin-left: 50px; border: 1px solid black;}");
+		estilo.addRule(
+				"table.res > tbody > tr > td, , table.res > tbody > tr > th {text-align: center; border: 1px solid black; width: 25px; height: 25px;}");
+		estilo.addRule(".black {background-color:black}");
+		estilo.addRule(".variable {width: 80px !important;}");
+		estilo.addRule(".boldText {font-weight: bold;}");
+		estilo.addRule(".title {background-color: grey;color: white;}");
+		estilo.addRule(".restitle {color: dodgerblue;text-decoration: underline;font-weight: bold;}");
+		editor.setStyleSheet(estilo);
+	}
+
+	public static String getRuta() {
+		return RUTA;
+	}
+
+	public static String getRutaRecuperado() {
+		return RUTARECUPERADO;
+	}
+
+	public static HTMLEditorKit getEstilo() {
+		estilo = editor.getStyleSheet();
+		estilo.addRule("div {color: black;}");
+		estilo.addRule("div {font-weight: bold;");
+		return editor;
+	}
+
+	public static File borrarPanel(String ruta) {
+		File tempFich = new File(ruta);
+		System.out.println(tempFich.exists());
+		try{
+			System.out.println(tempFich.delete());
+			tempFich.delete();
+		}catch (Exception e){
+			System.out.println(e.getMessage());
+		}
+		return tempFich;
+	}
+
+	public static void setSistemaOperativo(String sistema) {
+		if (sistema.startsWith("Linux")) {
+			RUTA = ".\\DocInterno.html";
+			RUTARECUPERADO = ".\\DocRecuperado.html";
+		}
+		if (sistema.startsWith("Windows")) {
+			RUTA = "./DocInterno.html";
+			RUTARECUPERADO = "./DocRecuperado.html";
+		}
+	}
+
 
 }

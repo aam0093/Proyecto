@@ -12,10 +12,12 @@ import problemas.Problema;
  */
 
 public class Pregunta {
+	private int id = 0;
 	private String titulo = "";
 	private String enunciado = "";
 	private String contenido = "";
 	private String respuesta = "";
+	private String resultado = "";
 	private String feedback = "";
 
 	public void setTitulo(String titulo) {
@@ -32,6 +34,10 @@ public class Pregunta {
 
 	public void setRespuesta(String respuesta) {
 		this.respuesta = respuesta;
+	}
+	
+	public void setResultado(String resultado) {
+		this.resultado = resultado;
 	}
 
 	public void setFeedback(String feedback) {
@@ -56,6 +62,10 @@ public class Pregunta {
 
 	public String getFeedback() {
 		return feedback;
+	}
+
+	public String getResultado() {
+		return resultado;
 	}
 
 	/*

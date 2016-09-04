@@ -9,11 +9,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,7 +29,9 @@ import problemas.Problema;
 import javax.swing.JSlider;
 
 /**
- * Esta clase define la interfaz con la que se generaran los problemas de Multiplicacion Encadenada de Matrices
+ * Esta clase define la interfaz con la que se generaran los problemas de
+ * Multiplicacion Encadenada de Matrices
+ * 
  * @author: Asier Alonso Morante
  * @version: 20/01/2016/A
  */
@@ -42,94 +41,97 @@ public class MultiplicaMatricesFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	// butimport javax.swing.border.*;tons
+
 	private JPanel panelTitulo;
 	private JPanel panelAjustes;
 	private JPanel panelVista;
 	private JPanel panelBotones;
+	private JTextPane textPaneResult;
+	private JScrollPane scrollLista;
 	MultiplicaMatrices matrices;
 	String ruta = utiles.Utiles.getRuta();
 
 	// constructor
 	public MultiplicaMatricesFrame() {
 		setTitle("Problema Multiplicar Matrices");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(120,120,900,500);
-		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(120, 120, 900, 500);
+
 		// content pane
-		Container cp = getContentPane();
-		cp.setPreferredSize(new Dimension(700,450));
-		// add a panel for the size
+		Container contentPane = getContentPane();
+		contentPane.setPreferredSize(new Dimension(700, 450));
+
+		// ** Panel Título **
 		panelTitulo = new JPanel();
 		panelTitulo.setBorder(new EmptyBorder(5, 5, 5, 5));// adds margin to
 															// panel
-		FlowLayout fl_panelTitulo = new FlowLayout();
-		fl_panelTitulo.setAlignment(FlowLayout.LEFT);
-		panelTitulo.setLayout(fl_panelTitulo);
+		FlowLayout flPanelTitulo = new FlowLayout();
+		flPanelTitulo.setAlignment(FlowLayout.LEFT);
+		panelTitulo.setLayout(flPanelTitulo);
 		JLabel lblNewLabel = new JLabel("Problema Multiplicar Matrices");
 		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 20));
 		lblNewLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		panelTitulo.add(lblNewLabel);
 
-		// añadir panel con parametros
+		// ** Añadir panel Ajustes
 		panelAjustes = new JPanel();
 		panelAjustes.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		SpinnerNumberModel m_numberSpinnerModel = new SpinnerNumberModel(1, 1, 3, 1);
+		GridBagLayout gblPanelAjustes = new GridBagLayout();
+		gblPanelAjustes.columnWidths = new int[] { 115, 85 };
+		gblPanelAjustes.rowHeights = new int[] { 20, 50, 20, 50, 20, 50 };
+		panelAjustes.setLayout(gblPanelAjustes);
 
-		GridBagLayout gbl_panelAjustes = new GridBagLayout();
-		gbl_panelAjustes.columnWidths = new int[] { 115, 85 };
-		gbl_panelAjustes.rowHeights = new int[] { 20, 50, 20, 50, 20, 50 };
-		panelAjustes.setLayout(gbl_panelAjustes);
-
-		JLabel lblNumProblemas = new JLabel("Numero de Problemas:");
+		JLabel lblNumProblemas = new JLabel("N\u00FAmero de Problemas:");
 		lblNumProblemas.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-		GridBagConstraints gbc_lblNumProblemas = new GridBagConstraints();
+		GridBagConstraints gbcLblNumProb = new GridBagConstraints();
+		gbcLblNumProb.anchor = GridBagConstraints.WEST;
 		// gbc_lblNumProblemas.fill = GridBagConstraints.BOTH;
-		gbc_lblNumProblemas.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNumProblemas.gridx = 0;
-		gbc_lblNumProblemas.gridy = 1;
-		panelAjustes.add(lblNumProblemas, gbc_lblNumProblemas);
+		gbcLblNumProb.insets = new Insets(0, 0, 5, 5);
+		gbcLblNumProb.gridx = 0;
+		gbcLblNumProb.gridy = 1;
+		panelAjustes.add(lblNumProblemas, gbcLblNumProb);
 
 		final JSpinner spNumProb = new JSpinner();
 		spNumProb.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		spNumProb.setSize(new Dimension(5, 5));
-		GridBagConstraints gbc_spNumProb = new GridBagConstraints();
-		gbc_spNumProb.insets = new Insets(0, 0, 5, 0);
-		gbc_spNumProb.gridx = 1;
-		gbc_spNumProb.gridy = 1;
-		panelAjustes.add(spNumProb, gbc_spNumProb);
+		GridBagConstraints gbcSpNumProb = new GridBagConstraints();
+		gbcSpNumProb.insets = new Insets(0, 0, 5, 0);
+		gbcSpNumProb.gridx = 1;
+		gbcSpNumProb.gridy = 1;
+		panelAjustes.add(spNumProb, gbcSpNumProb);
 
-		JLabel lblNumMatrices = new JLabel("Numero de Matrices:");
-		GridBagConstraints gbc_lblNumMatrices = new GridBagConstraints();
-		gbc_lblNumMatrices.fill = GridBagConstraints.BOTH;
-		gbc_lblNumMatrices.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNumMatrices.gridx = 0;
-		gbc_lblNumMatrices.gridy = 3;
-		panelAjustes.add(lblNumMatrices, gbc_lblNumMatrices);
+		JLabel lblNumMatrices = new JLabel("N\u00FAmero de Matrices:");
+		GridBagConstraints gbcLblNumMatrices = new GridBagConstraints();
+		gbcLblNumMatrices.fill = GridBagConstraints.BOTH;
+		gbcLblNumMatrices.insets = new Insets(0, 0, 5, 5);
+		gbcLblNumMatrices.gridx = 0;
+		gbcLblNumMatrices.gridy = 3;
+		panelAjustes.add(lblNumMatrices, gbcLblNumMatrices);
 
 		final JSpinner numNodos = new JSpinner();
 		numNodos.setModel(new SpinnerNumberModel(new Integer(2), new Integer(2), null, new Integer(1)));
 		numNodos.setMaximumSize(new Dimension(40, 20));
-		GridBagConstraints gbc_longCad1 = new GridBagConstraints();
-		gbc_longCad1.insets = new Insets(0, 0, 5, 0);
-		gbc_longCad1.gridx = 1;
-		gbc_longCad1.gridy = 3;
-		panelAjustes.add(numNodos, gbc_longCad1);
+		GridBagConstraints gbcLongCad1 = new GridBagConstraints();
+		gbcLongCad1.insets = new Insets(0, 0, 5, 0);
+		gbcLongCad1.gridx = 1;
+		gbcLongCad1.gridy = 3;
+		panelAjustes.add(numNodos, gbcLongCad1);
 
-		JLabel lblPCT_Respuestas = new JLabel("Porcentaje Respuestas: ");
-		lblPCT_Respuestas.setToolTipText("N\u00FAmero de inc\u00F3gnitas a resolver en la pregunta, 100 = matriz vac\u00EDa y 0 = matriz llena");
-		GridBagConstraints gbc_lblPCT_Respuestas = new GridBagConstraints();
-		gbc_lblPCT_Respuestas.fill = GridBagConstraints.BOTH;
-		gbc_lblPCT_Respuestas.insets = new Insets(0, 0, 0, 5);
-		gbc_lblPCT_Respuestas.gridx = 0;
-		gbc_lblPCT_Respuestas.gridy = 5;
-		panelAjustes.add(lblPCT_Respuestas, gbc_lblPCT_Respuestas);
+		JLabel lblPCTRespuestas = new JLabel("Porcentaje Respuestas: ");
+		lblPCTRespuestas.setToolTipText(
+				"N\u00FAmero de inc\u00F3gnitas resueltas de la pregunta, 100 = matriz resuelta y 0 = matriz vac\u00EDa");
+		GridBagConstraints gbcLblPCTRespuestas = new GridBagConstraints();
+		gbcLblPCTRespuestas.fill = GridBagConstraints.BOTH;
+		gbcLblPCTRespuestas.insets = new Insets(0, 0, 0, 5);
+		gbcLblPCTRespuestas.gridx = 0;
+		gbcLblPCTRespuestas.gridy = 5;
+		panelAjustes.add(lblPCTRespuestas, gbcLblPCTRespuestas);
 
 		final JSlider slider = new JSlider();
-		GridBagConstraints gbc_slider = new GridBagConstraints();
-		gbc_slider.gridx = 1;
-		gbc_slider.gridy = 5;
+		GridBagConstraints gbcSlider = new GridBagConstraints();
+		gbcSlider.gridx = 1;
+		gbcSlider.gridy = 5;
 		slider.setPaintTicks(true);
 		slider.setPaintLabels(true);
 		slider.setSnapToTicks(true);
@@ -137,26 +139,29 @@ public class MultiplicaMatricesFrame extends JFrame {
 		slider.setMinorTickSpacing(1);
 		slider.setMajorTickSpacing(25);
 		slider.setPaintTicks(true);
-		panelAjustes.add(slider, gbc_slider);
+		panelAjustes.add(slider, gbcSlider);
 
-		
 		// ** Añadir panel Vista **
 		panelVista = new JPanel();
 		panelVista.setBorder(new EmptyBorder(5, 5, 5, 5));// adds margin to
 
-		final JTextPane textPaneResult = new JTextPane();
+		textPaneResult = new JTextPane();
 		textPaneResult.setEditable(false);
 		textPaneResult.setContentType("text/html");
 		textPaneResult.setEditorKit(utiles.Utiles.getEstilo());
 
-		JScrollPane scrollLista = new JScrollPane(textPaneResult);
+		scrollLista = new JScrollPane(textPaneResult);
 		scrollLista.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollLista.setBounds(243, 75, 331, 227);
 		panelVista.setLayout(new BorderLayout());
-		
-		JLabel lblNewLabel_1 = new JLabel("Vista Preeliminar");
-		panelVista.add(lblNewLabel_1, BorderLayout.NORTH);
+
+		JLabel lblNewLabel1 = new JLabel("Vista Preeliminar");
+		panelVista.add(lblNewLabel1, BorderLayout.NORTH);
 		panelVista.add(scrollLista, BorderLayout.CENTER);
+
+		if (!Problema.PROBGENERADOS.isEmpty()) {
+			utiles.Utiles.cargarTextPane(textPaneResult, ruta);
+		}
 
 		// ** Añadir panel Botones **
 		panelBotones = new JPanel();
@@ -184,19 +189,19 @@ public class MultiplicaMatricesFrame extends JFrame {
 				}
 			}
 		});
-		if (!Problema.problemasGenerados.isEmpty()) {
+		if (!Problema.PROBGENERADOS.isEmpty()) {
 			btnExportar.setEnabled(true);
 		} else {
 			btnExportar.setEnabled(false);
 		}
 
-		JButton btn_Generar = new JButton("Generar");
-		btn_Generar.addMouseListener(new MouseAdapter() {
+		JButton btnGenerar = new JButton("Generar");
+		btnGenerar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-				//	utiles.Utiles.cargarTextPane(textPaneResult, "");
-				//	textPaneResult.update(textPaneResult.getGraphics());
+					// utiles.Utiles.cargarTextPane(textPaneResult, "");
+					// textPaneResult.update(textPaneResult.getGraphics());
 
 					int cad1 = (int) numNodos.getValue();
 					int numProblemas = (int) spNumProb.getValue();
@@ -204,25 +209,30 @@ public class MultiplicaMatricesFrame extends JFrame {
 						matrices = new MultiplicaMatrices(cad1);
 						matrices.execute();
 						matrices.setPorcentaje((int) slider.getValue());
-						Problema.problemasGenerados.add(matrices);
+						System.out.println("matriz ay mai: " + matrices.getResultado());
+						Problema.PROBGENERADOS.add(matrices);
 						utiles.Utiles.añadirMatricesPanel(textPaneResult, matrices, ruta);
-
 					}
+//					MultiplicaMatrices m1 = (MultiplicaMatrices) Problema.PROBGENERADOS.get(0);
+//					MultiplicaMatrices m2 = (MultiplicaMatrices) Problema.PROBGENERADOS.get(1);
+//					MultiplicaMatrices m3 = (MultiplicaMatrices) Problema.PROBGENERADOS.get(2);
+//					System.out.println("m1: " + m1.getResultado());
+//					System.out.println("m2: " + m2.getResultado());
+//					System.out.println("m3: " + m3.getResultado());
 					utiles.Utiles.cargarTextPane(textPaneResult, ruta);
 					
 					if (!btnExportar.isEnabled()) {
 						btnExportar.setEnabled(true);
 					}
 				} catch (NumberFormatException e) {
-					System.out.println(e.toString());
 					JOptionPane.showMessageDialog(new JFrame(), "Faltan datos por introducir", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
 		});
-		btn_Generar.setBounds(287, 326, 89, 23);
-		panelBotones.add(btn_Generar);
+		btnGenerar.setBounds(287, 326, 89, 23);
+		panelBotones.add(btnGenerar);
 
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addMouseListener(new MouseAdapter() {
@@ -235,11 +245,11 @@ public class MultiplicaMatricesFrame extends JFrame {
 		panelBotones.add(btnExportar);
 		panelBotones.add(btnCancelar);
 
-		cp.setLayout(new BorderLayout());
-		cp.add(panelTitulo, BorderLayout.NORTH);
-		cp.add(panelAjustes, BorderLayout.WEST);
-		cp.add(panelVista, BorderLayout.CENTER);
-		cp.add(panelBotones, BorderLayout.SOUTH);
+		contentPane.setLayout(new BorderLayout());
+		contentPane.add(panelTitulo, BorderLayout.NORTH);
+		contentPane.add(panelAjustes, BorderLayout.WEST);
+		contentPane.add(panelVista, BorderLayout.CENTER);
+		contentPane.add(panelBotones, BorderLayout.SOUTH);
 		pack();
 	}
 

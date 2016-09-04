@@ -8,17 +8,15 @@ public class PrMatrices extends PreguntaBuilder {
 
 	public PrMatrices(MultiplicaMatrices m) {
 		matrices = m;
-		int [][] matriz = m.getMatriz();
-		
 	}	
-
+	
 	@Override
 	public void buildEnunciado() {
 		String encabezado = "";
 		String dimensiones = "<table>";
 		int[] dim = matrices.getDimensiones();
 		encabezado = "<p>Dadas " + matrices.getNumMatrices()
-				+ " matrices con las siguientes dimensiones (la segunda dimensión de la matriz"
+				+ " matrices con las siguientes dimensiones (la segunda dimensión de la matriz "
 				+ "corresponde con la primera de la matriz siguiente). </p> ";
 
 		for (int i = 1; i < dim.length ; i++) {
@@ -32,14 +30,11 @@ public class PrMatrices extends PreguntaBuilder {
 
 	@Override
 	public void buildContenido() {
-		String res = "<p>Rellena la matriz que produce la multiplicación de dichas matrices </p> <table><tr>";
+		String res ="";
+		res = res + "<p>Rellena la matriz que produce la multiplicación de dichas matrices </p> <table><tr>";
 		int[][] matriz = matrices.getMatriz();
 		double pct = matrices.getPorcentaje();
-		for (int fila[] : matriz){
-			for (int c : fila){
-				System.out.println("Matriz: " + c);
-			}
-		}
+		
 		pct = pct /100;
 		for (int[] f : matriz) {
 			for (int c : f) {
@@ -80,6 +75,12 @@ public class PrMatrices extends PreguntaBuilder {
 	public void buildTitulo() {
 		String tipo = matrices.getTipo();
 		pregunta.setTitulo(tipo + " " +  matrices.getSemilla());
+	}
+
+	@Override
+	public void buildRespuesta() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

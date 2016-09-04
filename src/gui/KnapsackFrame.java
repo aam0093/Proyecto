@@ -3,9 +3,6 @@ package gui;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -20,17 +17,11 @@ import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultStyledDocument;
-import javax.swing.text.Document;
 
 import problemas.Knapsack;
 import problemas.Problema;
-import javax.swing.JToolBar;
-import javax.swing.JToggleButton;
 import javax.swing.JSlider;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
+
 
 /**
  * Esta clase define la interfaz con la que se generaran los problemas del tipo
@@ -45,7 +36,7 @@ public class KnapsackFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	// butimport javax.swing.border.*;tons
+	
 	private JPanel panelTitulo;
 	private JPanel panelAjustes;
 	private JPanel panelVista;
@@ -53,8 +44,8 @@ public class KnapsackFrame extends JFrame {
 	Knapsack subsecuencia;
 	String ruta = utiles.Utiles.getRuta();
 	Knapsack mochila;
-	JTextField tf_PesoMax;
-	private JTextField tf_ValorMax;
+	JTextField tfPesoMax;
+	private JTextField tfValorMax;
 	private JTextPane textPaneResult;
 	private JScrollPane scrollLista;
 
@@ -74,9 +65,9 @@ public class KnapsackFrame extends JFrame {
 		panelTitulo = new JPanel();
 		panelTitulo.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		FlowLayout fl_panelTitulo = new FlowLayout();
-		fl_panelTitulo.setAlignment(FlowLayout.LEFT);
-		panelTitulo.setLayout(fl_panelTitulo);
+		FlowLayout flPanelTitulo = new FlowLayout();
+		flPanelTitulo.setAlignment(FlowLayout.LEFT);
+		panelTitulo.setLayout(flPanelTitulo);
 		JLabel lblNewLabel = new JLabel("Problema de la Mochila");
 		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 20));
 		panelTitulo.add(lblNewLabel);
@@ -87,117 +78,118 @@ public class KnapsackFrame extends JFrame {
 		panelAjustes = new JPanel();
 		panelAjustes.setBorder(new EmptyBorder(5, 15, 5, 5));
 
-		GridBagLayout gbl_panelAjustes = new GridBagLayout();
-		gbl_panelAjustes.columnWidths = new int[] { 115, 85 };
-		gbl_panelAjustes.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-		gbl_panelAjustes.columnWeights = new double[] { 0.0, 0.0 };
-		gbl_panelAjustes.rowHeights = new int[] { 30, 0, 30, 0, 25, 0, 25, 0, 0, 24, 25 };
-		panelAjustes.setLayout(gbl_panelAjustes);
+		GridBagLayout gblPanelAjustes = new GridBagLayout();
+		gblPanelAjustes.columnWidths = new int[] { 115, 0, 85 };
+		gblPanelAjustes.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+		gblPanelAjustes.columnWeights = new double[] { 0.0, 1.0, 0.0 };
+		gblPanelAjustes.rowHeights = new int[] { 30, 0, 30, 0, 25, 0, 25, 0, 0, 24, 25 };
+		panelAjustes.setLayout(gblPanelAjustes);
 
-		JLabel lblNumProblemas = new JLabel("Numero de Problemas: ");
-		GridBagConstraints gbc_lblNumProblemas = new GridBagConstraints();
-		gbc_lblNumProblemas.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNumProblemas.gridx = 0;
-		gbc_lblNumProblemas.gridy = 0;
-		panelAjustes.add(lblNumProblemas, gbc_lblNumProblemas);
+		JLabel lblNumProblemas = new JLabel("N\u00FAmero de Problemas: ");
+		GridBagConstraints gbcLblNumProblemas = new GridBagConstraints();
+		gbcLblNumProblemas.anchor = GridBagConstraints.WEST;
+		gbcLblNumProblemas.insets = new Insets(0, 0, 5, 5);
+		gbcLblNumProblemas.gridx = 0;
+		gbcLblNumProblemas.gridy = 0;
+		panelAjustes.add(lblNumProblemas, gbcLblNumProblemas);
 
 		final JSpinner spNumProb = new JSpinner();
 		spNumProb.setModel(new SpinnerNumberModel(new Integer(1), new Integer(0), null, new Integer(1)));
 		spNumProb.setSize(new Dimension(5, 5));
-		GridBagConstraints gbc_spNumProb = new GridBagConstraints();
-		gbc_spNumProb.anchor = GridBagConstraints.WEST;
-		gbc_spNumProb.insets = new Insets(0, 0, 5, 0);
-		gbc_spNumProb.gridx = 1;
-		gbc_spNumProb.gridy = 0;
-		panelAjustes.add(spNumProb, gbc_spNumProb);
+		GridBagConstraints gbcSpNumProb = new GridBagConstraints();
+		gbcSpNumProb.anchor = GridBagConstraints.WEST;
+		gbcSpNumProb.insets = new Insets(0, 0, 5, 0);
+		gbcSpNumProb.gridx = 2;
+		gbcSpNumProb.gridy = 0;
+		panelAjustes.add(spNumProb, gbcSpNumProb);
 		spNumProb.setSize(new Dimension(5, 5));
-		gbc_spNumProb.insets = new Insets(0, 0, 5, 0);
-		gbc_spNumProb.gridx = 1;
-		gbc_spNumProb.gridy = 0;
+		gbcSpNumProb.insets = new Insets(0, 0, 5, 0);
+		gbcSpNumProb.gridx = 1;
+		gbcSpNumProb.gridy = 0;
 
 		JLabel lblCapacidad = new JLabel("Capacidad: ");
-		GridBagConstraints gbc_lblCapacidad = new GridBagConstraints();
-		gbc_lblCapacidad.anchor = GridBagConstraints.WEST;
-		gbc_lblCapacidad.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCapacidad.gridx = 0;
-		gbc_lblCapacidad.gridy = 2;
-		panelAjustes.add(lblCapacidad, gbc_lblCapacidad);
+		GridBagConstraints gbcLblCapacidad = new GridBagConstraints();
+		gbcLblCapacidad.anchor = GridBagConstraints.WEST;
+		gbcLblCapacidad.insets = new Insets(0, 0, 5, 5);
+		gbcLblCapacidad.gridx = 0;
+		gbcLblCapacidad.gridy = 2;
+		panelAjustes.add(lblCapacidad, gbcLblCapacidad);
 
 		final JFormattedTextField fTextFld_Capacidad = new JFormattedTextField();
 		fTextFld_Capacidad.setColumns(10);
 		fTextFld_Capacidad.setText("10");
-		GridBagConstraints gbc_longCad1 = new GridBagConstraints();
-		gbc_longCad1.fill = GridBagConstraints.BOTH;
-		gbc_longCad1.insets = new Insets(0, 0, 5, 0);
-		gbc_longCad1.gridx = 1;
-		gbc_longCad1.gridy = 2;
-		panelAjustes.add(fTextFld_Capacidad, gbc_longCad1);
+		GridBagConstraints gbcLongCad1 = new GridBagConstraints();
+		gbcLongCad1.fill = GridBagConstraints.BOTH;
+		gbcLongCad1.insets = new Insets(0, 0, 5, 0);
+		gbcLongCad1.gridx = 2;
+		gbcLongCad1.gridy = 2;
+		panelAjustes.add(fTextFld_Capacidad, gbcLongCad1);
 
-		JLabel lblNumelementos = new JLabel("Num.Elementos");
-		GridBagConstraints gbc_lblNumelementos = new GridBagConstraints();
-		gbc_lblNumelementos.fill = GridBagConstraints.HORIZONTAL;
-		gbc_lblNumelementos.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNumelementos.gridx = 0;
-		gbc_lblNumelementos.gridy = 4;
-		panelAjustes.add(lblNumelementos, gbc_lblNumelementos);
+		JLabel lblNumelementos = new JLabel("N\u00FAmero de Elementos");
+		GridBagConstraints gbcLblNumelementos = new GridBagConstraints();
+		gbcLblNumelementos.fill = GridBagConstraints.HORIZONTAL;
+		gbcLblNumelementos.insets = new Insets(0, 0, 5, 5);
+		gbcLblNumelementos.gridx = 0;
+		gbcLblNumelementos.gridy = 4;
+		panelAjustes.add(lblNumelementos, gbcLblNumelementos);
 
 		final JFormattedTextField textF_numElementos = new JFormattedTextField();
 		textF_numElementos.setMaximumSize(new Dimension(40, 20));
 		textF_numElementos.setText("4");
-		GridBagConstraints gbc_numElementos = new GridBagConstraints();
-		gbc_numElementos.fill = GridBagConstraints.HORIZONTAL;
-		gbc_numElementos.insets = new Insets(0, 0, 5, 0);
-		gbc_numElementos.gridx = 1;
-		gbc_numElementos.gridy = 4;
-		panelAjustes.add(textF_numElementos, gbc_numElementos);
+		GridBagConstraints gbcNumElementos = new GridBagConstraints();
+		gbcNumElementos.fill = GridBagConstraints.HORIZONTAL;
+		gbcNumElementos.insets = new Insets(0, 0, 5, 0);
+		gbcNumElementos.gridx = 2;
+		gbcNumElementos.gridy = 4;
+		panelAjustes.add(textF_numElementos, gbcNumElementos);
 
-		JLabel lblPesoMaxElem = new JLabel("Peso Max / Elem.");
-		GridBagConstraints gbc_lblPesoMaxElem = new GridBagConstraints();
-		gbc_lblPesoMaxElem.fill = GridBagConstraints.VERTICAL;
-		gbc_lblPesoMaxElem.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPesoMaxElem.anchor = GridBagConstraints.WEST;
-		gbc_lblPesoMaxElem.gridx = 0;
-		gbc_lblPesoMaxElem.gridy = 6;
-		panelAjustes.add(lblPesoMaxElem, gbc_lblPesoMaxElem);
+		JLabel lblPesoMaxElem = new JLabel("Peso M\u00E1ximo");
+		GridBagConstraints gbcLblPesoMaxElem = new GridBagConstraints();
+		gbcLblPesoMaxElem.fill = GridBagConstraints.VERTICAL;
+		gbcLblPesoMaxElem.insets = new Insets(0, 0, 5, 5);
+		gbcLblPesoMaxElem.anchor = GridBagConstraints.WEST;
+		gbcLblPesoMaxElem.gridx = 0;
+		gbcLblPesoMaxElem.gridy = 6;
+		panelAjustes.add(lblPesoMaxElem, gbcLblPesoMaxElem);
 
-		tf_PesoMax = new JTextField();
-		tf_PesoMax.setColumns(10);
-		tf_PesoMax.setText("6");
-		GridBagConstraints gbc_tf_PesoMax = new GridBagConstraints();
-		gbc_tf_PesoMax.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tf_PesoMax.insets = new Insets(0, 0, 5, 0);
-		gbc_tf_PesoMax.gridx = 1;
-		gbc_tf_PesoMax.gridy = 6;
-		panelAjustes.add(tf_PesoMax, gbc_tf_PesoMax);
+		tfPesoMax = new JTextField();
+		tfPesoMax.setColumns(10);
+		tfPesoMax.setText("6");
+		GridBagConstraints gbcTfPesoMax = new GridBagConstraints();
+		gbcTfPesoMax.fill = GridBagConstraints.HORIZONTAL;
+		gbcTfPesoMax.insets = new Insets(0, 0, 5, 0);
+		gbcTfPesoMax.gridx = 2;
+		gbcTfPesoMax.gridy = 6;
+		panelAjustes.add(tfPesoMax, gbcTfPesoMax);
 
-		JLabel lblvalorMax = new JLabel("Valor Max / Elem");
-		GridBagConstraints gbc_lblvalorMax = new GridBagConstraints();
-		gbc_lblvalorMax.anchor = GridBagConstraints.WEST;
-		gbc_lblvalorMax.insets = new Insets(0, 0, 5, 5);
-		gbc_lblvalorMax.gridx = 0;
-		gbc_lblvalorMax.gridy = 8;
-		panelAjustes.add(lblvalorMax, gbc_lblvalorMax);
+		JLabel lblvalorMax = new JLabel("Valor M\u00E1ximo");
+		GridBagConstraints gbcLblvalorMax = new GridBagConstraints();
+		gbcLblvalorMax.anchor = GridBagConstraints.WEST;
+		gbcLblvalorMax.insets = new Insets(0, 0, 5, 5);
+		gbcLblvalorMax.gridx = 0;
+		gbcLblvalorMax.gridy = 8;
+		panelAjustes.add(lblvalorMax, gbcLblvalorMax);
 
-		tf_ValorMax = new JTextField();
-		tf_ValorMax.setText("6");
-		GridBagConstraints gbc_tf_ValorMax = new GridBagConstraints();
-		gbc_tf_ValorMax.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tf_ValorMax.anchor = GridBagConstraints.NORTH;
-		gbc_tf_ValorMax.insets = new Insets(0, 0, 5, 0);
-		gbc_tf_ValorMax.gridx = 1;
-		gbc_tf_ValorMax.gridy = 8;
-		panelAjustes.add(tf_ValorMax, gbc_tf_ValorMax);
-		tf_ValorMax.setColumns(10);
+		tfValorMax = new JTextField();
+		tfValorMax.setText("6");
+		GridBagConstraints gbcTfValorMax = new GridBagConstraints();
+		gbcTfValorMax.fill = GridBagConstraints.HORIZONTAL;
+		gbcTfValorMax.anchor = GridBagConstraints.NORTH;
+		gbcTfValorMax.insets = new Insets(0, 0, 5, 0);
+		gbcTfValorMax.gridx = 2;
+		gbcTfValorMax.gridy = 8;
+		panelAjustes.add(tfValorMax, gbcTfValorMax);
+		tfValorMax.setColumns(10);
 
 		JLabel lblPctRespuestas = new JLabel("Porcentaje de Respuestas");
 		lblPctRespuestas.setToolTipText(
-				"N\u00FAmero de inc\u00F3gnitas a resolver en la pregunta, 100 = matriz vac\u00EDa y 0 = matriz llena");
-		GridBagConstraints gbc_lblPctRespuestas = new GridBagConstraints();
-		gbc_lblPctRespuestas.anchor = GridBagConstraints.WEST;
-		gbc_lblPctRespuestas.insets = new Insets(0, 0, 0, 5);
-		gbc_lblPctRespuestas.gridx = 0;
-		gbc_lblPctRespuestas.gridy = 10;
-		panelAjustes.add(lblPctRespuestas, gbc_lblPctRespuestas);
+				"N\u00FAmero de inc\u00F3gnitas resueltas de la pregunta, 100 = matriz resuelta y 0 = matriz vac\u00EDa");
+		GridBagConstraints gbcLblPctRespuestas = new GridBagConstraints();
+		gbcLblPctRespuestas.anchor = GridBagConstraints.EAST;
+		gbcLblPctRespuestas.insets = new Insets(0, 0, 0, 5);
+		gbcLblPctRespuestas.gridx = 0;
+		gbcLblPctRespuestas.gridy = 10;
+		panelAjustes.add(lblPctRespuestas, gbcLblPctRespuestas);
 
 		final JSlider sldrPctRespuestas = new JSlider();
 		sldrPctRespuestas.setToolTipText("");
@@ -205,14 +197,14 @@ public class KnapsackFrame extends JFrame {
 		sldrPctRespuestas.setPaintTicks(true);
 		sldrPctRespuestas.setPaintLabels(true);
 		sldrPctRespuestas.setSnapToTicks(true);
-		GridBagConstraints gbc_sldrPctRespuestas = new GridBagConstraints();
-		gbc_sldrPctRespuestas.gridx = 1;
-		gbc_sldrPctRespuestas.gridy = 10;
+		GridBagConstraints gbcSldrPctRespuestas = new GridBagConstraints();
+		gbcSldrPctRespuestas.gridx = 2;
+		gbcSldrPctRespuestas.gridy = 10;
 		sldrPctRespuestas.setPaintLabels(true);
 		sldrPctRespuestas.setMinorTickSpacing(1);
 		sldrPctRespuestas.setMajorTickSpacing(25);
 		sldrPctRespuestas.setPaintTicks(true);
-		panelAjustes.add(sldrPctRespuestas, gbc_sldrPctRespuestas);
+		panelAjustes.add(sldrPctRespuestas, gbcSldrPctRespuestas);
 
 		// ** Añadir panel Vista
 		panelVista = new JPanel();
@@ -231,7 +223,7 @@ public class KnapsackFrame extends JFrame {
 		panelVista.add(lblVistaPreeliminar, BorderLayout.NORTH);
 		panelVista.add(scrollLista, BorderLayout.CENTER);
 
-		if (!Problema.problemasGenerados.isEmpty()) {
+		if (!Problema.PROBGENERADOS.isEmpty()) {
 			utiles.Utiles.cargarTextPane(textPaneResult, ruta);
 		}
 
@@ -262,14 +254,14 @@ public class KnapsackFrame extends JFrame {
 
 			}
 		});
-		if (!Problema.problemasGenerados.isEmpty()) {
+		if (!Problema.PROBGENERADOS.isEmpty()) {
 			btnExportar.setEnabled(true);
 		} else {
 			btnExportar.setEnabled(false);
 		}
 
-		JButton btn_Generar = new JButton("Generar");
-		btn_Generar.addMouseListener(new MouseAdapter() {
+		JButton btnGenerar = new JButton("Generar");
+		btnGenerar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
@@ -279,15 +271,15 @@ public class KnapsackFrame extends JFrame {
 
 					for (int i = 0; i < numProblemas; i++) {
 						mochila = new Knapsack(capacidad, numValores);
-						int valMax = Integer.parseInt(tf_ValorMax.getText());
-						int pesMax = Integer.parseInt(tf_PesoMax.getText());
+						int valMax = Integer.parseInt(tfValorMax.getText());
+						int pesMax = Integer.parseInt(tfPesoMax.getText());
 						if (valMax != 0)
 							mochila.setMaxValue(valMax);
 						if (pesMax != 0)
 							mochila.setMaxWeigth(pesMax);
 						mochila.execute();
 						mochila.setPorcentaje((int) sldrPctRespuestas.getValue());
-						Problema.problemasGenerados.add(mochila);
+						Problema.PROBGENERADOS.add(mochila);
 						utiles.Utiles.añadirMochilaPanel(textPaneResult, mochila, ruta);
 					}
 //					Document doc = textPaneResult.getDocument();
@@ -306,7 +298,7 @@ public class KnapsackFrame extends JFrame {
 				}
 			}
 		});
-		panelBotones.add(btn_Generar);
+		panelBotones.add(btnGenerar);
 
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addMouseListener(new MouseAdapter() {

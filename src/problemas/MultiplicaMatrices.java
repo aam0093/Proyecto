@@ -48,7 +48,7 @@ public class MultiplicaMatrices implements Problema {
 	public MultiplicaMatrices(int numMat) {
 		numMatrices = numMat;
 		dimensiones = new int[numMat + 1];
-		Semilla seed = new Semilla(numMat, 0, "matrices");
+		Semilla seed = new Semilla(numMat, 0,0,0, "matrices");
 		semilla = seed.getSeed();
 	
 	}
@@ -57,7 +57,6 @@ public class MultiplicaMatrices implements Problema {
 		numMatrices = numMat;
 		dimensiones = new int[numMat + 1];
 		semilla = sem;
-		initMatrices();
 		for (int i : dimensiones)
 			System.out.println("dimensiones: " + i);
 	}
@@ -178,5 +177,11 @@ public class MultiplicaMatrices implements Problema {
 		matrices.execute();
 		int[][] matriz = matrices.getMatriz();
 		System.out.println(matriz.length);
+		for (int[] m : matriz){
+			System.out.println();
+			for (int a : m){
+				System.out.print(a + " ");
+			}
+		}
 	}
 }

@@ -14,7 +14,9 @@ public abstract class PreguntaBuilder {
     public abstract void buildTitulo();
     public abstract void buildEnunciado();
     public abstract void buildContenido();
+    public abstract void buildRespuesta();
     public abstract void buildFeedback();
+
 }
 
 

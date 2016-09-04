@@ -20,41 +20,26 @@ import org.xml.sax.SAXException;
 
 import net.sf.json.JSON;
 import net.sf.json.xml.XMLSerializer;
+import org.json.simple.JSONObject;
+
 public class ExportarJson implements Exportar {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void exportar(Pregunta pregunta, String path) {
-		ExportarXml ex = new ExportarXml();
-		String rutaJson = "./DocJson.xml";
-		ex.abrirFichero();
-		ex.exportar(pregunta, rutaJson);
-		ex.cerrarFichero();
-		File fXmlFile = new File(rutaJson);
-		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder;
-		try {
-			dBuilder = dbFactory.newDocumentBuilder();
-
-			Document doc = (Document) dBuilder.parse(fXmlFile);
-			XMLSerializer xmlSerializer = new XMLSerializer();  
-			JSON json = xmlSerializer.read( doc.getText(0, doc.getLength() ));
-			FileWriter fichero = new FileWriter(path);
-			fichero.write(json.toString(0, json.size()));
-		} catch (BadLocationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+		JSONObject div = new JSONObject();
+		JSONObject obj = new JSONObject();
+	
+	      obj.put("name", "foo");
+	      obj.put("num", new Integer(100));
+	      obj.put("balance", new Double(1000.21));
+	      obj.put("is_vip", new Boolean(true));
+	      div.putAll(obj);
+	      System.out.print(obj);
+	      System.out.print(div);
+	} 
 		
-	}
+	
 
 	@Override
 	public void cerrarFichero() {

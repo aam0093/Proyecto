@@ -1,5 +1,7 @@
 package pregunta;
 
+import java.util.List;
+
 import problemas.*;
 
 /** "ConcreteBuilder" */
@@ -52,6 +54,17 @@ public class PrMochila extends PreguntaBuilder {
 		res = res + "</table>";
 		pregunta.setContenido(valores + pesos + res);
 
+	}
+	
+	public void buildRespuesta() {
+		String valorOptimo= "";
+		String elementosOptimos = "<p>Introduce el indice de los elementos seleccionados en el resultado óptimo </p>";
+		List<Integer> aux = mochila.getResultItems();
+		valorOptimo = "<p> Cúal es el valor óptimo para este problema: {1:NUMERICAL:=" + mochila.getResultValue() + "}</p>";
+		for (int i = 0; i < aux.size(); i++){
+			elementosOptimos = elementosOptimos + "</p> {1:NUMERICAL:=" + aux.get(i) + "}</p>";
+		}
+		pregunta.setRespuesta(valorOptimo + elementosOptimos);
 	}
 
 	public void buildFeedback() {

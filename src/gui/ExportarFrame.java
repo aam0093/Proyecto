@@ -9,7 +9,6 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import exportar.Exportar;
 import exportar.ExportarFactory;
@@ -54,6 +53,7 @@ public class ExportarFrame extends JFrame {
 
 	public static void main(String[] args) {
 
+		/*Cuidado con esto, puede ser borrable */
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -96,37 +96,37 @@ public class ExportarFrame extends JFrame {
 
 		// ***Añadir Panel Central
 		JPanel panelCentral = new JPanel();
-		GridBagLayout gbl_panelCentral = new GridBagLayout();
-		gbl_panelCentral.columnWidths = new int[] { 100, 89, 110, 0, 100, 0 };
-		gbl_panelCentral.rowHeights = new int[] { 58, 19, 51, 49, 0, 43, 0, 38, 58, 0 };
-		gbl_panelCentral.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gbl_panelCentral.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		panelCentral.setLayout(gbl_panelCentral);
+		GridBagLayout gblPanelCentral = new GridBagLayout();
+		gblPanelCentral.columnWidths = new int[] { 100, 89, 110, 0, 100, 0 };
+		gblPanelCentral.rowHeights = new int[] { 58, 19, 51, 49, 0, 43, 0, 38, 58, 0 };
+		gblPanelCentral.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gblPanelCentral.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		panelCentral.setLayout(gblPanelCentral);
 
 		JLabel lblGuardarEn = new JLabel("Guardar en: ");
-		GridBagConstraints gbc_lblGuardarEn = new GridBagConstraints();
-		gbc_lblGuardarEn.fill = GridBagConstraints.BOTH;
-		gbc_lblGuardarEn.insets = new Insets(0, 0, 5, 5);
-		gbc_lblGuardarEn.gridx = 1;
-		gbc_lblGuardarEn.gridy = 3;
-		panelCentral.add(lblGuardarEn, gbc_lblGuardarEn);
+		GridBagConstraints gbcLblGuardarEn = new GridBagConstraints();
+		gbcLblGuardarEn.fill = GridBagConstraints.BOTH;
+		gbcLblGuardarEn.insets = new Insets(0, 0, 5, 5);
+		gbcLblGuardarEn.gridx = 1;
+		gbcLblGuardarEn.gridy = 3;
+		panelCentral.add(lblGuardarEn, gbcLblGuardarEn);
 
 		textFGuarda = new JTextField();
-		GridBagConstraints gbc_textFGuarda = new GridBagConstraints();
-		gbc_textFGuarda.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textFGuarda.insets = new Insets(0, 0, 5, 5);
-		gbc_textFGuarda.gridx = 2;
-		gbc_textFGuarda.gridy = 3;
-		panelCentral.add(textFGuarda, gbc_textFGuarda);
+		GridBagConstraints gbcTextFGuarda = new GridBagConstraints();
+		gbcTextFGuarda.fill = GridBagConstraints.HORIZONTAL;
+		gbcTextFGuarda.insets = new Insets(0, 0, 5, 5);
+		gbcTextFGuarda.gridx = 2;
+		gbcTextFGuarda.gridy = 3;
+		panelCentral.add(textFGuarda, gbcTextFGuarda);
 		textFGuarda.setColumns(25);
 
 		JButton btnBrowse = new JButton("Browse..");
-		GridBagConstraints gbc_btnBrowse = new GridBagConstraints();
-		gbc_btnBrowse.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnBrowse.insets = new Insets(0, 0, 5, 5);
-		gbc_btnBrowse.gridx = 3;
-		gbc_btnBrowse.gridy = 3;
-		panelCentral.add(btnBrowse, gbc_btnBrowse);
+		GridBagConstraints gbcBtnBrowse = new GridBagConstraints();
+		gbcBtnBrowse.fill = GridBagConstraints.HORIZONTAL;
+		gbcBtnBrowse.insets = new Insets(0, 0, 5, 5);
+		gbcBtnBrowse.gridx = 3;
+		gbcBtnBrowse.gridy = 3;
+		panelCentral.add(btnBrowse, gbcBtnBrowse);
 		btnBrowse.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -138,7 +138,10 @@ public class ExportarFrame extends JFrame {
 				if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 					textFGuarda.setText(chooser.getSelectedFile().toString());
 				} else {
-					System.out.println("No seleccion ");
+		//			System.out.println("No seleccion ");
+					JOptionPane.showMessageDialog(new JFrame(), "No se ha seleccionado nada", "Info",
+							JOptionPane.INFORMATION_MESSAGE);
+					
 				}
 			}
 		});
@@ -146,28 +149,28 @@ public class ExportarFrame extends JFrame {
 
 		final JRadioButton rdbtnHtml = new JRadioButton("HTML");
 		rdbtnHtml.setSelected(true);
-		GridBagConstraints gbc_rdbtnHtml = new GridBagConstraints();
-		gbc_rdbtnHtml.fill = GridBagConstraints.BOTH;
-		gbc_rdbtnHtml.insets = new Insets(0, 0, 5, 5);
-		gbc_rdbtnHtml.gridx = 1;
-		gbc_rdbtnHtml.gridy = 6;
-		panelCentral.add(rdbtnHtml, gbc_rdbtnHtml);
+		GridBagConstraints gbcRdbtnHtml = new GridBagConstraints();
+		gbcRdbtnHtml.fill = GridBagConstraints.BOTH;
+		gbcRdbtnHtml.insets = new Insets(0, 0, 5, 5);
+		gbcRdbtnHtml.gridx = 1;
+		gbcRdbtnHtml.gridy = 6;
+		panelCentral.add(rdbtnHtml, gbcRdbtnHtml);
 
 		final JRadioButton rdbtnMoodle = new JRadioButton("Moodle");
-		GridBagConstraints gbc_rdbtnMoodle = new GridBagConstraints();
-		gbc_rdbtnMoodle.fill = GridBagConstraints.BOTH;
-		gbc_rdbtnMoodle.insets = new Insets(0, 0, 5, 5);
-		gbc_rdbtnMoodle.gridx = 2;
-		gbc_rdbtnMoodle.gridy = 6;
-		panelCentral.add(rdbtnMoodle, gbc_rdbtnMoodle);
+		GridBagConstraints gbcRdbtnMoodle = new GridBagConstraints();
+		gbcRdbtnMoodle.fill = GridBagConstraints.BOTH;
+		gbcRdbtnMoodle.insets = new Insets(0, 0, 5, 5);
+		gbcRdbtnMoodle.gridx = 2;
+		gbcRdbtnMoodle.gridy = 6;
+		panelCentral.add(rdbtnMoodle, gbcRdbtnMoodle);
 
 		JRadioButton rdbtnJson = new JRadioButton("Json");
-		GridBagConstraints gbc_rdbtnJson = new GridBagConstraints();
-		gbc_rdbtnJson.fill = GridBagConstraints.BOTH;
-		gbc_rdbtnJson.insets = new Insets(0, 0, 5, 5);
-		gbc_rdbtnJson.gridx = 3;
-		gbc_rdbtnJson.gridy = 6;
-		panelCentral.add(rdbtnJson, gbc_rdbtnJson);
+		GridBagConstraints gbcRdbtnJson = new GridBagConstraints();
+		gbcRdbtnJson.fill = GridBagConstraints.BOTH;
+		gbcRdbtnJson.insets = new Insets(0, 0, 5, 5);
+		gbcRdbtnJson.gridx = 3;
+		gbcRdbtnJson.gridy = 6;
+		panelCentral.add(rdbtnJson, gbcRdbtnJson);
 
 		final ButtonGroup formatos = new ButtonGroup();
 		formatos.add(rdbtnHtml);
@@ -189,7 +192,7 @@ public class ExportarFrame extends JFrame {
 					JOptionPane.showMessageDialog(new JFrame(), "Campo directorio vacio", "Acerca De",
 							JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					ArrayList<Problema> problemas = (ArrayList<Problema>) Problema.problemasGenerados;
+					ArrayList<Problema> problemas = (ArrayList<Problema>) Problema.PROBGENERADOS;
 					String ruta = textFGuarda.getText();
 					String tipo = "";
 					if (rdbtnMoodle.isSelected()) {
@@ -198,26 +201,33 @@ public class ExportarFrame extends JFrame {
 							ruta = ruta + ".xml";
 						}
 					} else {
-						if (rdbtnHtml.isSelected())
+						if (rdbtnHtml.isSelected()){
 							tipo = "HTML";
-						if (!ruta.substring(ruta.length() - 5, ruta.length()).equals(".html")) {
-							ruta = ruta + ".html";
-						} else
+							if (!ruta.substring(ruta.length() - 5, ruta.length()).equals(".html")) 
+								ruta = ruta + ".html";
+						} else {
 							tipo = "JSON";
-						if (!ruta.substring(ruta.length() - 5, ruta.length()).equals(".json")) {
-							ruta = ruta + ".json";
+							if (!ruta.substring(ruta.length() - 5, ruta.length()).equals(".json")) 
+								ruta = ruta + ".json";
 						}
 					}
 					if (problemas.size() == 0) {
 						JOptionPane.showMessageDialog(new JFrame(), "No se ha generado ningun problema", "Error",
-								JOptionPane.ERROR_MESSAGE);
+								JOptionPane.INFORMATION_MESSAGE);
 					} else {
 						ExportarFactory exportarFactory = new ExportarFactory();
 						Exportar ex;
 						ex = exportarFactory.getFormato(tipo);
 						ex.abrirFichero();
+						int contador = 0 ;
+						//Aqui llegan mal ya los problemas,
 
 						for (Problema p : problemas) {
+							if (p.getTipo() == "MATRICES"){
+								contador ++;
+								MultiplicaMatrices m = (MultiplicaMatrices) p;
+								System.out.println("matriz qe entra, resul: " + m.getResultado() + "   cont; " + contador);
+							}
 							Pregunta preg = construirPregunta(p);
 							ex.exportar(preg, ruta);
 						}
@@ -270,31 +280,30 @@ public class ExportarFrame extends JFrame {
 
 		panelRecuperar.add(panelVista, BorderLayout.CENTER);
 
-		GridBagLayout gbl_panelParametros = new GridBagLayout();
-		gbl_panelParametros.columnWidths = new int[] { 30, 0, 0, 0 };
-		gbl_panelParametros.rowHeights = new int[] { 14, 0, 0 };
-		gbl_panelParametros.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0 };
-		gbl_panelParametros.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0 };
-		panelParametros.setLayout(gbl_panelParametros);
+		GridBagLayout gblPanelParametros = new GridBagLayout();
+		gblPanelParametros.columnWidths = new int[] { 30, 0, 0, 0 };
+		gblPanelParametros.rowHeights = new int[] { 14, 0, 0 };
+		gblPanelParametros.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0 };
+		gblPanelParametros.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0 };
+		panelParametros.setLayout(gblPanelParametros);
 		JLabel lblNewLabel = new JLabel("Semilla: ");
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 1;
-		panelParametros.add(lblNewLabel, gbc_lblNewLabel);
+		GridBagConstraints gbcLblNewLabel = new GridBagConstraints();
+		gbcLblNewLabel.anchor = GridBagConstraints.WEST;
+		gbcLblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbcLblNewLabel.gridx = 0;
+		gbcLblNewLabel.gridy = 1;
+		panelParametros.add(lblNewLabel, gbcLblNewLabel);
 
 		JButton btnVer = new JButton("Recuperar");
 		btnVer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (txtFSemilla.getText().isEmpty() || txtFSemilla.getText().length() != 14) {
+				if (txtFSemilla.getText().isEmpty() || txtFSemilla.getText().length() != 17) {
 					JOptionPane.showMessageDialog(new JFrame(), "Introduce un valor valido para la semilla", "Dialog",
 							JOptionPane.INFORMATION_MESSAGE);
 			//		txtFSemilla.setText("");
 				} else {
 					Problema p = recuperarProblema(txtFSemilla.getText().toString());
-				
 					if (p.getTipo().equals(Problema.TIPO.MOCHILA.toString())) {
 						Knapsack mochila = (Knapsack) p;
 						mochila.execute();
@@ -336,24 +345,33 @@ public class ExportarFrame extends JFrame {
 			}
 		});
 		txtFSemilla.setColumns(10);
-		GridBagConstraints gbc_txtFSemilla = new GridBagConstraints();
-		gbc_txtFSemilla.anchor = GridBagConstraints.NORTHEAST;
-		gbc_txtFSemilla.insets = new Insets(0, 0, 5, 5);
-		gbc_txtFSemilla.gridx = 1;
-		gbc_txtFSemilla.gridy = 1;
-		panelParametros.add(txtFSemilla, gbc_txtFSemilla);
-		GridBagConstraints gbc_btnVer = new GridBagConstraints();
-		gbc_btnVer.insets = new Insets(0, 0, 0, 5);
-		gbc_btnVer.anchor = GridBagConstraints.WEST;
-		gbc_btnVer.gridx = 1;
-		gbc_btnVer.gridy = 3;
-		panelParametros.add(btnVer, gbc_btnVer);
+		GridBagConstraints gbcTxtFSemilla = new GridBagConstraints();
+		gbcTxtFSemilla.anchor = GridBagConstraints.NORTHEAST;
+		gbcTxtFSemilla.insets = new Insets(0, 0, 5, 5);
+		gbcTxtFSemilla.gridx = 1;
+		gbcTxtFSemilla.gridy = 1;
+		panelParametros.add(txtFSemilla, gbcTxtFSemilla);
+		GridBagConstraints gbcBtnVer = new GridBagConstraints();
+		gbcBtnVer.insets = new Insets(0, 0, 0, 5);
+		gbcBtnVer.anchor = GridBagConstraints.WEST;
+		gbcBtnVer.gridx = 1;
+		gbcBtnVer.gridy = 3;
+		panelParametros.add(btnVer, gbcBtnVer);
 
 		JPanel panelBotonRecuperar = new JPanel();
 
-		JButton btnNewButton_1 = new JButton("Limpiar");
-		btnNewButton_1.setBounds(260, 286, 89, 23);
-		panelBotonRecuperar.add(btnNewButton_1);
+		JButton btnNewButton1 = new JButton("Limpiar");
+		btnNewButton1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				utiles.Utiles.borrarPanel(rutaRecuperado);
+				textPane.setText("");
+				
+				
+			}
+		});
+		btnNewButton1.setBounds(260, 286, 89, 23);
+		panelBotonRecuperar.add(btnNewButton1);
 
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(526, 286, 75, 23);
@@ -377,27 +395,25 @@ public class ExportarFrame extends JFrame {
 	}
 
 	public Problema recuperarProblema(String seed) {
-		String tipo = seed.substring(0, 1);
-
+		String tipo = seed.substring(0, 2);
 		Problema problema = null;
-		if (tipo.equals("1")) {
-			int cantidad = Integer.parseInt(seed.substring(1, 4));
-			int num_elem = Integer.parseInt(seed.substring(4, 7));
-			
-			problema = new Knapsack(cantidad, num_elem, Long.valueOf(seed).longValue());
+		if (tipo.equals("10")) {
+			int cantidad = Integer.parseInt(seed.substring(2, 4));
+			int numElem = Integer.parseInt(seed.substring(4, 6));
+			problema = new Knapsack(cantidad, numElem, Long.valueOf(seed).longValue());
 			return problema;
 		}
-		if (tipo.equals("2")) {
-			int longcad1 = Integer.parseInt(seed.substring(1, 4));
-			int longcad2 = Integer.parseInt(seed.substring(4, 7));
+		if (tipo.equals("20")) {
+			int longcad1 = Integer.parseInt(seed.substring(2, 4));
+			int longcad2 = Integer.parseInt(seed.substring(4, 6));
 			problema = new SubsecuenciaComun(longcad1, longcad2, Long.valueOf(seed).longValue());
 			return problema;
 		}
-		if (tipo.equals("3")) {
+		if (tipo.equals("30")) {
 			problema = new Floyd(0);
 			return problema.recuperarProblema(seed);
 		}
-		if (tipo.equals("4")) {
+		if (tipo.equals("40")) {
 			int numMat = Integer.parseInt(seed.substring(1, 4));
 			problema = new MultiplicaMatrices(numMat, Long.parseLong(seed));
 			return problema;
@@ -422,9 +438,13 @@ public class ExportarFrame extends JFrame {
 			 break;
 		case "MATRICES":	
 			pr = new PrMatrices((MultiplicaMatrices) p);
+			MultiplicaMatrices mn;
+			mn = (MultiplicaMatrices) p;
+			
+			System.out.println("---problema---" + mn.getResultado());
+			
 			break;
 		 default: 
-		     System.out.println("Error");
 		     break;
 		 
 		}

@@ -19,14 +19,7 @@ import pregunta.Pregunta;
 import org.w3c.dom.Element;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.io.StringReader;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 
-import problemas.Problema;
 
 public class ExportarXml implements Exportar {
 	Document doc;
@@ -98,7 +91,6 @@ public class ExportarXml implements Exportar {
 			
 			Element textQuestionText = doc.createElement("text");
 			textQuestionText.setTextContent(pregunta.getEnunciado() + "<br>" + pregunta.getContenido());
-			System.out.println("Contenido: " + pregunta.getContenido());
 			/*
 			 * String contenido = new String(pregunta.getContenido());
 			 * ByteBuffer aux = Charset.forName("UTF-8").encode(contenido);

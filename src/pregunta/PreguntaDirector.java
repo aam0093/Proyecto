@@ -17,6 +17,7 @@ public class PreguntaDirector {
 	       preguntaBuilder.buildTitulo();
 	       preguntaBuilder.buildEnunciado();
 	       preguntaBuilder.buildContenido();
+	       preguntaBuilder.buildRespuesta();
 	       preguntaBuilder.buildFeedback();
 	    }
 }

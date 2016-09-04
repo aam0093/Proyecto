@@ -52,20 +52,24 @@ public class ExportarHtml implements Exportar  {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-	   
 	}
 
 	@Override
 	public void exportar(Pregunta pregunta, String path) {
 		ruta = path;
 		div = new Div();
+		P titulo = new P();
+		titulo.appendText(pregunta.getTitulo());
 		P enunciado = new P();
 		enunciado.appendText(pregunta.getEnunciado());
 		P contenido = new P();
 		contenido.appendText(pregunta.getContenido());
-	
+		P resultado = new P();
+		resultado.appendText(pregunta.getRespuesta());
+		 div.appendChild(titulo);
 		 div.appendChild(enunciado);
 		 div.appendChild(contenido);
+		 div.appendChild(resultado);
 		 body.appendChild(div);
 	}
 

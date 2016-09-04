@@ -3,11 +3,10 @@
 PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp HelpSet Version 1.0//EN"
 "http://java.sun.com/products/javahelp/helpset_1_0.dtd">
 <helpset version="1.0">
-   <title>Ejemplo ayuda JavaHelp</title>
+   <title>Ayuda ProgDinQuiz</title>
    <maps>
       <!-- Pagina por defecto al mostrar la ayuda -->
       <homeID>aplicacion</homeID>
-      <!-- Que mapa deseamos -->
       <mapref location="map_file.jhm"/>
    </maps> 
 
@@ -28,7 +27,7 @@ PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp HelpSet Version 1.0//EN"
       <data>indice.xml</data>
    </view>
 
-   <!-- La pestana de busqueda --> 
+   <!-- La pestana de busqueda
    <view>
       <name>Buscar</name>
       <label>Buscar</label>
@@ -36,6 +35,6 @@ PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp HelpSet Version 1.0//EN"
       <data engine="com.sun.java.help.search.DefaultSearchEngine">
          JavaHelpSearch
       </data>
-   </view>
+   </view>  --> 
 
 </helpset>

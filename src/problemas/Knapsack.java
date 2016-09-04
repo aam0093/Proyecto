@@ -9,6 +9,7 @@
  */
 package problemas;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import pregunta.Semilla;
@@ -21,6 +22,10 @@ import pregunta.Semilla;
  * @version: 20/01/2016/A
  */
 
+/**
+ * @author asier_000
+ *
+ */
 public class Knapsack implements Problema {
 
 	/** Indica el valor de la semilla del Problema */
@@ -55,8 +60,8 @@ public class Knapsack implements Problema {
 
 	/** Matriz de la mochila */
 	int[][] matriz;
-
-	int[][] matriz_aux;
+	
+	int[][] matrizAux;
 	
 	/** Matriz de la mochila */
 	int porcentaje = 0;
@@ -73,15 +78,15 @@ public class Knapsack implements Problema {
 	public Knapsack(int capacidad, int elementos) {
 		this.capacidad = capacidad;
 		numElements = elementos;
-		Semilla seed = new Semilla(capacidad, elementos, "mochila");
+		Semilla seed = new Semilla(capacidad, elementos,0, 0, "mochila");
 		semilla = seed.getSeed();
 		weight = new int[numElements];
 		values = new int[numElements];
 		matriz = new int[numElements + 1][capacidad + 1];
-		matriz_aux = new int[numElements + 1][capacidad + 1];
-		for (int i = 0; i < matriz_aux.length; i++) {
+		matrizAux = new int[numElements + 1][capacidad + 1];
+		for (int i = 0; i < matrizAux.length; i++) {
 			for (int j = 0; j < matriz[0].length; j++) {
-				matriz_aux[i][j] = 0;
+				matrizAux[i][j] = 0;
 			}
 		}
 	}// Constructor()
@@ -103,14 +108,13 @@ public class Knapsack implements Problema {
 		this.capacidad = capacidad;
 		this.numElements = elementos;
 		semilla = seed;
-		System.out.println("Semilla recibida: " + semilla);
 		weight = new int[numElements];
 		values = new int[numElements];
 		matriz = new int[numElements + 1][capacidad + 1];
-		matriz_aux = new int[numElements + 1][capacidad + 1];
-		for (int i = 0; i < matriz_aux.length; i++) {
+		matrizAux = new int[numElements + 1][capacidad + 1];
+		for (int i = 0; i < matrizAux.length; i++) {
 			for (int j = 0; j < matriz[0].length; j++) {
-				matriz_aux[i][j] = 0;
+				matrizAux[i][j] = 0;
 			}
 		}
 	}
@@ -118,11 +122,8 @@ public class Knapsack implements Problema {
 	/**
 	 * Crea el problema con las longitudes introducidas como parametros
 	 * 
-	 * @param pesos
-	 *            cadena con los pesos deseados para cada elemento del problema
-	 * @param valores
-	 *            cadena con los valores deseados para cada elemento del
-	 *            problema
+	 * @param pesos cadena con los pesos deseados para cada elemento del problema
+	 * @param valores cadena con los valores deseados para cada elemento del problema
 	 * @throws Exception
 	 */
 	public void initializeWeights(int valores, int pesos) {
@@ -164,14 +165,14 @@ public class Knapsack implements Problema {
 			for (int c = 1; c <= capacidad; c++) {
 				if (c < weight[j - 1]) {
 					matriz[j][c] = matriz[j - 1][c];
-					matriz_aux[j][c] = -1;
+					matrizAux[j][c] = -1;
 				} else {
 					if (matriz[j - 1][c] > matriz[j - 1][(int) (c - weight[j - 1])] + values[j - 1]) {
 						matriz[j][c] = matriz[j - 1][c];
-						matriz_aux[j][c] = 1;
+						matrizAux[j][c] = 1;
 					} else {
 						matriz[j][c] = matriz[j - 1][(int) (c - weight[j - 1])] + values[j - 1];
-						matriz_aux[j][c] = -1;
+						matrizAux[j][c] = -1;
 					}
 				}
 			}
@@ -200,11 +201,11 @@ public class Knapsack implements Problema {
 	/** Ejecuta el problema */
 	@Override
 	public String execute() {
-		if (maxValue != 0 && maxWeight != 0) {
-			initializeWeights(maxValue, maxWeight);
-		} else {
+//		if (maxValue != 0 && maxWeight != 0) {
+//			initializeWeights(maxValue, maxWeight);
+//		} else {
 			initializeWeights();
-		}
+//		}
 
 		llenarMatriz();
 		return "";
@@ -266,35 +267,56 @@ public class Knapsack implements Problema {
 	}
 
 	/** Obtiene los elementos seleccionados para llenar la mochila */
-	public int[] getResultItems() {
-		int elemento = numElements;
-		int tamano = capacidad;
-		int[] elem_elegidos = new int[numElements];
+	public List<Integer> getResultItems() {
+		int elementos = numElements;
+		List<Integer> listaElegidos = new ArrayList<Integer>();
+		int[] elemElegidos = new int[numElements];
 		int pos = 0;
-		while (elemento > 0) {
-			if (matriz_aux[elemento][tamano] == 1) {
-				elem_elegidos[pos] = elemento - 1;
-				pos++;
-				elemento--;
-				tamano -= weight[elemento];
-			} else {
-				elemento--;
+		int i = numElements;
+		int k = capacidad;
+		while (i > 0){
+			if(matriz[i][k] != matriz[i-1][k]){
+				listaElegidos.add(i);
+				i = i -1;
+				k = k - weight[i];
+			}else{
+				i --;
 			}
 		}
-
-		return elem_elegidos;
+		return listaElegidos;
 	}
-	
-	
 
-
-	
 	public void setPorcentaje (int pct){
 		porcentaje = pct;
 	}
 	
 	public int getPorcentaje (){
 		return porcentaje;
+	}
+	
+	
+	public static void main(String [] args){
+		Knapsack m = new Knapsack(45,5);
+		m.initializeWeights();
+		System.out.print("Pesos: ");
+		for (int r : m.getWeights()){
+			System.out.print(r +"-");
+		}
+		System.out.print("Valores: ");
+		for (int r : m.getValues()){
+			System.out.print(r +"-");
+		}
+		m.execute();
+		System.out.print("Matriz: ");
+		for (int f[] : m.getMatrix()){
+			System.out.println();
+			for(int c : f)
+				System.out.print(c +"-");
+		}
+		System.out.println("Valor obtenido: " + m.getResultValue());
+		System.out.println("Elementos seleccionados: " + m.getResultItems().size() + " " +  m.getResultItems());
+		m.getResultItems();
+		
 	}
 
 }// Clase Knapsack

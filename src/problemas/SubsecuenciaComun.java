@@ -45,7 +45,7 @@ public class SubsecuenciaComun implements Problema {
 	 * @throws Exception
 	 */
 	public SubsecuenciaComun(int longitud1, int longitud2) {
-		Semilla seed = new Semilla(longitud1, longitud2, "lcs");
+		Semilla seed = new Semilla(longitud1, longitud2,0,0, "lcs");
 		semilla = seed.getSeed();
 		Random rd = new Random(semilla);
 		int i = 0;
@@ -77,7 +77,7 @@ public class SubsecuenciaComun implements Problema {
 			cadena2 += c;
 			j++;
 		}
-		Semilla seed = new Semilla(cadena1.length(), cadena2.length(), "lcs");
+		Semilla seed = new Semilla(cadena1.length(), cadena2.length(), 0,0,"lcs");
 		semilla = seed.getSeed();
 	}
 

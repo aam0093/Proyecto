@@ -4,8 +4,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -57,9 +55,9 @@ public class FloydFrame extends JFrame {
 		panelTitulo = new JPanel();
 		panelTitulo.setBorder(new EmptyBorder(5, 5, 5, 5));// adds margin to
 															// panel
-		FlowLayout fl_panelTitulo = new FlowLayout();
-		fl_panelTitulo.setAlignment(FlowLayout.LEFT);
-		panelTitulo.setLayout(fl_panelTitulo);
+		FlowLayout flPanelTitulo = new FlowLayout();
+		flPanelTitulo.setAlignment(FlowLayout.LEFT);
+		panelTitulo.setLayout(flPanelTitulo);
 		JLabel lblNewLabel = new JLabel("Algoritmo de Floyd");
 		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 20));
 		lblNewLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -70,59 +68,59 @@ public class FloydFrame extends JFrame {
 		panelAjustes.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 
-		GridBagLayout gbl_panelAjustes = new GridBagLayout();
-		gbl_panelAjustes.columnWidths = new int[] { 115, 85 };
-		gbl_panelAjustes.rowHeights = new int[] { 20, 50, 20, 50, 20, 50 };
-		panelAjustes.setLayout(gbl_panelAjustes);
+		GridBagLayout gblPanelAjustes = new GridBagLayout();
+		gblPanelAjustes.columnWidths = new int[] { 115, 85 };
+		gblPanelAjustes.rowHeights = new int[] { 20, 50, 20, 50, 20, 50 };
+		panelAjustes.setLayout(gblPanelAjustes);
 
 		JLabel lblNumProblemas = new JLabel("N\u00FAmero de Problemas:");
 		lblNumProblemas.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-		GridBagConstraints gbc_lblNumProblemas = new GridBagConstraints();
+		GridBagConstraints gbcLblNumProblemas = new GridBagConstraints();
 		// gbc_lblNumProblemas.fill = GridBagConstraints.BOTH;
-		gbc_lblNumProblemas.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNumProblemas.gridx = 0;
-		gbc_lblNumProblemas.gridy = 1;
-		panelAjustes.add(lblNumProblemas, gbc_lblNumProblemas);
+		gbcLblNumProblemas.insets = new Insets(0, 0, 5, 5);
+		gbcLblNumProblemas.gridx = 0;
+		gbcLblNumProblemas.gridy = 1;
+		panelAjustes.add(lblNumProblemas, gbcLblNumProblemas);
 
 		final JSpinner spNumProb = new JSpinner();
 		spNumProb.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		spNumProb.setSize(new Dimension(5, 5));
-		GridBagConstraints gbc_spNumProb = new GridBagConstraints();
-		gbc_spNumProb.insets = new Insets(0, 0, 5, 0);
-		gbc_spNumProb.gridx = 1;
-		gbc_spNumProb.gridy = 1;
-		panelAjustes.add(spNumProb, gbc_spNumProb);
+		GridBagConstraints gbcSpNumProb = new GridBagConstraints();
+		gbcSpNumProb.insets = new Insets(0, 0, 5, 0);
+		gbcSpNumProb.gridx = 1;
+		gbcSpNumProb.gridy = 1;
+		panelAjustes.add(spNumProb, gbcSpNumProb);
 
 		JLabel lblNumNodos = new JLabel("N\u00FAmero de V\u00E9rtices: ");
-		GridBagConstraints gbc_lblLongCad1 = new GridBagConstraints();
-		gbc_lblLongCad1.fill = GridBagConstraints.BOTH;
-		gbc_lblLongCad1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblLongCad1.gridx = 0;
-		gbc_lblLongCad1.gridy = 3;
-		panelAjustes.add(lblNumNodos, gbc_lblLongCad1);
+		GridBagConstraints gbcLblLongCad1 = new GridBagConstraints();
+		gbcLblLongCad1.fill = GridBagConstraints.BOTH;
+		gbcLblLongCad1.insets = new Insets(0, 0, 5, 5);
+		gbcLblLongCad1.gridx = 0;
+		gbcLblLongCad1.gridy = 3;
+		panelAjustes.add(lblNumNodos, gbcLblLongCad1);
 
 		final JSpinner numNodos = new JSpinner();
 		numNodos.setModel(new SpinnerNumberModel(new Integer(2), new Integer(2), null, new Integer(1)));
 		numNodos.setMaximumSize(new Dimension(40, 20));
-		GridBagConstraints gbc_longCad1 = new GridBagConstraints();
-		gbc_longCad1.insets = new Insets(0, 0, 5, 0);
-		gbc_longCad1.gridx = 1;
-		gbc_longCad1.gridy = 3;
-		panelAjustes.add(numNodos, gbc_longCad1);
+		GridBagConstraints gbcLongCad1 = new GridBagConstraints();
+		gbcLongCad1.insets = new Insets(0, 0, 5, 0);
+		gbcLongCad1.gridx = 1;
+		gbcLongCad1.gridy = 3;
+		panelAjustes.add(numNodos, gbcLongCad1);
 
 		JLabel lblTipoProblema = new JLabel("Porcentaje Respuestas");
-		lblTipoProblema.setToolTipText("N\u00FAmero de inc\u00F3gnitas a resolver en la pregunta, 100 = matriz vac\u00EDa y 0 = matriz llena");
-		GridBagConstraints gbc_lblTipoProblema = new GridBagConstraints();
-		gbc_lblTipoProblema.fill = GridBagConstraints.BOTH;
-		gbc_lblTipoProblema.insets = new Insets(0, 0, 0, 5);
-		gbc_lblTipoProblema.gridx = 0;
-		gbc_lblTipoProblema.gridy = 5;
-		panelAjustes.add(lblTipoProblema, gbc_lblTipoProblema);
+		lblTipoProblema.setToolTipText("N\u00FAmero de inc\u00F3gnitas resueltas de la pregunta, 100 = matriz resuelta y 0 = matriz vac\u00EDa");
+		GridBagConstraints gbcLblTipoProblema = new GridBagConstraints();
+		gbcLblTipoProblema.fill = GridBagConstraints.BOTH;
+		gbcLblTipoProblema.insets = new Insets(0, 0, 0, 5);
+		gbcLblTipoProblema.gridx = 0;
+		gbcLblTipoProblema.gridy = 5;
+		panelAjustes.add(lblTipoProblema, gbcLblTipoProblema);
 		
 		final JSlider slider = new JSlider();
-		GridBagConstraints gbc_slider = new GridBagConstraints();
-		gbc_slider.gridx = 1;
-		gbc_slider.gridy = 5;
+		GridBagConstraints gbcSlider = new GridBagConstraints();
+		gbcSlider.gridx = 1;
+		gbcSlider.gridy = 5;
 		slider.setPaintTicks(true);
 		slider.setPaintLabels(true);
 		slider.setSnapToTicks(true);
@@ -130,7 +128,7 @@ public class FloydFrame extends JFrame {
 		slider.setMinorTickSpacing(1);
 		slider.setMajorTickSpacing(25);
 		slider.setPaintTicks(true);
-		panelAjustes.add(slider, gbc_slider);
+		panelAjustes.add(slider, gbcSlider);
 
 		// ** Añadir panel Vista **
 		panelVista = new JPanel();
@@ -146,6 +144,10 @@ public class FloydFrame extends JFrame {
 		scrollLista.setBounds(243, 75, 331, 227);
 		panelVista.setLayout(new BorderLayout());
 		panelVista.add(scrollLista, BorderLayout.CENTER);
+		
+		if (!Problema.PROBGENERADOS.isEmpty()) {
+			utiles.Utiles.cargarTextPane(textPaneResult, ruta);
+		}
 
 		// ** Añadir panel Botones **
 		panelBotones = new JPanel();
@@ -175,14 +177,14 @@ public class FloydFrame extends JFrame {
 				}
 			}
 		});
-		if (!Problema.problemasGenerados.isEmpty()) {
+		if (!Problema.PROBGENERADOS.isEmpty()) {
 			btnExportar.setEnabled(true);
 		} else {
 			btnExportar.setEnabled(false);
 		}
 
-		JButton btn_Generar = new JButton("Generar");
-		btn_Generar.addMouseListener(new MouseAdapter() {
+		JButton btnGenerar = new JButton("Generar");
+		btnGenerar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
@@ -194,7 +196,7 @@ public class FloydFrame extends JFrame {
 						floyd = new Floyd(cad1);
 						floyd.execute();
 						floyd.setPorcentaje((int) slider.getValue());
-						Problema.problemasGenerados.add(floyd);
+						Problema.PROBGENERADOS.add(floyd);
 						utiles.Utiles.añadirFloydPanel(textPaneResult, floyd, ruta);
 
 					}
@@ -204,15 +206,14 @@ public class FloydFrame extends JFrame {
 						btnExportar.setEnabled(true);
 					}
 				} catch (NumberFormatException e) {
-					System.out.println(e.toString());
 					JOptionPane.showMessageDialog(new JFrame(), "Faltan datos por introducir", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
 		});
-		btn_Generar.setBounds(287, 326, 89, 23);
-		panelBotones.add(btn_Generar);
+		btnGenerar.setBounds(287, 326, 89, 23);
+		panelBotones.add(btnGenerar);
 
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addMouseListener(new MouseAdapter() {
@@ -238,7 +239,7 @@ public class FloydFrame extends JFrame {
 		
 		addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
-		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		    public void windowClosing(WindowEvent windowEvent) {
 		    	if (JOptionPane.showConfirmDialog(null, "¿Desea Salir?", "Salir",
 				        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 					utiles.Utiles.borrarPanel(ruta);

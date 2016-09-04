@@ -51,5 +51,11 @@ public class PrLCS extends PreguntaBuilder {
 		String tipo = subsecuencia.getTipo();
 		pregunta.setTitulo(tipo + " " +  subsecuencia.getSemilla());
 	}
+
+	@Override
+	public void buildRespuesta() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

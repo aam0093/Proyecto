@@ -3,15 +3,13 @@ package gui;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
+
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import problemas.Knapsack;
-import problemas.Problema;
+
 
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
@@ -22,22 +20,14 @@ import java.net.URL;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
-import javax.help.HelpBroker;
-import javax.help.HelpSet;
-import javax.swing.Box;
-import java.awt.Color;
-import java.awt.Canvas;
-import java.awt.SystemColor;
-import java.awt.Label;
-import java.awt.Font;
+
 import java.awt.GridLayout;
-import java.awt.Button;
-import java.awt.TextField;
-import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
+
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
-import javax.swing.JPasswordField;
+
+import javax.help.HelpBroker;
+import javax.help.HelpSet;
 
 public class Inicio extends JFrame {
 
@@ -48,7 +38,7 @@ public class Inicio extends JFrame {
 	private JPanel contentPane;
 	private static String sistemaOperativo = null;
 	String ruta = utiles.Utiles.getRuta();
-	JButton btn_Ayuda;
+	JButton btnAyuda;
 
 	/**
 	 * Launch the application.
@@ -86,6 +76,7 @@ public class Inicio extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
+
 		
 		JButton btnNewButton = new JButton("");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -105,22 +96,22 @@ public class Inicio extends JFrame {
 		btnNewButton.setBounds(44, 77, 175, 175);
 		contentPane.add(btnNewButton);
 
-		JButton btn_LCS = new JButton("");
-		btn_LCS.setToolTipText("Subsecuencia Comun Mas Larga");
-		btn_LCS.addMouseListener(new MouseAdapter() {
+		JButton btnLCS = new JButton("");
+		btnLCS.setToolTipText("Subsecuencia Comun Mas Larga");
+		btnLCS.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				LCS subsecuencia = new LCS();
 				subsecuencia.setVisible(true);
 			}
 		});
-		btn_LCS.setIcon(new ImageIcon(Inicio.class.getResource("/images/subsecuencia.jpg")));
-		btn_LCS.setBounds(44, 289, 175, 175);
-		contentPane.add(btn_LCS);
+		btnLCS.setIcon(new ImageIcon(Inicio.class.getResource("/images/subsecuencia.jpg")));
+		btnLCS.setBounds(44, 289, 175, 175);
+		contentPane.add(btnLCS);
 
-		JButton btn_viajero = new JButton("");
-		btn_viajero.setToolTipText("Floyd");
-		btn_viajero.addMouseListener(new MouseAdapter() {
+		JButton btnViajero = new JButton("");
+		btnViajero.setToolTipText("Floyd");
+		btnViajero.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				FloydFrame viajeroFrame = new FloydFrame();
@@ -128,8 +119,9 @@ public class Inicio extends JFrame {
 			}
 		});
 
-		JButton btn_RecuperarProblema = new JButton("Recuperar Problema");
-		btn_RecuperarProblema.addMouseListener(new MouseAdapter() {
+		JButton btnRecuperarProblema = new JButton("Recuperar Problema");
+		btnRecuperarProblema.setIcon(new ImageIcon(Inicio.class.getResource("/images/pesca-pescador_318-54093.jpg")));
+		btnRecuperarProblema.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				Knapsack proble = new Knapsack(3, 4);
@@ -137,21 +129,23 @@ public class Inicio extends JFrame {
 				recuperarFrame.setVisible(true);
 			}
 		});
-		btn_RecuperarProblema.setBounds(445, 77, 175, 175);
-		contentPane.add(btn_RecuperarProblema);
+		btnRecuperarProblema.setBounds(445, 77, 175, 175);
+		contentPane.add(btnRecuperarProblema);
 		
-		 btn_Ayuda = new JButton("Ayuda");
-		 btn_Ayuda.addMouseListener(new MouseAdapter() {
+		 btnAyuda = new JButton("Ayuda");
+		 btnAyuda.setIcon(new ImageIcon(Inicio.class.getResource("/images/ayudaFin (4).jpg")));
+		 init();
+		 btnAyuda.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					init();
+				//	init();
 				}
 			});
-		 contentPane.add(btn_Ayuda);
+		 contentPane.add(btnAyuda);
 
-		btn_viajero.setIcon(new ImageIcon(Inicio.class.getResource("/images/viajero.jpg")));
-		btn_viajero.setBounds(250, 77, 175, 175);
-		contentPane.add(btn_viajero);
+		btnViajero.setIcon(new ImageIcon(Inicio.class.getResource("/images/viajero.jpg")));
+		btnViajero.setBounds(250, 77, 175, 175);
+		contentPane.add(btnViajero);
 
 		JButton btnMatrices = new JButton("");
 		btnMatrices.addMouseListener(new MouseAdapter() {
@@ -180,9 +174,9 @@ public class Inicio extends JFrame {
 				btnAcercaDe.setIcon(new ImageIcon(Inicio.class.getResource("/images/escudo_COLOR_2L_ABAJO.png")));
 				contentPane.add(btnAcercaDe);
 		
-				JButton btn_Salir = new JButton("");
-				btn_Salir.setToolTipText("Bot\u00F3n Salir");
-				btn_Salir.addMouseListener(new MouseAdapter() {
+				JButton btnSalir = new JButton("");
+				btnSalir.setToolTipText("Bot\u00F3n Salir");
+				btnSalir.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						utiles.Utiles.borrarPanel(ruta);
@@ -190,37 +184,38 @@ public class Inicio extends JFrame {
 					}
 
 				});
-				btn_Salir.setIcon(new ImageIcon(Inicio.class.getResource("/images/salida.gif")));
-				btn_Salir.setBounds(445, 289, 175, 175);
-				contentPane.add(btn_Salir);
+				btnSalir.setIcon(new ImageIcon(Inicio.class.getResource("/images/44516590-Icono-Salir-Foto-de-archivo (3).jpg")));
+				btnSalir.setBounds(445, 289, 175, 175);
+				contentPane.add(btnSalir);
 
-		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { contentPane, btnNewButton, btn_LCS,
-				btn_RecuperarProblema, btn_viajero, btnMatrices, btn_Salir }));
+		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { contentPane, btnNewButton, btnLCS,
+				btnRecuperarProblema, btnViajero, btnMatrices, btnSalir }));
 	}
 
 
 
 
 	private void init() {
-		File fichero = new File("./javahelp/help_set.hs");
-		
-		URL hsURL;
+		// Carga el fichero de ayuda
+		File fichero = new File("./help/help_set.hs");
 		try {
-			 hsURL = fichero.toURI().toURL();
-			//Leemos el HelpSet de COnfiguracion
-			HelpSet helpset = new HelpSet(getClass().getClassLoader(),hsURL);
-			HelpBroker helpbroker = helpset.createHelpBroker();
-			
+			URL hsURL = fichero.toURI().toURL();
+			//Obtenemos el class Loader
+			ClassLoader classLoader = getClass().getClassLoader();
+			// Crea el HelpSet y el HelpBroker
+						HelpSet helpset = new HelpSet(classLoader, classLoader.getResource("help/help_set.hs"));
+						HelpBroker hb = helpset.createHelpBroker();
+						
 			//añadimos la ayuda a los botones
 			//Al pulsar sobre el boton del menu ayuda se muestra la ayuda
-			helpbroker.enableHelpOnButton(btn_Ayuda, "aplicacion", helpset);
+						hb.enableHelpOnButton(btnAyuda, "aplicacion", helpset);
+		
 			//Al presionar F1 sobre la ventana se muestra la ayuda
-			helpbroker.enableHelpKey(getContentPane(), "ventana_principal", helpset);
-			
-		} catch (Exception ex) {
-			System.out.println("Error: " + ex.toString());
-			System.out.println("Error: " + ex.getLocalizedMessage());
+						hb.enableHelpKey(this.getContentPane(), "aplicacion", helpset);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
 		}
+		
 	}
 	
 }
