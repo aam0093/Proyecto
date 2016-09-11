@@ -1,6 +1,6 @@
 package pregunta;
 
-import problemas.*;
+import problemas.Floyd;
 
 /** "ConcreteBuilder" */
 public class PrFloyd extends PreguntaBuilder {
@@ -69,7 +69,7 @@ public class PrFloyd extends PreguntaBuilder {
 	@Override
 	public void buildTitulo() {
 		String tipo = floyd.getTipo();
-	//	pregunta.setTitulo(tipo + floyd.getSemilla());
+		pregunta.setTitulo(tipo + " " +  floyd.getSemilla());
 	}
 
 	@Override

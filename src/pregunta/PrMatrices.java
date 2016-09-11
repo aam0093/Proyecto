@@ -1,10 +1,11 @@
 package pregunta;
 
-import problemas.*;
+import problemas.MultiplicaMatrices;
 
 /** "ConcreteBuilder" */
 public class PrMatrices extends PreguntaBuilder {
 	MultiplicaMatrices matrices;
+	int inf = 9999;
 
 	public PrMatrices(MultiplicaMatrices m) {
 		matrices = m;
@@ -36,10 +37,9 @@ public class PrMatrices extends PreguntaBuilder {
 		double pct = matrices.getPorcentaje();
 		
 		pct = pct /100;
-		for (int[] f : matriz) {
-			for (int c : f) {
 				for (int i = 0; i < matriz.length; i++) {
 					for (int j = 0; j < matriz[0].length; j++) {
+						int c = matriz[i][j];
 						if (j > i) {
 							if (Math.random() >= pct) {
 								res = res + "<td>{1:NUMERICAL:=" + c + "} </td>";
@@ -50,11 +50,8 @@ public class PrMatrices extends PreguntaBuilder {
 							res = res + "<td>0</td>";
 						}
 					}
+					res = res + "</tr>";
 				}
-
-			}
-			res = res + "</tr>";
-		}
 		res = res + "</table>";
 
 		res = res + "<p> Cúal es el número mínimo de multiplicaciones: {1:NUMERICAL:=" + matrices.getResultado()

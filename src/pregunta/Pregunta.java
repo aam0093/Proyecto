@@ -3,9 +3,6 @@
  */
 package pregunta;
 
-import exportar.ExportarXml;
-import problemas.Problema;
-
 /**
  * @author asier_000
  *

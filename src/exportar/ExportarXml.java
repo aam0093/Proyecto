@@ -1,5 +1,7 @@
 package exportar;
 
+import java.io.File;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,12 +15,9 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
-
-import pregunta.Pregunta;
-
 import org.w3c.dom.Element;
 
-import java.io.File;
+import pregunta.Pregunta;
 
 
 public class ExportarXml implements Exportar {
@@ -26,9 +25,6 @@ public class ExportarXml implements Exportar {
 	String path = "";
 	Element quiz;
 
-	public void exportMochila() {
-
-	}
 
 	@Override
 	public void cerrarFichero() {
@@ -77,7 +73,6 @@ public class ExportarXml implements Exportar {
 			// name element
 			Element name = doc.createElement("name");
 			Element textName = doc.createElement("text");
-			System.out.println("Titulo: " + pregunta.getTitulo());
 			textName.setTextContent(pregunta.getTitulo() );
 			name.appendChild(textName);
 			question.appendChild(name);

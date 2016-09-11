@@ -3,7 +3,9 @@
  */
 package problemas;
 
-import java.util.*;
+import java.util.Random;
+
+import pregunta.Semilla;
 
 /**
  * @author asier_000
@@ -22,6 +24,8 @@ public class Floyd implements Problema {
 
 	public Floyd(int numV) {
 		numVertices = numV;
+		Semilla seed = new Semilla(numV,0,0, 0, "floyd");
+		semilla = seed.getSeed();
 		grafo = new int[numV][numV];
 		caminos = new int[numV][numV];
 	}
@@ -55,37 +59,7 @@ public class Floyd implements Problema {
 				}
 			}
 		}
-
-		System.out.println("grafo");
-		for (int[] fila : grafo) {
-			for (int c : fila) {
-				System.out.print(c + " ");
-			}
-			System.out.println("");
-		}
-
-		System.out.println("resultado");
-		for (int[] fila : resultado) {
-			for (int c : fila) {
-				System.out.print(c + " ");
-			}
-			System.out.println("");
-		}
-
-		System.out.println("caminos");
-		for (int[] fila : caminos) {
-			for (int c : fila) {
-				System.out.print(c + " ");
-			}
-			System.out.println("");
-		}
 		return null;
-	}
-
-	public static void main(String[] args) {
-
-		Floyd floyd = new Floyd(3);
-		System.out.println(floyd.execute());
 	}
 
 	public int[][] getGrafoInicial() {
@@ -114,24 +88,24 @@ public class Floyd implements Problema {
 		System.out.println("Entra a recuperar problema");
 		Floyd floyd;
 		int numVertices = Integer.parseInt(semilla.substring(3, 6));
-		System.out.println("Numero de matrices");
 		floyd = new Floyd(numVertices, Long.valueOf(semilla).longValue());
 		return floyd;
 	}
 
 	public void initGrafo() {
-		Random rnd = new Random();
+		Random rnd = new Random(semilla);
+		Random values = new Random(semilla);
 		for (int i = 0; i < numVertices; i++) {
 			for (int j = 0; j < numVertices; j++) {
 				if (i == j) {
 					grafo[i][j] = 0;
 					caminos[i][j] = i;
 				} else {
-					if (Math.random() >= 0.75) {
+					if (rnd.nextInt(100) >= 74) {
 						grafo[i][j] = inf;
 						caminos[i][j] = -1;
 					} else {
-						grafo[i][j] = rnd.nextInt(14) + 1;
+						grafo[i][j] = values.nextInt(14) + 1;
 						caminos[i][j] = i;
 					}
 				}

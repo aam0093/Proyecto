@@ -12,6 +12,7 @@ package problemas;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import pregunta.Semilla;
 
 /**
@@ -295,28 +296,28 @@ public class Knapsack implements Problema {
 	}
 	
 	
-	public static void main(String [] args){
-		Knapsack m = new Knapsack(45,5);
-		m.initializeWeights();
-		System.out.print("Pesos: ");
-		for (int r : m.getWeights()){
-			System.out.print(r +"-");
-		}
-		System.out.print("Valores: ");
-		for (int r : m.getValues()){
-			System.out.print(r +"-");
-		}
-		m.execute();
-		System.out.print("Matriz: ");
-		for (int f[] : m.getMatrix()){
-			System.out.println();
-			for(int c : f)
-				System.out.print(c +"-");
-		}
-		System.out.println("Valor obtenido: " + m.getResultValue());
-		System.out.println("Elementos seleccionados: " + m.getResultItems().size() + " " +  m.getResultItems());
-		m.getResultItems();
-		
-	}
+//	public static void main(String [] args){
+//		Knapsack m = new Knapsack(45,5);
+//		m.initializeWeights();
+//		System.out.print("Pesos: ");
+//		for (int r : m.getWeights()){
+//			System.out.print(r +"-");
+//		}
+//		System.out.print("Valores: ");
+//		for (int r : m.getValues()){
+//			System.out.print(r +"-");
+//		}
+//		m.execute();
+//		System.out.print("Matriz: ");
+//		for (int f[] : m.getMatrix()){
+//			System.out.println();
+//			for(int c : f)
+//				System.out.print(c +"-");
+//		}
+//		System.out.println("Valor obtenido: " + m.getResultValue());
+//		System.out.println("Elementos seleccionados: " + m.getResultItems().size() + " " +  m.getResultItems());
+//		m.getResultItems();
+//		
+//	}
 
 }// Clase Knapsack

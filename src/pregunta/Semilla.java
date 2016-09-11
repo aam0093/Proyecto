@@ -1,10 +1,5 @@
 package pregunta;
-import java.util.Calendar;
 import java.util.Date;
-
-import problemas.Knapsack;
-import problemas.Problema;
-import problemas.SubsecuenciaComun;
 
 
 
@@ -63,7 +58,7 @@ public class Semilla {
 			String auxiliar = Long.toString(System.currentTimeMillis());
 			auxiliar = auxiliar.substring(auxiliar.length()-7, auxiliar.length());
 			seedDelRandom = FLOYD + formatvar1 + "000000" + auxiliar;
-			System.out.println("semilla creada para la mochila : " + seedDelRandom);
+			System.out.println("semilla creada para floyd : " + seedDelRandom);
 		}
 		if (tipo == "matrices"){
 			String formatvar1 = "00".substring(Integer.toString((int) var1).length()) + var1;

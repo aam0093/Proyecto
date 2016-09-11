@@ -15,7 +15,6 @@ import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.StyleSheet;
 
 import com.hp.gagawa.java.elements.Div;
-import com.hp.gagawa.java.elements.H2;
 import com.hp.gagawa.java.elements.H3;
 import com.hp.gagawa.java.elements.P;
 import com.hp.gagawa.java.elements.Table;
@@ -70,14 +69,16 @@ public class Utiles {
 		tdPesos.setCSSClass("variable");
 		tdPesos.setCSSClass("boldText");
 		tdPesos.appendChild(new Text("Pesos:"));
+		trPesos.appendChild(tdPesos);
 		// trPesos.appendChild(td);
 		// Td tdPesos = new Td();
+		Td tdPesos2 = new Td();
 		String pesos = "";
 		for (int el : mochila.getWeights()) {
 			pesos = pesos + el + " ";
 		}
-		tdPesos.appendChild(new Text(pesos));
-		trPesos.appendChild(tdPesos);
+		tdPesos2.appendChild(new Text(pesos));
+		trPesos.appendChild(tdPesos2);
 
 		// Valores
 		Tr trVal = new Tr();
@@ -287,7 +288,6 @@ public class Utiles {
 	}
 
 	public static void añadirFloydPanel(JTextPane textPaneResult, Floyd fl, String ruta) {
-		System.out.println("ENTRA AQUI");
 		Floyd floyd = fl;
 		int numVertices = floyd.getNumVertices();
 		int[][] distancias = floyd.getGrafoInicial();
@@ -337,7 +337,7 @@ public class Utiles {
 		th.setCSSClass("black");
 		th.appendChild(new Text(""));
 		tr3.appendChild(th);
-		char header = 'A';
+		int header = 1;
 		for (int h : distancias[0]) {
 			Th th1 = new Th();
 			th1.appendChild(new Text(header));
@@ -346,7 +346,7 @@ public class Utiles {
 		}
 		tabla2.appendChild(tr3);
 
-		char header2 = 'A';
+		int header2 = 1;
 		for (int[] fila : distancias) {
 			Tr tr = new Tr();
 			Td td = new Td();
@@ -429,7 +429,7 @@ public class Utiles {
 				th5.setCSSClass("black");
 				th5.appendChild(new Text(""));
 				tr5.appendChild(th);
-				char header5 = 'A';
+				int header5 = 1;
 				for (int h : caminos[0]) {
 					Th th1 = new Th();
 					th1.appendChild(new Text(header5));
@@ -439,7 +439,7 @@ public class Utiles {
 				}
 				tablaCaminos.appendChild(tr5);
 
-				char header6 = 'A';
+				int header6 = 1;
 				for (int[] fila : caminos) {
 					Tr tr = new Tr();
 					Td td = new Td();
@@ -634,9 +634,7 @@ public class Utiles {
 
 	public static File borrarPanel(String ruta) {
 		File tempFich = new File(ruta);
-		System.out.println(tempFich.exists());
 		try{
-			System.out.println(tempFich.delete());
 			tempFich.delete();
 		}catch (Exception e){
 			System.out.println(e.getMessage());

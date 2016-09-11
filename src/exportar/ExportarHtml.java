@@ -18,7 +18,7 @@ import com.hp.gagawa.java.elements.Html;
 import com.hp.gagawa.java.elements.P;
 
 import pregunta.Pregunta;
-import problemas.*;
+import problemas.Problema;
 
 
 public class ExportarHtml implements Exportar  {

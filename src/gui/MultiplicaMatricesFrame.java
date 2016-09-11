@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
@@ -26,7 +27,6 @@ import javax.swing.border.EmptyBorder;
 
 import problemas.MultiplicaMatrices;
 import problemas.Problema;
-import javax.swing.JSlider;
 
 /**
  * Esta clase define la interfaz con la que se generaran los problemas de
@@ -184,7 +184,7 @@ public class MultiplicaMatricesFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (btnExportar.isEnabled()) {
-					ExportarFrame recuperarFrame = new ExportarFrame(matrices, 1);
+					ExportarFrame recuperarFrame = new ExportarFrame(matrices,1);
 					recuperarFrame.setVisible(true);
 				}
 			}
@@ -200,27 +200,23 @@ public class MultiplicaMatricesFrame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					// utiles.Utiles.cargarTextPane(textPaneResult, "");
-					// textPaneResult.update(textPaneResult.getGraphics());
-
-					int cad1 = (int) numNodos.getValue();
+					int numMatrices = (int)numNodos.getValue();
 					int numProblemas = (int) spNumProb.getValue();
+
 					for (int i = 0; i < numProblemas; i++) {
-						matrices = new MultiplicaMatrices(cad1);
+						matrices = new MultiplicaMatrices(numMatrices);
+
 						matrices.execute();
 						matrices.setPorcentaje((int) slider.getValue());
-						System.out.println("matriz ay mai: " + matrices.getResultado());
 						Problema.PROBGENERADOS.add(matrices);
 						utiles.Utiles.añadirMatricesPanel(textPaneResult, matrices, ruta);
 					}
-//					MultiplicaMatrices m1 = (MultiplicaMatrices) Problema.PROBGENERADOS.get(0);
-//					MultiplicaMatrices m2 = (MultiplicaMatrices) Problema.PROBGENERADOS.get(1);
-//					MultiplicaMatrices m3 = (MultiplicaMatrices) Problema.PROBGENERADOS.get(2);
-//					System.out.println("m1: " + m1.getResultado());
-//					System.out.println("m2: " + m2.getResultado());
-//					System.out.println("m3: " + m3.getResultado());
+
 					utiles.Utiles.cargarTextPane(textPaneResult, ruta);
-					
+
+					scrollLista.setViewportView(textPaneResult);
+					scrollLista.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
 					if (!btnExportar.isEnabled()) {
 						btnExportar.setEnabled(true);
 					}
@@ -228,9 +224,9 @@ public class MultiplicaMatricesFrame extends JFrame {
 					JOptionPane.showMessageDialog(new JFrame(), "Faltan datos por introducir", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
-
 			}
 		});
+		
 		btnGenerar.setBounds(287, 326, 89, 23);
 		panelBotones.add(btnGenerar);
 

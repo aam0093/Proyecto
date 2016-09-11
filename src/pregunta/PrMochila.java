@@ -2,7 +2,7 @@ package pregunta;
 
 import java.util.List;
 
-import problemas.*;
+import problemas.Knapsack;
 
 /** "ConcreteBuilder" */
 public class PrMochila extends PreguntaBuilder {

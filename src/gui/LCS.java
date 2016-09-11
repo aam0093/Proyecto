@@ -1,15 +1,31 @@
 package gui;
 
-import java.awt.*;
-
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.border.EmptyBorder;
 
-import javax.swing.border.*;
-
-import problemas.Knapsack;
 import problemas.Problema;
 import problemas.SubsecuenciaComun;
 
@@ -190,7 +206,7 @@ public class LCS extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (btnExportar.isEnabled()) {
-					ExportarFrame recuperarFrame = new ExportarFrame(new Knapsack(1, 2), 1);
+					ExportarFrame recuperarFrame = new ExportarFrame(new SubsecuenciaComun(1, 2), 1);
 					recuperarFrame.setVisible(true);
 			
 				}
@@ -234,6 +250,9 @@ public class LCS extends JFrame {
 
 			}
 		});
+		
+		
+		
 		btnGenerar.setBounds(287, 326, 89, 23);
 		panelBotones.add(btnGenerar);
 

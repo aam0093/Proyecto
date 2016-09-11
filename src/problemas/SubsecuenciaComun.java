@@ -23,7 +23,7 @@ public class SubsecuenciaComun implements Problema {
 	private String cadena2 = "";
 
 	/** Almacena el resultado del problema */
-	private String res = new String();
+	private String res;
 
 	/** Almacena la longitud maxima de la cadena resultado. Inicializa a -1 */
 	int maxLength = -1;

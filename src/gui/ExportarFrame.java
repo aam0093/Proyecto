@@ -1,9 +1,29 @@
 package gui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -12,34 +32,18 @@ import javax.swing.border.EmptyBorder;
 
 import exportar.Exportar;
 import exportar.ExportarFactory;
-import pregunta.*;
+import pregunta.PrFloyd;
+import pregunta.PrLCS;
+import pregunta.PrMatrices;
+import pregunta.PrMochila;
+import pregunta.Pregunta;
+import pregunta.PreguntaBuilder;
+import pregunta.PreguntaDirector;
 import problemas.Floyd;
 import problemas.Knapsack;
 import problemas.MultiplicaMatrices;
 import problemas.Problema;
 import problemas.SubsecuenciaComun;
-
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import java.awt.FlowLayout;
-import javax.swing.ButtonGroup;
-
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Component;
 
 public class ExportarFrame extends JFrame {
 	/**
@@ -138,10 +142,8 @@ public class ExportarFrame extends JFrame {
 				if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
 					textFGuarda.setText(chooser.getSelectedFile().toString());
 				} else {
-		//			System.out.println("No seleccion ");
 					JOptionPane.showMessageDialog(new JFrame(), "No se ha seleccionado nada", "Info",
 							JOptionPane.INFORMATION_MESSAGE);
-					
 				}
 			}
 		});
@@ -156,7 +158,7 @@ public class ExportarFrame extends JFrame {
 		gbcRdbtnHtml.gridy = 6;
 		panelCentral.add(rdbtnHtml, gbcRdbtnHtml);
 
-		final JRadioButton rdbtnMoodle = new JRadioButton("Moodle");
+		final JRadioButton rdbtnMoodle = new JRadioButton("MOODLE");
 		GridBagConstraints gbcRdbtnMoodle = new GridBagConstraints();
 		gbcRdbtnMoodle.fill = GridBagConstraints.BOTH;
 		gbcRdbtnMoodle.insets = new Insets(0, 0, 5, 5);
@@ -164,18 +166,18 @@ public class ExportarFrame extends JFrame {
 		gbcRdbtnMoodle.gridy = 6;
 		panelCentral.add(rdbtnMoodle, gbcRdbtnMoodle);
 
-		JRadioButton rdbtnJson = new JRadioButton("Json");
-		GridBagConstraints gbcRdbtnJson = new GridBagConstraints();
-		gbcRdbtnJson.fill = GridBagConstraints.BOTH;
-		gbcRdbtnJson.insets = new Insets(0, 0, 5, 5);
-		gbcRdbtnJson.gridx = 3;
-		gbcRdbtnJson.gridy = 6;
-		panelCentral.add(rdbtnJson, gbcRdbtnJson);
+		JRadioButton rdbtnPdf = new JRadioButton("PDF");
+		GridBagConstraints gbcRdbtnPdf = new GridBagConstraints();
+		gbcRdbtnPdf.fill = GridBagConstraints.BOTH;
+		gbcRdbtnPdf.insets = new Insets(0, 0, 5, 5);
+		gbcRdbtnPdf.gridx = 3;
+		gbcRdbtnPdf.gridy = 6;
+		panelCentral.add(rdbtnPdf, gbcRdbtnPdf);
 
 		final ButtonGroup formatos = new ButtonGroup();
 		formatos.add(rdbtnHtml);
 		formatos.add(rdbtnMoodle);
-		formatos.add(rdbtnJson);
+		formatos.add(rdbtnPdf);
 
 		// Componentes del panel1
 		panelTitulo.add(lblTitulo, FlowLayout.LEFT);
@@ -206,9 +208,9 @@ public class ExportarFrame extends JFrame {
 							if (!ruta.substring(ruta.length() - 5, ruta.length()).equals(".html")) 
 								ruta = ruta + ".html";
 						} else {
-							tipo = "JSON";
-							if (!ruta.substring(ruta.length() - 5, ruta.length()).equals(".json")) 
-								ruta = ruta + ".json";
+							tipo = "PDF";
+							if (!ruta.substring(ruta.length() - 5, ruta.length()).equals(".pdf")) 
+								ruta = ruta + ".pdf";
 						}
 					}
 					if (problemas.size() == 0) {
@@ -217,17 +219,11 @@ public class ExportarFrame extends JFrame {
 					} else {
 						ExportarFactory exportarFactory = new ExportarFactory();
 						Exportar ex;
-						ex = exportarFactory.getFormato(tipo);
+						ex = exportarFactory.getFormato(tipo,ruta);
 						ex.abrirFichero();
-						int contador = 0 ;
 						//Aqui llegan mal ya los problemas,
 
-						for (Problema p : problemas) {
-							if (p.getTipo() == "MATRICES"){
-								contador ++;
-								MultiplicaMatrices m = (MultiplicaMatrices) p;
-								System.out.println("matriz qe entra, resul: " + m.getResultado() + "   cont; " + contador);
-							}
+						for (Problema p : Problema.PROBGENERADOS){
 							Pregunta preg = construirPregunta(p);
 							ex.exportar(preg, ruta);
 						}
@@ -326,8 +322,6 @@ public class ExportarFrame extends JFrame {
 						}
 					}
 					utiles.Utiles.cargarTextPane(textPane, rutaRecuperado);
-					
-
 				}
 			}
 		});
@@ -366,8 +360,7 @@ public class ExportarFrame extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				utiles.Utiles.borrarPanel(rutaRecuperado);
 				textPane.setText("");
-				
-				
+			
 			}
 		});
 		btnNewButton1.setBounds(260, 286, 89, 23);
@@ -410,8 +403,9 @@ public class ExportarFrame extends JFrame {
 			return problema;
 		}
 		if (tipo.equals("30")) {
-			problema = new Floyd(0);
-			return problema.recuperarProblema(seed);
+			int numVertices = Integer.parseInt(seed.substring(2,4));
+			problema = new Floyd(numVertices, Long.valueOf(seed).longValue());
+			return problema;
 		}
 		if (tipo.equals("40")) {
 			int numMat = Integer.parseInt(seed.substring(1, 4));
@@ -439,10 +433,7 @@ public class ExportarFrame extends JFrame {
 		case "MATRICES":	
 			pr = new PrMatrices((MultiplicaMatrices) p);
 			MultiplicaMatrices mn;
-			mn = (MultiplicaMatrices) p;
-			
-			System.out.println("---problema---" + mn.getResultado());
-			
+			mn = (MultiplicaMatrices) p;		
 			break;
 		 default: 
 		     break;

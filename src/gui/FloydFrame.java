@@ -1,6 +1,14 @@
 package gui;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
@@ -11,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
@@ -19,7 +28,6 @@ import javax.swing.border.EmptyBorder;
 
 import problemas.Floyd;
 import problemas.Problema;
-import javax.swing.JSlider;
 
 /**
  * Esta clase define la interfaz con la que se generaran los problemas de tipo

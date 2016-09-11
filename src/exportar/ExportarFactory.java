@@ -3,7 +3,7 @@ package exportar;
 public class ExportarFactory {
 	
 	   //use getShape method to get object of type shape 
-	   public Exportar getFormato(String tipoFormato){
+	   public Exportar getFormato(String tipoFormato, String ruta){
 	      if(tipoFormato == null){
 	         return null;
 	      }		
@@ -14,8 +14,8 @@ public class ExportarFactory {
 	    	  System.out.println("Entra XML");
 	         return new ExportarXml();
 	         
-	      } else if(tipoFormato.equalsIgnoreCase("JSON")){
-	         return new ExportarJson();
+	      } else if(tipoFormato.equalsIgnoreCase("PDF")){
+	         return new ExportarPdf(ruta);
 	      }
 	      
 	      return null;

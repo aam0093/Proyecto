@@ -1,6 +1,7 @@
 package problemas;
 
-import java.util.*;
+import java.util.Random;
+
 import pregunta.Semilla;
 
 /**
@@ -14,7 +15,7 @@ import pregunta.Semilla;
 public class MultiplicaMatrices implements Problema {
 
 	/** Almacena la matriz con los valores de las operaciones */
-	public static int[][] matrizResultado;
+	public static int[][] matrizResultado = null;
 
 	/** Almacena la matriz con el número de las operaciones */
 	public static int[][] matrizOperaciones;
@@ -36,6 +37,8 @@ public class MultiplicaMatrices implements Problema {
 	public long semilla = 0;
 
 	int porcentaje = 0;
+	
+	int inf = 9999;
 
 	/**
 	 * Crea el problema el numero de matrices recibidas.
@@ -48,8 +51,10 @@ public class MultiplicaMatrices implements Problema {
 	public MultiplicaMatrices(int numMat) {
 		numMatrices = numMat;
 		dimensiones = new int[numMat + 1];
+		matrizResultado = new int[numMatrices][numMatrices + 1];
 		Semilla seed = new Semilla(numMat, 0,0,0, "matrices");
 		semilla = seed.getSeed();
+		initMatrices();
 	
 	}
 
@@ -57,8 +62,7 @@ public class MultiplicaMatrices implements Problema {
 		numMatrices = numMat;
 		dimensiones = new int[numMat + 1];
 		semilla = sem;
-		for (int i : dimensiones)
-			System.out.println("dimensiones: " + i);
+		initMatrices();
 	}
 
 	/**
@@ -79,7 +83,7 @@ public class MultiplicaMatrices implements Problema {
 	 */
 	@Override
 	public String execute() {
-		initMatrices();
+	
 		for (int i = 1; i < numMatrices; i++) {
 			for (int j = 0; j <= numMatrices; j++) {
 				if (i == j) {
@@ -108,7 +112,7 @@ public class MultiplicaMatrices implements Problema {
 	public int llenarMatriz(int i, int j) {
 		if (i == j)
 			return 0;
-		matrizResultado[i][j] = Integer.MAX_VALUE;
+		matrizResultado[i][j] = inf;
 		for (int k = i; k < j; k++) {
 			int q = llenarMatriz(i, k) + llenarMatriz(k + 1, j) + dimensiones[i - 1] * dimensiones[k] * dimensiones[j];
 			if (q < matrizResultado[i][j]) {
@@ -151,10 +155,8 @@ public class MultiplicaMatrices implements Problema {
 	 */
 	@Override
 	public Problema recuperarProblema(String semilla) {
-		System.out.println("Entra a recuperar problema");
 		MultiplicaMatrices matrices;
 		int numMatrices = Integer.parseInt(semilla.substring(3, 6));
-		System.out.println("Numero de matrices");
 		matrices = new MultiplicaMatrices(numMatrices, Long.valueOf(semilla).longValue());
 		return matrices;
 	}
@@ -171,17 +173,5 @@ public class MultiplicaMatrices implements Problema {
 	public int getPorcentaje() {
 		return porcentaje;
 	}
-	
-	public static void main(String[]args){
-		MultiplicaMatrices matrices = new MultiplicaMatrices(5);
-		matrices.execute();
-		int[][] matriz = matrices.getMatriz();
-		System.out.println(matriz.length);
-		for (int[] m : matriz){
-			System.out.println();
-			for (int a : m){
-				System.out.print(a + " ");
-			}
-		}
-	}
+
 }
