@@ -14,6 +14,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -52,8 +55,10 @@ public class ExportarFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JTextField textFGuarda;
 	private JTextField txtFSemilla;
+	private Calendar fecha = Calendar.getInstance();
 
 	String rutaRecuperado = utiles.Utiles.getRutaRecuperado();
+	String ruta = utiles.Utiles.getRuta();
 
 	public static void main(String[] args) {
 
@@ -116,6 +121,7 @@ public class ExportarFrame extends JFrame {
 		panelCentral.add(lblGuardarEn, gbcLblGuardarEn);
 
 		textFGuarda = new JTextField();
+		textFGuarda.setText( "Problema" + fecha.get(Calendar.DAY_OF_MONTH) +"_" + fecha.get(Calendar.HOUR) + fecha.get(Calendar.MINUTE));
 		GridBagConstraints gbcTextFGuarda = new GridBagConstraints();
 		gbcTextFGuarda.fill = GridBagConstraints.HORIZONTAL;
 		gbcTextFGuarda.insets = new Insets(0, 0, 5, 5);
@@ -199,17 +205,17 @@ public class ExportarFrame extends JFrame {
 					String tipo = "";
 					if (rdbtnMoodle.isSelected()) {
 						tipo = "XML";
-						if (!ruta.substring(ruta.length() - 4, ruta.length()).equals(".xml")) {
+						if (ruta.length() < 4 || !ruta.substring(ruta.length() - 4, ruta.length()).equals(".xml")) {
 							ruta = ruta + ".xml";
 						}
 					} else {
 						if (rdbtnHtml.isSelected()){
 							tipo = "HTML";
-							if (!ruta.substring(ruta.length() - 5, ruta.length()).equals(".html")) 
+							if (ruta.length() < 5 || !ruta.substring(ruta.length() - 5, ruta.length()).equals(".html")) 
 								ruta = ruta + ".html";
 						} else {
 							tipo = "PDF";
-							if (!ruta.substring(ruta.length() - 5, ruta.length()).equals(".pdf")) 
+							if (ruta.length() < 4 || !ruta.substring(ruta.length() - 4, ruta.length()).equals(".pdf")) 
 								ruta = ruta + ".pdf";
 						}
 					}
@@ -297,9 +303,9 @@ public class ExportarFrame extends JFrame {
 				if (txtFSemilla.getText().isEmpty() || txtFSemilla.getText().length() != 17) {
 					JOptionPane.showMessageDialog(new JFrame(), "Introduce un valor valido para la semilla", "Dialog",
 							JOptionPane.INFORMATION_MESSAGE);
-			//		txtFSemilla.setText("");
 				} else {
 					Problema p = recuperarProblema(txtFSemilla.getText().toString());
+					Problema.PROBRECUPERADOS.add(p);
 					if (p.getTipo().equals(Problema.TIPO.MOCHILA.toString())) {
 						Knapsack mochila = (Knapsack) p;
 						mochila.execute();
@@ -382,6 +388,46 @@ public class ExportarFrame extends JFrame {
 		panelBotonRecuperar.add(btnCancelar);
 
 		panelRecuperar.add(panelBotonRecuperar, BorderLayout.SOUTH);
+		
+		JButton btnAnadirProb = new JButton("A\u00F1adir a Problemas");
+		btnAnadirProb.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if(Problema.PROBRECUPERADOS.isEmpty()){
+					JOptionPane.showMessageDialog(new JFrame(), "No se ha recuperado ningún problema", "Dialog",
+							JOptionPane.INFORMATION_MESSAGE);
+				}else{
+					for(Problema p : Problema.PROBRECUPERADOS){
+						Problema.PROBGENERADOS.add(p);
+						if (p.getTipo().equals(Problema.TIPO.MOCHILA.toString())) {
+							Knapsack mochila = (Knapsack) p;
+							mochila.execute();
+							utiles.Utiles.añadirMochilaPanel(textPane, mochila, ruta);
+						} else {
+							if (p.getTipo().equals(Problema.TIPO.SUBSECUENCIA.toString())) {
+								SubsecuenciaComun subsecuencia = (SubsecuenciaComun) p;
+								subsecuencia.execute();
+								utiles.Utiles.añadirSubsecuenciaPanel(textPane, subsecuencia, ruta);
+							}
+							if (p.getTipo().equals(Problema.TIPO.FLOYD.toString())) {
+								Floyd floyd = (Floyd) p;
+								floyd.execute();
+								utiles.Utiles.añadirFloydPanel(textPane, floyd, ruta);
+							}
+							if (p.getTipo().equals(Problema.TIPO.MATRICES.toString())) {
+								MultiplicaMatrices matrices = (MultiplicaMatrices) p;
+								matrices.execute();
+								utiles.Utiles.añadirMatricesPanel(textPane, matrices, ruta);
+							}
+						}
+					}
+					JOptionPane.showMessageDialog(new JFrame(), "Problema/s añadidos", "Dialog",
+							JOptionPane.INFORMATION_MESSAGE);
+				}		
+			}
+		});
+		btnAnadirProb.setToolTipText("A\u00F1ade todos los problemas recuperados a los problemas generados.");
+		panelBotonRecuperar.add(btnAnadirProb);
 
 		pestañas.addTab("Recuperar", panelRecuperar);
 		getContentPane().add(pestañas);

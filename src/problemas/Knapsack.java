@@ -143,8 +143,8 @@ public class Knapsack implements Problema {
 	public void initializeWeights() {
 		Random rnd = new Random(semilla);
 		for (int i = 0; i < numElements; i++) {
-			weight[i] = (int) Math.round(rnd.nextDouble() * 30 + 1);
-			values[i] = (int) Math.round(rnd.nextDouble() * 30 + 1);
+			weight[i] = (int) Math.round(rnd.nextDouble() * 20 + 1);
+			values[i] = (int) Math.round(rnd.nextDouble() * 20 + 1);
 		}
 	}
 
@@ -294,30 +294,4 @@ public class Knapsack implements Problema {
 	public int getPorcentaje (){
 		return porcentaje;
 	}
-	
-	
-//	public static void main(String [] args){
-//		Knapsack m = new Knapsack(45,5);
-//		m.initializeWeights();
-//		System.out.print("Pesos: ");
-//		for (int r : m.getWeights()){
-//			System.out.print(r +"-");
-//		}
-//		System.out.print("Valores: ");
-//		for (int r : m.getValues()){
-//			System.out.print(r +"-");
-//		}
-//		m.execute();
-//		System.out.print("Matriz: ");
-//		for (int f[] : m.getMatrix()){
-//			System.out.println();
-//			for(int c : f)
-//				System.out.print(c +"-");
-//		}
-//		System.out.println("Valor obtenido: " + m.getResultValue());
-//		System.out.println("Elementos seleccionados: " + m.getResultItems().size() + " " +  m.getResultItems());
-//		m.getResultItems();
-//		
-//	}
-
 }// Clase Knapsack
