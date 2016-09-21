@@ -47,12 +47,6 @@ public class Knapsack implements Problema {
 	 */
 	int[] weight;
 
-	/** Valor máximo para cualquier peso de los valores de la mochila */
-	int maxWeight = 0;
-
-	/** Valor máximo para cualquier valor de los elementos de la mochila */
-	int maxValue = 0;
-
 	/**
 	 * Array con valor de cada elemento, posicion 0 peso del elemento 1; pos
 	 * 1,elemento 2..
@@ -223,13 +217,6 @@ public class Knapsack implements Problema {
 		return capacidad;
 	}
 
-	public void setMaxValue(int v) {
-		maxValue = v;
-	}
-
-	public void setMaxWeigth(int w) {
-		maxWeight = w;
-	}
 
 	/** Obtiene el numero de elementos del problema */
 	public int getNumElements() {

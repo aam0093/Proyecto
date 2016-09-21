@@ -68,6 +68,7 @@ public class SubsecuenciaComun implements Problema {
 		int i = 0;
 		int j = 0;
 		while (i < longcad1) {
+			//(102 - 97 + 1) + 97) referencia ASCII de los prieros caracteres
 			char c = (char) (rd.nextDouble() * (102 - 97 + 1) + 97);
 			cadena1 += c;
 			i++;
@@ -77,7 +78,7 @@ public class SubsecuenciaComun implements Problema {
 			cadena2 += c;
 			j++;
 		}
-		Semilla seed = new Semilla(cadena1.length(), cadena2.length(), 0,0,"lcs");
+		Semilla seed = new Semilla(cadena1.length(), cadena2.length(),porcentaje,0,"lcs");
 		semilla = seed.getSeed();
 	}
 
@@ -188,6 +189,7 @@ public class SubsecuenciaComun implements Problema {
 		SubsecuenciaComun subcadena;
 		int longcad1 = Integer.parseInt(semilla.substring(2, 5));
 		int longcad2 = Integer.parseInt(semilla.substring(5, 8));
+		porcentaje = Integer.parseInt(semilla.substring(6, 9));
 		subcadena = new SubsecuenciaComun(longcad1, longcad2, Long.valueOf(semilla).longValue());
 		return subcadena;
 	}

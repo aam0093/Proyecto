@@ -108,7 +108,7 @@ public class FloydFrame extends JFrame {
 		panelAjustes.add(lblNumNodos, gbcLblLongCad1);
 
 		final JSpinner numNodos = new JSpinner();
-		numNodos.setModel(new SpinnerNumberModel(new Integer(2), new Integer(2), null, new Integer(1)));
+		numNodos.setModel(new SpinnerNumberModel(new Integer(6), new Integer(2), null, new Integer(1)));
 		numNodos.setMaximumSize(new Dimension(40, 20));
 		GridBagConstraints gbcLongCad1 = new GridBagConstraints();
 		gbcLongCad1.insets = new Insets(0, 0, 5, 0);
@@ -201,6 +201,7 @@ public class FloydFrame extends JFrame {
 					int cad1 = (int) numNodos.getValue();
 					int numProblemas = (int) spNumProb.getValue();
 					for (int i = 0; i < numProblemas; i++) {
+						
 						floyd = new Floyd(cad1);
 						floyd.execute();
 						floyd.setPorcentaje((int) slider.getValue());

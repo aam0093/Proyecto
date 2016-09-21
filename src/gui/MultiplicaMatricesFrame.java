@@ -110,7 +110,7 @@ public class MultiplicaMatricesFrame extends JFrame {
 		panelAjustes.add(lblNumMatrices, gbcLblNumMatrices);
 
 		final JSpinner numNodos = new JSpinner();
-		numNodos.setModel(new SpinnerNumberModel(new Integer(2), new Integer(2), null, new Integer(1)));
+		numNodos.setModel(new SpinnerNumberModel(new Integer(5), new Integer(2), null, new Integer(1)));
 		numNodos.setMaximumSize(new Dimension(40, 20));
 		GridBagConstraints gbcLongCad1 = new GridBagConstraints();
 		gbcLongCad1.insets = new Insets(0, 0, 5, 0);
@@ -201,11 +201,11 @@ public class MultiplicaMatricesFrame extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				try {
 					int numMatrices = (int)numNodos.getValue();
-					int numProblemas = (int) spNumProb.getValue();
+					int numProblemas = (int)spNumProb.getValue();
 
 					for (int i = 0; i < numProblemas; i++) {
+						
 						matrices = new MultiplicaMatrices(numMatrices);
-
 						matrices.execute();
 						matrices.setPorcentaje((int) slider.getValue());
 						Problema.PROBGENERADOS.add(matrices);
@@ -223,6 +223,7 @@ public class MultiplicaMatricesFrame extends JFrame {
 				} catch (NumberFormatException e) {
 					JOptionPane.showMessageDialog(new JFrame(), "Faltan datos por introducir", "Error",
 							JOptionPane.ERROR_MESSAGE);
+					System.out.println(e.getMessage());
 				}
 			}
 		});

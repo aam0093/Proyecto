@@ -85,7 +85,6 @@ public class Floyd implements Problema {
 
 	@Override
 	public Problema recuperarProblema(String semilla) {
-		System.out.println("Entra a recuperar problema");
 		Floyd floyd;
 		int numVertices = Integer.parseInt(semilla.substring(3, 6));
 		floyd = new Floyd(numVertices, Long.valueOf(semilla).longValue());

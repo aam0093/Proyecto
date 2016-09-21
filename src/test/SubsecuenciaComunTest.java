@@ -1,23 +1,16 @@
 package test;
 
-import static org.junit.Assert.fail;
+
 
 import org.junit.Test;
 
+import problemas.Problema;
 import problemas.SubsecuenciaComun;
 
 public class SubsecuenciaComunTest {
 
 	SubsecuenciaComun lcs = new SubsecuenciaComun(7,10);
-	@Test
-	public void testSubsecuenciaComun() {
-		fail("Not yet implemented");
-	}
 
-	@Test
-	public void testIsValid() {
-		fail("Not yet implemented");
-	}
 
 	@Test
 	public void testGetCadena1() {
@@ -36,23 +29,15 @@ public class SubsecuenciaComunTest {
 	}
 
 	@Test
-	public void testGetResult() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetMatriz() {
-		fail("Not yet implemented");
-	}
-
-	@Test
 	public void testGetTipo() {
 		assert lcs.getTipo() == "SUBSECUENCIA";
 	}
 
 	@Test
 	public void testExecute() {
-		fail("Not yet implemented");
+		String res = lcs.execute();
+		int [][] testMatriz = lcs.getMatriz();
+		assert res.length() == testMatriz[7][10];
 	}
 
 }

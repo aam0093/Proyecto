@@ -566,7 +566,7 @@ public class Utiles {
 			trMat1.appendChild(td2);
 			for (int col : fila) {
 				td2 = new Td();
-				if (col == 2147483647)
+				if (col == 9999)
 					td2.appendChild(new Text("-"));
 				else
 					td2.appendChild(new Text(col));
@@ -598,7 +598,7 @@ public class Utiles {
 			panel.setPage(file.toURI().toURL());
 		} catch (MalformedURLException e1) {
 		} catch (IOException e1) {
-			System.out.println("No hay nada");
+			
 		}
 	}
 
@@ -637,7 +637,7 @@ public class Utiles {
 		try{
 			tempFich.delete();
 		}catch (Exception e){
-			System.out.println(e.getMessage());
+			
 		}
 		return tempFich;
 	}

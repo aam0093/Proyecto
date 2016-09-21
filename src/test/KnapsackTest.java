@@ -4,101 +4,29 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import problemas.Knapsack;
+import problemas.SubsecuenciaComun;
+
 public class KnapsackTest {
+	Knapsack mochila = new Knapsack(15,5);
 
-	@Test
-	public void testKnapsackIntInt() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testKnapsackIntIntLong() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testInitializeWeightsIntInt() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testInitializeWeights() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testLlenarMatriz() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetSemilla() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetMatrix() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetMaxProfit() {
-		fail("Not yet implemented");
-	}
 
 	@Test
 	public void testExecute() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetTipo() {
-		fail("Not yet implemented");
+		mochila.execute();
+		assert mochila.getMatrix() != null;
 	}
 
 	@Test
 	public void testGetCapacity() {
-		fail("Not yet implemented");
+		assert mochila.getCapacity() == 15;
 	}
 
-	@Test
-	public void testSetMaxValue() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetMaxWeigth() {
-		fail("Not yet implemented");
-	}
 
 	@Test
 	public void testGetNumElements() {
-		fail("Not yet implemented");
+		assert mochila.getNumElements() == 5;
 	}
 
-	@Test
-	public void testGetWeights() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetValues() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testRecuperarProblema() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSetPorcentaje() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testGetPorcentaje() {
-		fail("Not yet implemented");
-	}
 
 }

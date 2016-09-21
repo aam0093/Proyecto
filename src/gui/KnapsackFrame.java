@@ -237,8 +237,8 @@ public class KnapsackFrame extends JFrame {
 					int numProblemas = (int) spNumProb.getValue();
 
 					for (int i = 0; i < numProblemas; i++) {
+						
 						mochila = new Knapsack(capacidad, numValores);
-
 						mochila.execute();
 						mochila.setPorcentaje((int) sldrPctRespuestas.getValue());
 						Problema.PROBGENERADOS.add(mochila);

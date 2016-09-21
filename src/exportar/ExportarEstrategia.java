@@ -1,6 +1,6 @@
 package exportar;
 
-public class ExportarFactory {
+public class ExportarEstrategia {
 	
 	   //use getShape method to get object of type shape 
 	   public Exportar getFormato(String tipoFormato, String ruta){
@@ -11,7 +11,6 @@ public class ExportarFactory {
 	          return new ExportarHtml();
 	         
 	      } else if(tipoFormato.equalsIgnoreCase("XML")){
-	    	  System.out.println("Entra XML");
 	         return new ExportarXml();
 	         
 	      } else if(tipoFormato.equalsIgnoreCase("PDF")){

@@ -9,7 +9,6 @@ package pregunta;
  */
 
 public class Pregunta {
-	private int id = 0;
 	private String titulo = "";
 	private String enunciado = "";
 	private String contenido = "";
@@ -65,9 +64,5 @@ public class Pregunta {
 		return resultado;
 	}
 
-	/*
-	 * public void exportarXml(Pregunta p, String ruta){ ExportarXml ex = new
-	 * ExportarXml(p, ruta, "XML"); ex.exportMochila(); }
-	 */
 
 }

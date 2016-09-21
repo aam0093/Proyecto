@@ -34,7 +34,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.EmptyBorder;
 
 import exportar.Exportar;
-import exportar.ExportarFactory;
+import exportar.ExportarEstrategia;
 import pregunta.PrFloyd;
 import pregunta.PrLCS;
 import pregunta.PrMatrices;
@@ -223,7 +223,7 @@ public class ExportarFrame extends JFrame {
 						JOptionPane.showMessageDialog(new JFrame(), "No se ha generado ningun problema", "Error",
 								JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						ExportarFactory exportarFactory = new ExportarFactory();
+						ExportarEstrategia exportarFactory = new ExportarEstrategia();
 						Exportar ex;
 						ex = exportarFactory.getFormato(tipo,ruta);
 						ex.abrirFichero();
@@ -306,24 +306,29 @@ public class ExportarFrame extends JFrame {
 				} else {
 					Problema p = recuperarProblema(txtFSemilla.getText().toString());
 					Problema.PROBRECUPERADOS.add(p);
+					int porcentaje = Integer.parseInt(txtFSemilla.getText().toString().substring(6, 9));
 					if (p.getTipo().equals(Problema.TIPO.MOCHILA.toString())) {
 						Knapsack mochila = (Knapsack) p;
 						mochila.execute();
+						mochila.setPorcentaje(porcentaje);
 						utiles.Utiles.añadirMochilaPanel(textPane, mochila, rutaRecuperado);
 					} else {
 						if (p.getTipo().equals(Problema.TIPO.SUBSECUENCIA.toString())) {
 							SubsecuenciaComun subsecuencia = (SubsecuenciaComun) p;
 							subsecuencia.execute();
+							subsecuencia.setPorcentaje(porcentaje);
 							utiles.Utiles.añadirSubsecuenciaPanel(textPane, subsecuencia, rutaRecuperado);
 						}
 						if (p.getTipo().equals(Problema.TIPO.FLOYD.toString())) {
 							Floyd floyd = (Floyd) p;
 							floyd.execute();
+							floyd.setPorcentaje(porcentaje);
 							utiles.Utiles.añadirFloydPanel(textPane, floyd, rutaRecuperado);
 						}
 						if (p.getTipo().equals(Problema.TIPO.MATRICES.toString())) {
 							MultiplicaMatrices matrices = (MultiplicaMatrices) p;
 							matrices.execute();
+							matrices.setPorcentaje(porcentaje);
 							utiles.Utiles.añadirMatricesPanel(textPane, matrices, rutaRecuperado);
 						}
 					}
@@ -445,7 +450,8 @@ public class ExportarFrame extends JFrame {
 		if (tipo.equals("20")) {
 			int longcad1 = Integer.parseInt(seed.substring(2, 4));
 			int longcad2 = Integer.parseInt(seed.substring(4, 6));
-			problema = new SubsecuenciaComun(longcad1, longcad2, Long.valueOf(seed).longValue());
+			int pct = Integer.parseInt(seed.substring(7, 10));
+			problema = new SubsecuenciaComun(longcad1, longcad2,Long.valueOf(seed).longValue());
 			return problema;
 		}
 		if (tipo.equals("30")) {

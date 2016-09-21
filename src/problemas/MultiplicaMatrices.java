@@ -71,8 +71,8 @@ public class MultiplicaMatrices implements Problema {
 	 */
 	public void initMatrices() {
 		Random rnd = new Random(semilla);
-		matrizResultado = new int[numMatrices][numMatrices + 1];
-		matrizOperaciones = new int[numMatrices][numMatrices + 1];
+		matrizResultado = new int[numMatrices][numMatrices];
+		matrizOperaciones = new int[numMatrices][numMatrices];
 		for (int i = 0; i < dimensiones.length; i++) {
 			dimensiones[i] = rnd.nextInt((100 - 1) + 1) + 1;
 		}
@@ -84,19 +84,20 @@ public class MultiplicaMatrices implements Problema {
 	@Override
 	public String execute() {
 	
-		for (int i = 1; i < numMatrices; i++) {
-			for (int j = 0; j <= numMatrices; j++) {
-				if (i == j) {
-					matrizResultado[i][j] = 0;
-				} else {
-					if (i == j - 1) {
-						matrizResultado[i][j] = dimensiones[i - 1] * dimensiones[i] * dimensiones[i + 1];
-					} else {
-						llenarMatriz(i, j);
-					}
-				}
-			}
-		}
+        for (int lenMinusOne = 1; lenMinusOne < numMatrices; lenMinusOne++) {
+            for (int i = 0; i < numMatrices - lenMinusOne; i++) {
+                int j = i + lenMinusOne;
+                matrizResultado[i][j] = Integer.MAX_VALUE;
+                for (int k = i; k < j; k++) {
+                    int cost = matrizResultado[i][k] + matrizResultado[k+1][j] + dimensiones[i]*dimensiones[k+1]*dimensiones[j+1];
+                    if (cost < matrizResultado[i][j]) {
+                    	matrizResultado[i][j] = cost;
+                    	matrizOperaciones[i][j] = k;
+                    }
+                }
+            }
+        }
+    
 		return "OK";
 	}
 
@@ -140,7 +141,8 @@ public class MultiplicaMatrices implements Problema {
 
 	/** Devuelve el valor con el menor numero de operaciones */
 	public int getResultado() {
-		return matrizResultado[numMatrices - 1][numMatrices];
+		
+		return matrizResultado[numMatrices-1][numMatrices-1];
 	}
 
 	/** Devuelve el tipo de problema */
